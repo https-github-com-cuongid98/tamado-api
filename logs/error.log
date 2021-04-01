@@ -30,3 +30,583 @@
   sqlState: '28000',
   sqlMessage: "Access denied for user ''@'localhost' (using password: YES)"
 }
+[2021-04-01T08:16:51.317] [ERROR] Index - Error: Referenced column id was not found in entity MemberDetail
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/RelationJoinColumnBuilder.js:103:27
+    at Array.map (<anonymous>)
+    at RelationJoinColumnBuilder.collectReferencedColumns (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/RelationJoinColumnBuilder.js:100:32)
+    at RelationJoinColumnBuilder.build (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/RelationJoinColumnBuilder.js:54:38)
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/EntityMetadataBuilder.js:92:58
+    at Array.forEach (<anonymous>)
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/EntityMetadataBuilder.js:90:122
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.build (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/EntityMetadataBuilder.js:88:14)
+    at ConnectionMetadataBuilder.buildEntityMetadatas (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/connection/ConnectionMetadataBuilder.js:58:141)
+    at Connection.buildMetadatas (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/connection/Connection.js:515:57)
+    at Connection.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/connection/Connection.js:128:30)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at fulfilled (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:114:62)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+[2021-04-01T08:16:51.318] [ERROR] Index - Error: Referenced column id was not found in entity MemberDetail
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/RelationJoinColumnBuilder.js:103:27
+    at Array.map (<anonymous>)
+    at RelationJoinColumnBuilder.collectReferencedColumns (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/RelationJoinColumnBuilder.js:100:32)
+    at RelationJoinColumnBuilder.build (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/RelationJoinColumnBuilder.js:54:38)
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/EntityMetadataBuilder.js:92:58
+    at Array.forEach (<anonymous>)
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/EntityMetadataBuilder.js:90:122
+    at Array.forEach (<anonymous>)
+    at EntityMetadataBuilder.build (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/EntityMetadataBuilder.js:88:14)
+    at ConnectionMetadataBuilder.buildEntityMetadatas (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/connection/ConnectionMetadataBuilder.js:58:141)
+    at Connection.buildMetadatas (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/connection/Connection.js:515:57)
+    at Connection.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/connection/Connection.js:128:30)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at fulfilled (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:114:62)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+[2021-04-01T08:17:50.405] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:18:04.506] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:18:37.379] [ERROR] Index - QueryFailedError: Incorrect table definition; there can be only one auto column and it must be defined as a key
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_WRONG_AUTO_KEY',
+  errno: 1075,
+  sqlState: '42000',
+  sqlMessage: 'Incorrect table definition; there can be only one auto column and it must be defined as a key',
+  query: 'ALTER TABLE `member_detail` ADD `id` int UNSIGNED NOT NULL AUTO_INCREMENT',
+  parameters: []
+}
+[2021-04-01T08:18:37.881] [ERROR] Index - QueryFailedError: Incorrect table definition; there can be only one auto column and it must be defined as a key
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_WRONG_AUTO_KEY',
+  errno: 1075,
+  sqlState: '42000',
+  sqlMessage: 'Incorrect table definition; there can be only one auto column and it must be defined as a key',
+  query: 'ALTER TABLE `member_detail` ADD `id` int UNSIGNED NOT NULL AUTO_INCREMENT',
+  parameters: []
+}
+[2021-04-01T08:19:57.731] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:20:53.369] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:20:53.385] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:21:00.713] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:21:01.071] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:21:30.204] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:21:44.876] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:21:45.319] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:22:03.572] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:22:03.796] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:46:14.455] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:48:20.225] [ERROR] Index - QueryFailedError: Referencing column 'targetId' and referenced column 'id' in foreign key constraint 'FK_ee38cd70c9b5ef61dbb560783f0' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'targetId' and referenced column 'id' in foreign key constraint 'FK_ee38cd70c9b5ef61dbb560783f0' are incompatible.",
+  query: 'ALTER TABLE `member_block` ADD CONSTRAINT `FK_ee38cd70c9b5ef61dbb560783f0` FOREIGN KEY (`targetId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:48:40.694] [ERROR] Index - QueryFailedError: Referencing column 'targetId' and referenced column 'id' in foreign key constraint 'FK_ee38cd70c9b5ef61dbb560783f0' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'targetId' and referenced column 'id' in foreign key constraint 'FK_ee38cd70c9b5ef61dbb560783f0' are incompatible.",
+  query: 'ALTER TABLE `member_block` ADD CONSTRAINT `FK_ee38cd70c9b5ef61dbb560783f0` FOREIGN KEY (`targetId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:48:42.705] [ERROR] Index - QueryFailedError: Referencing column 'targetId' and referenced column 'id' in foreign key constraint 'FK_ee38cd70c9b5ef61dbb560783f0' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'targetId' and referenced column 'id' in foreign key constraint 'FK_ee38cd70c9b5ef61dbb560783f0' are incompatible.",
+  query: 'ALTER TABLE `member_block` ADD CONSTRAINT `FK_ee38cd70c9b5ef61dbb560783f0` FOREIGN KEY (`targetId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:50:12.950] [ERROR] Index - QueryFailedError: Referencing column 'targetId' and referenced column 'id' in foreign key constraint 'FK_ee38cd70c9b5ef61dbb560783f0' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'targetId' and referenced column 'id' in foreign key constraint 'FK_ee38cd70c9b5ef61dbb560783f0' are incompatible.",
+  query: 'ALTER TABLE `member_block` ADD CONSTRAINT `FK_ee38cd70c9b5ef61dbb560783f0` FOREIGN KEY (`targetId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:51:04.201] [ERROR] Index - QueryFailedError: Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'memberId' and referenced column 'id' in foreign key constraint 'FK_f1ab7a521115b658dd2dd575176' are incompatible.",
+  query: 'ALTER TABLE `conversation_member` ADD CONSTRAINT `FK_f1ab7a521115b658dd2dd575176` FOREIGN KEY (`memberId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:51:09.802] [ERROR] Index - QueryFailedError: Referencing column 'targetId' and referenced column 'id' in foreign key constraint 'FK_ee38cd70c9b5ef61dbb560783f0' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'targetId' and referenced column 'id' in foreign key constraint 'FK_ee38cd70c9b5ef61dbb560783f0' are incompatible.",
+  query: 'ALTER TABLE `member_block` ADD CONSTRAINT `FK_ee38cd70c9b5ef61dbb560783f0` FOREIGN KEY (`targetId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:51:15.935] [ERROR] Index - QueryFailedError: Referencing column 'targetId' and referenced column 'id' in foreign key constraint 'FK_0750b255f137ed9c559df0c2096' are incompatible.
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: undefined,
+  errno: 3780,
+  sqlState: 'HY000',
+  sqlMessage: "Referencing column 'targetId' and referenced column 'id' in foreign key constraint 'FK_0750b255f137ed9c559df0c2096' are incompatible.",
+  query: 'ALTER TABLE `member_follow` ADD CONSTRAINT `FK_0750b255f137ed9c559df0c2096` FOREIGN KEY (`targetId`) REFERENCES `members`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION',
+  parameters: []
+}
+[2021-04-01T08:57:27.299] [ERROR] Index - QueryFailedError: Cannot drop index 'REL_15bae579b9638300c53aef8118': needed in a foreign key constraint
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_DROP_INDEX_FK',
+  errno: 1553,
+  sqlState: 'HY000',
+  sqlMessage: "Cannot drop index 'REL_15bae579b9638300c53aef8118': needed in a foreign key constraint",
+  query: 'DROP INDEX `REL_15bae579b9638300c53aef8118` ON `member_image`',
+  parameters: []
+}
+[2021-04-01T08:57:37.431] [ERROR] Index - QueryFailedError: Cannot drop index 'REL_15bae579b9638300c53aef8118': needed in a foreign key constraint
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_DROP_INDEX_FK',
+  errno: 1553,
+  sqlState: 'HY000',
+  sqlMessage: "Cannot drop index 'REL_15bae579b9638300c53aef8118': needed in a foreign key constraint",
+  query: 'DROP INDEX `REL_15bae579b9638300c53aef8118` ON `member_image`',
+  parameters: []
+}
+[2021-04-01T08:58:20.499] [ERROR] Index - QueryFailedError: Cannot drop index 'REL_15bae579b9638300c53aef8118': needed in a foreign key constraint
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_DROP_INDEX_FK',
+  errno: 1553,
+  sqlState: 'HY000',
+  sqlMessage: "Cannot drop index 'REL_15bae579b9638300c53aef8118': needed in a foreign key constraint",
+  query: 'DROP INDEX `REL_15bae579b9638300c53aef8118` ON `member_image`',
+  parameters: []
+}
+[2021-04-01T08:58:46.224] [ERROR] Index - QueryFailedError: Cannot drop index 'REL_15bae579b9638300c53aef8118': needed in a foreign key constraint
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_DROP_INDEX_FK',
+  errno: 1553,
+  sqlState: 'HY000',
+  sqlMessage: "Cannot drop index 'REL_15bae579b9638300c53aef8118': needed in a foreign key constraint",
+  query: 'DROP INDEX `REL_15bae579b9638300c53aef8118` ON `member_image`',
+  parameters: []
+}

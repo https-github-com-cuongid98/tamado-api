@@ -1,41 +1,39 @@
-import { VerifiedCodeStatus } from '$enums';
+import { VerifiedCodeStatus } from "$enums";
 import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+} from "typeorm";
 
-@Entity('verified_code')
+@Entity("verified_codes")
 export default class VerifiedCode {
-  @PrimaryGeneratedColumn({ type: 'bigint', name: 'id' })
+  @PrimaryGeneratedColumn({ type: "bigint" })
   id: number;
 
-  @Column('varchar', { name: 'target', length: 255, comment: "user's email or phone " })
+  @Column({ type: "varchar", length: 255, comment: "user's email or phone " })
   target: string;
 
-  @Column('varchar', { name: 'code', length: 20 })
+  @Column({ type: "varchar", length: 20 })
   code: string;
 
-  @Column('tinyint', {
-    name: 'status',
-    comment: '1: unused, 2: used',
-    default: VerifiedCodeStatus.UNUSED,
+  @Column({
+    type: "tinyint",
+    comment: "1: unused, 2: used",
+    default: VerifiedCodeStatus.UN_USED,
   })
   status: number;
 
-  @Column('timestamp', { name: 'verified_date', nullable: true })
+  @Column({ type: "timestamp", nullable: true })
   verifiedDate: Date | null;
 
-  @Column('timestamp', { name: 'expired_date', nullable: true })
+  @Column({ type: "timestamp", nullable: true })
   expiredDate: Date | null;
 
-  @CreateDateColumn({ type: 'timestamp', name: 'created_date', nullable: true })
+  @CreateDateColumn({ type: "timestamp" })
   createdDate: Date | null;
 
-  @UpdateDateColumn({ type: 'timestamp', name: 'modified_date', nullable: true })
+  @UpdateDateColumn({ type: "timestamp" })
   modifiedDate: Date | null;
 }

@@ -1,4 +1,4 @@
-import config from '$config';
+import config from "$config";
 
 export enum ErrorCode {
   Unknown_Error = 0,
@@ -47,14 +47,14 @@ export enum CommonStatus {
 }
 
 export enum VerifiedCodeStatus {
-  UNUSED = 1,
+  UN_USED = 1,
   USED = 2,
 }
 
 export enum ConfigKeys {
-  RESOURCE_VERSION = 'RESOURCE_VERSION',
-  LANGUAGE_VERSION = 'LANGUAGE_VERSION',
-  APP_LOGO = 'APP_LOGO',
+  RESOURCE_VERSION = "RESOURCE_VERSION",
+  LANGUAGE_VERSION = "LANGUAGE_VERSION",
+  APP_LOGO = "APP_LOGO",
 }
 
 export const KeyCacheRedis = {
@@ -62,3 +62,28 @@ export const KeyCacheRedis = {
   CONFIG: `${config.appName}:${config.environment}:config`,
   LANGUAGE: `${config.appName}:${config.environment}:language`,
 };
+
+export enum ConversationMemberType {
+  MEMBER = 1,
+  ADMIN = 2,
+}
+
+export enum ConversationType {
+  PERSON = 1,
+  GROUP = 2,
+}
+
+export enum MessagesType {
+  TEXT = 1,
+  IMAGE = 2,
+}
+
+export enum IsRead {
+  UN_SEEN = 1,
+  SEEN = 2,
+}
+
+export enum ShowLocation {
+  YES = 1,
+  NO = 2,
+}

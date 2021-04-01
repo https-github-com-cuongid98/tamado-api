@@ -45,12 +45,12 @@ export default class AuthController {
     return await service.createVerifiedCode(body);
   }
 
-  @Post("/check-email", [])
-  async checkEmail(req: Request) {
-    const { body } = req;
-    validate(checkEmailSchema, body);
-    return await service.checkEmailExisted(body);
-  }
+  // @Post("/check-email", [])
+  // async checkEmail(req: Request) {
+  //   const { body } = req;
+  //   validate(checkEmailSchema, body);
+  //   return await service.checkEmailExisted(body);
+  // }
 
   @Post("/check-verified-code", [])
   async checkVerifiedCode(req: Request) {

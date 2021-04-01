@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.KeyCacheRedis = exports.ConfigKeys = exports.VerifiedCodeStatus = exports.CommonStatus = exports.Permissions = exports.MemberStatus = exports.UserStatus = exports.ErrorCode = void 0;
+exports.ShowLocation = exports.IsRead = exports.MessagesType = exports.ConversationType = exports.ConversationMemberType = exports.KeyCacheRedis = exports.ConfigKeys = exports.VerifiedCodeStatus = exports.CommonStatus = exports.Permissions = exports.MemberStatus = exports.UserStatus = exports.ErrorCode = void 0;
 var _config_1 = __importDefault(require("$config"));
 var ErrorCode;
 (function (ErrorCode) {
@@ -53,7 +53,7 @@ var CommonStatus;
 })(CommonStatus = exports.CommonStatus || (exports.CommonStatus = {}));
 var VerifiedCodeStatus;
 (function (VerifiedCodeStatus) {
-    VerifiedCodeStatus[VerifiedCodeStatus["UNUSED"] = 1] = "UNUSED";
+    VerifiedCodeStatus[VerifiedCodeStatus["UN_USED"] = 1] = "UN_USED";
     VerifiedCodeStatus[VerifiedCodeStatus["USED"] = 2] = "USED";
 })(VerifiedCodeStatus = exports.VerifiedCodeStatus || (exports.VerifiedCodeStatus = {}));
 var ConfigKeys;
@@ -67,4 +67,29 @@ exports.KeyCacheRedis = {
     CONFIG: _config_1.default.appName + ":" + _config_1.default.environment + ":config",
     LANGUAGE: _config_1.default.appName + ":" + _config_1.default.environment + ":language",
 };
+var ConversationMemberType;
+(function (ConversationMemberType) {
+    ConversationMemberType[ConversationMemberType["MEMBER"] = 1] = "MEMBER";
+    ConversationMemberType[ConversationMemberType["ADMIN"] = 2] = "ADMIN";
+})(ConversationMemberType = exports.ConversationMemberType || (exports.ConversationMemberType = {}));
+var ConversationType;
+(function (ConversationType) {
+    ConversationType[ConversationType["PERSON"] = 1] = "PERSON";
+    ConversationType[ConversationType["GROUP"] = 2] = "GROUP";
+})(ConversationType = exports.ConversationType || (exports.ConversationType = {}));
+var MessagesType;
+(function (MessagesType) {
+    MessagesType[MessagesType["TEXT"] = 1] = "TEXT";
+    MessagesType[MessagesType["IMAGE"] = 2] = "IMAGE";
+})(MessagesType = exports.MessagesType || (exports.MessagesType = {}));
+var IsRead;
+(function (IsRead) {
+    IsRead[IsRead["UN_SEEN"] = 1] = "UN_SEEN";
+    IsRead[IsRead["SEEN"] = 2] = "SEEN";
+})(IsRead = exports.IsRead || (exports.IsRead = {}));
+var ShowLocation;
+(function (ShowLocation) {
+    ShowLocation[ShowLocation["YES"] = 1] = "YES";
+    ShowLocation[ShowLocation["NO"] = 2] = "NO";
+})(ShowLocation = exports.ShowLocation || (exports.ShowLocation = {}));
 //# sourceMappingURL=index.js.map

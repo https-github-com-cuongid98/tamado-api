@@ -39,11 +39,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetPassword = exports.register = exports.checkVerifiedCode = exports.createVerifiedCode = exports.checkEmailExisted = exports.createAccessToken = exports.generateToken = exports.changePassword = exports.login = exports.getMemberByEmail = exports.getMemberById = void 0;
+exports.resetPassword = exports.register = exports.checkVerifiedCode = exports.createVerifiedCode = exports.createAccessToken = exports.generateToken = exports.changePassword = exports.login = exports.getMemberById = void 0;
 var typeorm_1 = require("typeorm");
 var _enums_1 = require("$enums");
 var bcryptjs_1 = require("bcryptjs");
-var Member_1 = __importDefault(require("$entities/Member"));
 var jsonwebtoken_1 = require("jsonwebtoken");
 var lodash_1 = require("lodash");
 var util_1 = require("util");
@@ -52,6 +51,7 @@ var _config_1 = __importDefault(require("$config"));
 var VerifiedCode_1 = __importDefault(require("$entities/VerifiedCode"));
 var utils_1 = require("$helpers/utils");
 var moment_1 = __importDefault(require("moment"));
+var Member_1 = __importDefault(require("$entities/Member"));
 var verifyAsync = util_1.promisify(jsonwebtoken_1.verify);
 function getMemberById(memberId) {
     return __awaiter(this, void 0, void 0, function () {
@@ -69,31 +69,15 @@ function getMemberById(memberId) {
     });
 }
 exports.getMemberById = getMemberById;
-function getMemberByEmail(email) {
-    return __awaiter(this, void 0, void 0, function () {
-        var memberRepository, member;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    memberRepository = typeorm_1.getRepository(Member_1.default);
-                    return [4 /*yield*/, memberRepository.findOne({ email: email })];
-                case 1:
-                    member = _a.sent();
-                    return [2 /*return*/, member];
-            }
-        });
-    });
-}
-exports.getMemberByEmail = getMemberByEmail;
 function login(params) {
     return __awaiter(this, void 0, void 0, function () {
-        var memberRepository, email, password, member, isTruePassword;
+        var memberRepository, phone, password, member, isTruePassword;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     memberRepository = typeorm_1.getRepository(Member_1.default);
-                    email = params.email, password = params.password;
-                    return [4 /*yield*/, memberRepository.findOne({ email: email })];
+                    phone = params.phone, password = params.password;
+                    return [4 /*yield*/, memberRepository.findOne({ phone: phone })];
                 case 1:
                     member = _a.sent();
                     if (!member)
@@ -121,7 +105,7 @@ function changePassword(memberId, params) {
                     oldPassword = params.oldPassword, newPassword = params.newPassword;
                     if (oldPassword === newPassword)
                         throw _enums_1.ErrorCode.Invalid_Input;
-                    return [4 /*yield*/, repoMember.findOne(memberId, { select: ['password'] })];
+                    return [4 /*yield*/, repoMember.findOne(memberId, { select: ["password"] })];
                 case 1:
                     member = _a.sent();
                     if (!member)
@@ -153,14 +137,19 @@ function generateToken(memberId) {
                     return [4 /*yield*/, getMemberById(memberId)];
                 case 1:
                     member = _a.sent();
-                    dataEncode = lodash_1.pick(member, ['id', 'status', 'email', 'mobile']);
+                    dataEncode = lodash_1.pick(member, ["id", "status", "email", "mobile"]);
                     token = generateAccessToken(dataEncode);
                     oldRefreshToken = member.refreshToken;
                     return [4 /*yield*/, await_to_js_1.default(verifyAsync(oldRefreshToken, _config_1.default.auth.RefreshTokenSecret))];
                 case 2:
                     error = (_a.sent())[0];
                     if (!error) return [3 /*break*/, 4];
-                    dataEncodeRefreshToken = lodash_1.pick(member, ['id', 'status', 'email', 'mobile']);
+                    dataEncodeRefreshToken = lodash_1.pick(member, [
+                        "id",
+                        "status",
+                        "email",
+                        "mobile",
+                    ]);
                     newRefreshToken = generateRefreshToken(dataEncodeRefreshToken);
                     return [4 /*yield*/, memberRepository.update(memberId, { refreshToken: newRefreshToken })];
                 case 3:
@@ -180,7 +169,13 @@ function createAccessToken(memberId) {
                 case 0: return [4 /*yield*/, getMemberById(memberId)];
                 case 1:
                     member = _a.sent();
-                    dataEncode = lodash_1.pick(member, ['id', 'status', 'email', 'mobile', 'permissions']);
+                    dataEncode = lodash_1.pick(member, [
+                        "id",
+                        "status",
+                        "email",
+                        "mobile",
+                        "permissions",
+                    ]);
                     return [2 /*return*/, generateAccessToken(dataEncode)];
             }
         });
@@ -189,30 +184,16 @@ function createAccessToken(memberId) {
 exports.createAccessToken = createAccessToken;
 var generateAccessToken = function (dataEncode) {
     return jsonwebtoken_1.sign(dataEncode, _config_1.default.auth.AccessTokenSecret, {
-        algorithm: 'HS256',
+        algorithm: "HS256",
         expiresIn: Number(_config_1.default.auth.AccessTokenExpire),
     });
 };
 var generateRefreshToken = function (dataEncode) {
     return jsonwebtoken_1.sign(dataEncode, _config_1.default.auth.RefreshTokenSecret, {
-        algorithm: 'HS256',
+        algorithm: "HS256",
         expiresIn: _config_1.default.auth.RefreshTokenExpire,
     });
 };
-function checkEmailExisted(email) {
-    return __awaiter(this, void 0, void 0, function () {
-        var member;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, getMemberByEmail(email)];
-                case 1:
-                    member = _a.sent();
-                    return [2 /*return*/, { isExisted: !!member }];
-            }
-        });
-    });
-}
-exports.checkEmailExisted = checkEmailExisted;
 function createVerifiedCode(_a) {
     var email = _a.email;
     return __awaiter(this, void 0, void 0, function () {
@@ -229,10 +210,10 @@ function createVerifiedCode(_a) {
                     }
                     verifiedCode.target = email;
                     verifiedCode.code = utils_1.randomOTP();
-                    verifiedCode.status = _enums_1.VerifiedCodeStatus.UNUSED;
+                    verifiedCode.status = _enums_1.VerifiedCodeStatus.UN_USED;
                     verifiedCode.verifiedDate = null;
                     verifiedCode.expiredDate = moment_1.default()
-                        .add(60 * 20, 'seconds')
+                        .add(60 * 20, "seconds")
                         .toDate();
                     return [4 /*yield*/, verifiedCodeRepo.save(verifiedCode)];
                 case 2:
@@ -255,7 +236,7 @@ function checkVerifiedCode(_a) {
                     return [4 /*yield*/, verifiedCodeRepo.findOne({
                             target: email,
                             code: verifiedCode,
-                            status: _enums_1.VerifiedCodeStatus.UNUSED,
+                            status: _enums_1.VerifiedCodeStatus.UN_USED,
                             expiredDate: typeorm_1.MoreThan(new Date()),
                         })];
                 case 1:
@@ -272,7 +253,7 @@ function register(_a) {
     var _b;
     var email = _a.email, password = _a.password, verifiedCode = _a.verifiedCode;
     return __awaiter(this, void 0, void 0, function () {
-        var isVerifiedCodeValid, existedMember, member;
+        var isVerifiedCodeValid, member;
         var _this = this;
         return __generator(this, function (_c) {
             switch (_c.label) {
@@ -281,11 +262,6 @@ function register(_a) {
                     isVerifiedCodeValid = (_b = (_c.sent())) === null || _b === void 0 ? void 0 : _b.isValid;
                     if (!isVerifiedCodeValid)
                         throw _enums_1.ErrorCode.Verified_Code_Invalid;
-                    return [4 /*yield*/, getMemberByEmail(email)];
-                case 2:
-                    existedMember = _c.sent();
-                    if (existedMember)
-                        throw _enums_1.ErrorCode.Email_Existed;
                     return [4 /*yield*/, typeorm_1.getConnection().transaction(function (transaction) { return __awaiter(_this, void 0, void 0, function () {
                             var memberRepo, verifiedCodeRepo, member, _a, _b, _c;
                             return __generator(this, function (_d) {
@@ -309,60 +285,20 @@ function register(_a) {
                                 }
                             });
                         }); })];
-                case 3:
+                case 2:
                     member = _c.sent();
                     return [4 /*yield*/, generateToken(member.id)];
-                case 4: return [2 /*return*/, _c.sent()];
+                case 3: return [2 /*return*/, _c.sent()];
             }
         });
     });
 }
 exports.register = register;
 function resetPassword(_a) {
-    var _b;
     var email = _a.email, newPassword = _a.newPassword, verifiedCode = _a.verifiedCode;
     return __awaiter(this, void 0, void 0, function () {
-        var isVerifiedCodeValid, member;
-        var _this = this;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0: return [4 /*yield*/, checkVerifiedCode({ email: email, verifiedCode: verifiedCode })];
-                case 1:
-                    isVerifiedCodeValid = (_b = (_c.sent())) === null || _b === void 0 ? void 0 : _b.isValid;
-                    if (!isVerifiedCodeValid)
-                        throw _enums_1.ErrorCode.Verified_Code_Invalid;
-                    return [4 /*yield*/, getMemberByEmail(email)];
-                case 2:
-                    member = _c.sent();
-                    if (!member)
-                        throw _enums_1.ErrorCode.Email_Not_Exist;
-                    return [4 /*yield*/, typeorm_1.getConnection().transaction(function (transaction) { return __awaiter(_this, void 0, void 0, function () {
-                            var memberRepo, verifiedCodeRepo, _a, _b, _c, _d;
-                            return __generator(this, function (_e) {
-                                switch (_e.label) {
-                                    case 0:
-                                        memberRepo = transaction.getRepository(Member_1.default);
-                                        verifiedCodeRepo = transaction.getRepository(VerifiedCode_1.default);
-                                        _b = (_a = memberRepo).update;
-                                        _c = [{ email: email }];
-                                        _d = {};
-                                        return [4 /*yield*/, bcryptjs_1.hash(newPassword, _config_1.default.auth.SaltRounds)];
-                                    case 1: return [4 /*yield*/, _b.apply(_a, _c.concat([(_d.password = _e.sent(),
-                                                _d)]))];
-                                    case 2:
-                                        _e.sent();
-                                        return [4 /*yield*/, verifiedCodeRepo.update({ target: email }, { status: _enums_1.VerifiedCodeStatus.USED, verifiedDate: new Date() })];
-                                    case 3:
-                                        _e.sent();
-                                        return [2 /*return*/, member];
-                                }
-                            });
-                        }); })];
-                case 3:
-                    _c.sent();
-                    return [4 /*yield*/, generateToken(member.id)];
-                case 4: return [2 /*return*/, _c.sent()];
-            }
+        return __generator(this, function (_b) {
+            return [2 /*return*/];
         });
     });
 }
