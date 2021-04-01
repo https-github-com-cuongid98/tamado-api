@@ -1,5 +1,5 @@
 export default {
-  appName: process.env.APP_NAME || 'baseapi',
+  appName: process.env.APP_NAME || "baseapi",
   domain: process.env.DOMAIN,
   environment: process.env.ENVIRONMENT,
   /** Default 3000 */
@@ -41,5 +41,19 @@ export default {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     region: process.env.AWS_REGION,
     bucket: process.env.AWS_BUCKET,
+  },
+  twilio: {
+    sid: process.env.ACCOUNT_SID,
+    token: process.env.AUTH_TOKEN,
+    phoneNumber: process.env.PHONE_NUMBER,
+  },
+  mongoDB: {
+    database: process.env.MONGO_DB,
+    username: process.env.MONGO_DB_USERNAME,
+    password: process.env.MONGO_DB_PASSWORD,
+  },
+  agora: {
+    appId: process.env.AGORA_APP_ID,
+    appCertificate: process.env.AGORA_APP_CERTIFICATE,
   },
 };

@@ -1,31 +1,31 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
 
-@Entity('config')
+@Entity("configs")
 export default class Config {
-  @PrimaryColumn({ type: 'varchar', name: 'key', length: 200 })
+  @PrimaryColumn({ type: "varchar", name: "key", length: 200 })
   key: string;
 
-  @Column({ type: 'varchar', name: 'name', length: 255 })
+  @Column({ type: "varchar", name: "name", length: 255 })
   name: string;
 
-  @Column('text', { name: 'value' })
+  @Column({ type: "text" })
   value: string;
 
-  @Column('varchar', { name: 'type', nullable: true, length: 50 })
+  @Column({ type: "varchar", nullable: true, length: 50 })
   type: string | null;
 
-  @Column('text', { name: 'metadata', nullable: true })
+  @Column({ type: "text", nullable: true })
   metadata: string | null;
 
-  @Column('tinyint', { name: 'order', nullable: true })
+  @Column({ type: "tinyint", nullable: true })
   order: number | null;
 
-  @Column('tinyint', { name: 'is_system', nullable: true })
+  @Column({ type: "tinyint", nullable: true })
   isSystem: number | null;
 
-  @Column('bigint', { name: 'created_by', nullable: true, unsigned: true })
+  @Column({ type: "bigint", nullable: true, unsigned: true })
   createdBy: number | null;
 
-  @CreateDateColumn({ name: 'created_at', type: 'datetime' })
+  @CreateDateColumn({ type: "datetime" })
   createdAt: string | Date;
 }

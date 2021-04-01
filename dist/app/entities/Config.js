@@ -14,43 +14,43 @@ var Config = /** @class */ (function () {
     function Config() {
     }
     __decorate([
-        typeorm_1.PrimaryColumn({ type: 'varchar', name: 'key', length: 200 }),
+        typeorm_1.PrimaryColumn({ type: "varchar", name: "key", length: 200 }),
         __metadata("design:type", String)
     ], Config.prototype, "key", void 0);
     __decorate([
-        typeorm_1.Column({ type: 'varchar', name: 'name', length: 255 }),
+        typeorm_1.Column({ type: "varchar", name: "name", length: 255 }),
         __metadata("design:type", String)
     ], Config.prototype, "name", void 0);
     __decorate([
-        typeorm_1.Column('text', { name: 'value' }),
+        typeorm_1.Column({ type: "text" }),
         __metadata("design:type", String)
     ], Config.prototype, "value", void 0);
     __decorate([
-        typeorm_1.Column('varchar', { name: 'type', nullable: true, length: 50 }),
+        typeorm_1.Column({ type: "varchar", nullable: true, length: 50 }),
         __metadata("design:type", String)
     ], Config.prototype, "type", void 0);
     __decorate([
-        typeorm_1.Column('text', { name: 'metadata', nullable: true }),
+        typeorm_1.Column({ type: "text", nullable: true }),
         __metadata("design:type", String)
     ], Config.prototype, "metadata", void 0);
     __decorate([
-        typeorm_1.Column('tinyint', { name: 'order', nullable: true }),
+        typeorm_1.Column({ type: "tinyint", nullable: true }),
         __metadata("design:type", Number)
     ], Config.prototype, "order", void 0);
     __decorate([
-        typeorm_1.Column('tinyint', { name: 'is_system', nullable: true }),
+        typeorm_1.Column({ type: "tinyint", nullable: true }),
         __metadata("design:type", Number)
     ], Config.prototype, "isSystem", void 0);
     __decorate([
-        typeorm_1.Column('bigint', { name: 'created_by', nullable: true, unsigned: true }),
+        typeorm_1.Column({ type: "bigint", nullable: true, unsigned: true }),
         __metadata("design:type", Number)
     ], Config.prototype, "createdBy", void 0);
     __decorate([
-        typeorm_1.CreateDateColumn({ name: 'created_at', type: 'datetime' }),
+        typeorm_1.CreateDateColumn({ type: "datetime" }),
         __metadata("design:type", Object)
     ], Config.prototype, "createdAt", void 0);
     Config = __decorate([
-        typeorm_1.Entity('config')
+        typeorm_1.Entity("configs")
     ], Config);
     return Config;
 }());

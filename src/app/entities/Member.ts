@@ -1,40 +1,78 @@
-import { MemberStatus } from '$enums';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-@Entity('member')
+import { MemberStatus, ShowLocation } from "$enums";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
+import MemberDetail from "./MemberDetail";
+import MemberImage from "./MemberImage";
+import Notification from "./Notification";
+
+@Entity("members")
 export default class Member {
-  @PrimaryGeneratedColumn({ name: 'id', type: 'int', unsigned: true })
+  @PrimaryGeneratedColumn({ type: "int", unsigned: true })
   id: number;
 
-  @Column({ name: 'email', type: 'varchar', length: 100, unique: true })
-  email: string;
+  @Column({ type: "varchar", length: 20 })
+  phone: string;
 
-  @Column({ name: 'password', type: 'text' })
+  @Column({ type: "varchar", length: 255 })
   password: string;
 
-  @Column({ name: 'full_name', type: 'varchar', length: 255, nullable: true })
-  fullName: string | null;
-
-  @Column({ name: 'mobile', type: 'varchar', length: 20, nullable: true })
-  mobile: string | null;
-
-  @Column({ name: 'avatar', type: 'varchar', length: 255, nullable: true })
+  @Column({ type: "varchar", length: 255, nullable: true })
   avatar: string | null;
 
-  @Column({ name: 'status', type: 'tinyint', default: MemberStatus.ACTIVE, comment: '0: Inactive, 1: Active.' })
+  @Column({ type: "tinyint", default: MemberStatus.ACTIVE })
   status: number;
 
-  @CreateDateColumn({ name: 'created_date', type: 'datetime', nullable: true })
-  createdDate: Date;
+  @Column({ type: "tinyint", default: ShowLocation.YES })
+  showLocation: number;
 
-  @Column({ name: 'last_logged', type: 'datetime', nullable: true })
-  lastLogged: Date | null;
+  @Index()
+  @Column({
+    type: "decimal",
+    precision: 22,
+    scale: 18,
+    comment: "Latitude",
+    nullable: true,
+  })
+  lat: number;
 
-  @Column({ name: 'last_change_pass', type: 'datetime', nullable: true })
-  lastChangePass: Date | null;
+  @Index()
+  @Column({
+    type: "decimal",
+    precision: 22,
+    scale: 18,
+    comment: "Longitude",
+    nullable: true,
+  })
+  lng: number;
 
-  @UpdateDateColumn({ name: 'modified_date', type: 'datetime', nullable: true })
-  modifiedDate: Date | null;
+  @Column({
+    type: "varchar",
+    length: 500,
+    default: null,
+    comment: "Use this token to request access token. Valid in ~1 month",
+  })
+  refreshToken: string;
 
-  @Column({ name: 'refresh_token', type: 'text', nullable: true })
-  refreshToken: string | null;
+  @UpdateDateColumn({ type: "datetime" })
+  updateAt: string | Date;
+
+  @CreateDateColumn({ type: "datetime" })
+  createdAt: string | Date;
+
+  @OneToOne(() => MemberDetail, (memberDetail) => memberDetail.member)
+  memberDetail: MemberDetail;
+
+  @OneToMany(() => Notification, (notification) => notification.member)
+  notification: Notification;
+
+  @OneToMany(() => MemberImage, (memberImage) => memberImage.member)
+  memberImage: MemberImage;
 }

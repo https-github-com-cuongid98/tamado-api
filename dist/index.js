@@ -73,6 +73,7 @@ var http_1 = require("http");
 var logRequest_1 = __importDefault(require("$middlewares/logRequest"));
 var log_1 = __importDefault(require("$helpers/log"));
 var handleError_1 = require("$middlewares/handleError");
+var mongodb_1 = __importDefault(require("$helpers/mongodb"));
 var logger = log_1.default("Index");
 var app = express_1.default();
 var http = http_1.createServer(app);
@@ -86,6 +87,7 @@ typeorm_1.createConnection()
         app.use(logRequest_1.default);
         app.use(decorator_1.RootRoute);
         app.use(handleError_1.handleError);
+        mongodb_1.default();
         http.listen(process.env.SERVER_PORT, function () {
             logger.info("Express server started on port " + process.env.SERVER_PORT);
         });

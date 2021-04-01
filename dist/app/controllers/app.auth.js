@@ -131,20 +131,12 @@ var AuthController = /** @class */ (function () {
             });
         });
     };
-    AuthController.prototype.checkEmail = function (req) {
-        return __awaiter(this, void 0, void 0, function () {
-            var body;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        body = req.body;
-                        ajv_1.validate(app_auth_1.checkEmailSchema, body);
-                        return [4 /*yield*/, service.checkEmailExisted(body)];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
+    // @Post("/check-email", [])
+    // async checkEmail(req: Request) {
+    //   const { body } = req;
+    //   validate(checkEmailSchema, body);
+    //   return await service.checkEmailExisted(body);
+    // }
     AuthController.prototype.checkVerifiedCode = function (req) {
         return __awaiter(this, void 0, void 0, function () {
             var body;
@@ -213,12 +205,6 @@ var AuthController = /** @class */ (function () {
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", Promise)
     ], AuthController.prototype, "requestVerifiedCode", null);
-    __decorate([
-        decorator_1.Post("/check-email", []),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Object]),
-        __metadata("design:returntype", Promise)
-    ], AuthController.prototype, "checkEmail", null);
     __decorate([
         decorator_1.Post("/check-verified-code", []),
         __metadata("design:type", Function),

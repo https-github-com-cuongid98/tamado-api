@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "lib": ["es5", "es6"],
+    "lib": [
+      "es5",
+      "es6"
+    ],
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -11,23 +14,55 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "types": ["node"],
-    "typeRoots": ["./src/types", "node_modules/@types"],
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "./src/types",
+      "node_modules/@types"
+    ],
     "baseUrl": "./src",
     "paths": {
-      "$entities/*": ["app/entities/*"],
-      "$migrations/*": ["database/migrations/*"],
-      "$subscribers/*": ["database/subscribers/*"],
-      "$middlewares/*": ["app/middlewares/*"],
-      "$services/*": ["app/services/*"],
-      "$validators/*": ["app/validators/*"],
-      "$interfaces/*": ["types/interfaces/*"],
-      "$enums*": ["app/enums"],
-      "$helpers/*": ["app/helpers/*"],
-      "$types/*": ["types/*"],
-      "$config": ["config"]
+      "$entities/*": [
+        "app/entities/*"
+      ],
+      "$migrations/*": [
+        "database/migrations/*"
+      ],
+      "$subscribers/*": [
+        "database/subscribers/*"
+      ],
+      "$middlewares/*": [
+        "app/middlewares/*"
+      ],
+      "$services/*": [
+        "app/services/*"
+      ],
+      "$validators/*": [
+        "app/validators/*"
+      ],
+      "$interfaces/*": [
+        "types/interfaces/*"
+      ],
+      "$enums": [
+        "app/enums"
+      ],
+      "$helpers/*": [
+        "app/helpers/*"
+      ],
+      "$types/*": [
+        "types/*"
+      ],
+      "$config": [
+        "config"
+      ]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.test.ts"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts"
+  ]
 }
