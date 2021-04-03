@@ -21,11 +21,15 @@ var VerifiedCode = /** @class */ (function () {
     __decorate([
         typeorm_1.Column({ type: "varchar", length: 255, comment: "user's email or phone " }),
         __metadata("design:type", String)
-    ], VerifiedCode.prototype, "target", void 0);
+    ], VerifiedCode.prototype, "phone", void 0);
     __decorate([
         typeorm_1.Column({ type: "varchar", length: 20 }),
         __metadata("design:type", String)
     ], VerifiedCode.prototype, "code", void 0);
+    __decorate([
+        typeorm_1.Column({ type: "smallint", unsigned: true, default: 0 }),
+        __metadata("design:type", Number)
+    ], VerifiedCode.prototype, "retry", void 0);
     __decorate([
         typeorm_1.Column({
             type: "tinyint",

@@ -26,8 +26,7 @@ export class HttpError extends Error {
 
     this["rawError"] = error;
     this.errorKey = ErrorCode[this.errorCode];
-    this.errorMessage =
-      config.environment === "development" && errorMessage ? errorMessage : "";
+    this.errorMessage = errorMessage ? errorMessage : ErrorCode[this.errorCode];
   }
 }
 
@@ -51,10 +50,9 @@ export class HttpErrorController extends Error {
 
     this["rawError"] = error;
     this.errorKey = ErrorCode[this.errorCode];
-    this.errorMessage =
-      config.environment === "development" && error["devMessage"]
-        ? error["devMessage"]
-        : "";
+    this.errorMessage = error["errorMessage"]
+      ? error["errorMessage"]
+      : ErrorCode[this.errorCode];
     this.logger = logger;
   }
 }

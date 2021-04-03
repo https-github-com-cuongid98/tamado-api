@@ -24,6 +24,33 @@ export enum ErrorCode {
   Email_Not_Exist = 17,
   Email_Or_Password_Invalid = 18,
   Password_Invalid = 19,
+  Verified_Code_Max_Try = 20,
+}
+
+export enum ErrorMessage {
+  Unknown_Error = "Unknown_Error",
+  Invalid_Input = "Invalid_Input",
+  Member_Blocked = 2,
+  Username_Or_Password_Invalid = 3,
+  Token_Not_Exist = 4,
+  User_Blocked = 5,
+  Token_Expired = 6,
+  /**The client not send the required token in header */
+  Refresh_Token_Not_Exist = 7,
+  /**The client send the expire token or invalid token*/
+  Refresh_Token_Expire = 8,
+  /**The client do not have permission for this action. */
+  Permission_Denied = 9,
+  Member_Not_Exist = 10,
+  User_Not_Exist = 11,
+  Not_Found = 12,
+  Cannot_Update_Default_Language = 13,
+  Cannot_Delete_Default_Language = 14,
+  Verified_Code_Invalid = 15,
+  Email_Existed = 16,
+  Email_Not_Exist = 17,
+  Email_Or_Password_Invalid = 18,
+  Password_Invalid = 19,
 }
 
 export enum UserStatus {

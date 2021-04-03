@@ -2,7 +2,6 @@ import { HttpError, HttpErrorController } from "$helpers/response";
 import { NextFunction, Request, Response } from "express";
 import log from "$helpers/log";
 import { ErrorCode } from "$enums";
-import config from "$config";
 
 export const handleError = async (
   error: HttpError | HttpErrorController,
@@ -11,6 +10,7 @@ export const handleError = async (
   next: NextFunction
 ) => {
   const { statusCode, errorCode, errorKey, errorMessage } = error;
+  console.log(error);
   loggingError(req, error);
   const responseData = {
     success: false,
@@ -37,13 +37,13 @@ function loggingError(req: Request, error) {
       break;
 
     case ErrorCode.Invalid_Input:
-      logger.error(error.devMessage);
+      logger.error(error.errorMessage);
       break;
 
     default:
       logger.error(
         `${error.errorKey}${
-          error.devMessage ? `\nReason: ${error.devMessage}` : ""
+          error.errorMessage ? `\nReason: ${error.errorMessage}` : ""
         }`
       );
       break;

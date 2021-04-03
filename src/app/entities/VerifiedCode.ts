@@ -13,10 +13,13 @@ export default class VerifiedCode {
   id: number;
 
   @Column({ type: "varchar", length: 255, comment: "user's email or phone " })
-  target: string;
+  phone: string;
 
   @Column({ type: "varchar", length: 20 })
   code: string;
+
+  @Column({ type: "smallint", unsigned: true, default: 0 })
+  retry: number;
 
   @Column({
     type: "tinyint",
