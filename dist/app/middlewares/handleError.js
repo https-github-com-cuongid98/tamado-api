@@ -46,6 +46,7 @@ exports.handleError = function (error, req, res, next) { return __awaiter(void 0
     var statusCode, errorCode, errorKey, errorMessage, responseData;
     return __generator(this, function (_a) {
         statusCode = error.statusCode, errorCode = error.errorCode, errorKey = error.errorKey, errorMessage = error.errorMessage;
+        console.log(error);
         loggingError(req, error);
         responseData = {
             success: false,
@@ -69,10 +70,10 @@ function loggingError(req, error) {
             logger.error(err);
             break;
         case _enums_1.ErrorCode.Invalid_Input:
-            logger.error(error.devMessage);
+            logger.error(error.errorMessage);
             break;
         default:
-            logger.error("" + error.errorKey + (error.devMessage ? "\nReason: " + error.devMessage : ""));
+            logger.error("" + error.errorKey + (error.errorMessage ? "\nReason: " + error.errorMessage : ""));
             break;
     }
     logger.error("Method: " + method + " | FullPath: " + fullPath + " | Body: " + JSON.stringify(body) + "\n");

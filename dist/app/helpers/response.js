@@ -23,13 +23,9 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.done = exports.HttpErrorController = exports.HttpError = void 0;
 var _enums_1 = require("$enums");
-var _config_1 = __importDefault(require("$config"));
 var HttpError = /** @class */ (function (_super) {
     __extends(HttpError, _super);
     function HttpError(error, statusCode, errorMessage) {
@@ -46,8 +42,7 @@ var HttpError = /** @class */ (function (_super) {
         }
         _this["rawError"] = error;
         _this.errorKey = _enums_1.ErrorCode[_this.errorCode];
-        _this.errorMessage =
-            _config_1.default.environment === "development" && errorMessage ? errorMessage : "";
+        _this.errorMessage = errorMessage ? errorMessage : _enums_1.ErrorCode[_this.errorCode];
         return _this;
     }
     return HttpError;
@@ -68,10 +63,9 @@ var HttpErrorController = /** @class */ (function (_super) {
         }
         _this["rawError"] = error;
         _this.errorKey = _enums_1.ErrorCode[_this.errorCode];
-        _this.errorMessage =
-            _config_1.default.environment === "development" && error["devMessage"]
-                ? error["devMessage"]
-                : "";
+        _this.errorMessage = error["errorMessage"]
+            ? error["errorMessage"]
+            : _enums_1.ErrorCode[_this.errorCode];
         _this.logger = logger;
         return _this;
     }
