@@ -24,7 +24,7 @@ exports.changePasswordSchema = {
     properties: {
         oldPassword: {
             type: "string",
-            minLength: 1,
+            minLength: 6,
             maxLength: 255,
         },
         newPassword: {
@@ -36,12 +36,12 @@ exports.changePasswordSchema = {
 };
 exports.resetPasswordSchema = {
     type: "object",
-    required: ["email", "newPassword", "verifiedCode"],
+    required: ["phone", "newPassword", "verifiedCode"],
     additionalProperties: false,
     properties: {
-        email: {
+        phone: {
             type: "string",
-            pattern: "^(\\w+([\\.\\+-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+)$",
+            pattern: "^\\d{11}$",
         },
         newPassword: {
             type: "string",
@@ -82,17 +82,32 @@ exports.checkVerifiedCodeSchema = {
 };
 exports.registerSchema = {
     type: "object",
-    required: ["phone", "password"],
+    required: ["phone", "password", "name", "birthday"],
     additionalProperties: false,
     properties: {
         phone: {
             type: "string",
-            pattern: "^\\d{4}$",
+            pattern: "^\\d{11}$",
         },
         password: {
             type: "string",
             minLength: 6,
             maxLength: 255,
+        },
+        name: {
+            type: "string",
+        },
+        email: {
+            format: "email",
+        },
+        birthday: {
+            type: "string",
+        },
+        introduce: {
+            type: "string",
+        },
+        hobby: {
+            type: "string",
         },
     },
 };

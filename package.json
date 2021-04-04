@@ -45,6 +45,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "string-format": "^2.0.0",
+    "twilio": "^3.59.0",
     "typeorm": "^0.2.26"
   },
   "devDependencies": {

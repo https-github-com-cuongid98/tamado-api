@@ -233,3 +233,22 @@ Reason: Verified_Code_Max_Try
 Reason: Verified_Code_Max_Try
 [2021-04-02T07:08:31.350] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"09876543211","verifiedCode":"098765"}
 
+[2021-04-04T14:49:54.135] [ERROR] AuthController - [
+  {
+    keyword: 'pattern',
+    dataPath: '.phone',
+    schemaPath: '#/properties/phone/pattern',
+    params: { pattern: '^\\d{11}$' },
+    message: 'should match pattern "^\\d{11}$"'
+  }
+]
+[2021-04-04T14:49:54.137] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-04T15:13:26.191] [ERROR] AuthController - TypeError: Cannot read property 'id' of undefined
+    at Object.<anonymous> (/home/sonbui/Desktop/tamado-api/dist/app/services/app.auth.js:214:45)
+    at step (/home/sonbui/Desktop/tamado-api/dist/app/services/app.auth.js:33:23)
+    at Object.next (/home/sonbui/Desktop/tamado-api/dist/app/services/app.auth.js:14:53)
+    at fulfilled (/home/sonbui/Desktop/tamado-api/dist/app/services/app.auth.js:5:58)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+[2021-04-04T15:13:26.192] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"09876543211","verifiedCode":"049412"}
+

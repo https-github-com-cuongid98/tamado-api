@@ -1,7 +1,6 @@
 import { Response } from "express";
 import { ErrorCode } from "$enums";
 import { Logger } from "log4js";
-import config from "$config";
 
 export class HttpError extends Error {
   public errorCode: number;

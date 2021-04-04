@@ -42,7 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkRefreshTokenApp = exports.checkTokenApp = void 0;
 var app_auth_1 = require("$services/app.auth");
 var log_1 = __importDefault(require("$helpers/log"));
-var logger = log_1.default('Middle ware check token');
+var logger = log_1.default("Middle ware check token");
 var response_1 = require("$helpers/response");
 var jsonwebtoken_1 = require("jsonwebtoken");
 var util_1 = require("util");
@@ -50,8 +50,8 @@ var _enums_1 = require("$enums");
 var verifyAsync = util_1.promisify(jsonwebtoken_1.verify);
 function checkTokenApp(req, res, next) {
     var _this = this;
-    var token = req.headers['authorization'] || '';
-    token = token.replace('Bearer ', '');
+    var token = req.headers["authorization"] || "";
+    token = token.replace("Bearer ", "");
     if (!token) {
         throw new response_1.HttpError(_enums_1.ErrorCode.Token_Not_Exist);
     }
@@ -78,9 +78,9 @@ function checkTokenApp(req, res, next) {
 exports.checkTokenApp = checkTokenApp;
 function checkRefreshTokenApp(req, res, next) {
     var _this = this;
-    var refreshToken = req.body.refreshToken || '';
+    var refreshToken = req.body.refreshToken || "";
     if (!refreshToken) {
-        logger.warn('Can not find the refresh token');
+        logger.warn("Can not find the refresh token");
         throw new response_1.HttpError(_enums_1.ErrorCode.Refresh_Token_Not_Exist);
     }
     verifyAsync(refreshToken, process.env.REFRESH_TOKEN_SECRET)
@@ -94,7 +94,7 @@ function checkRefreshTokenApp(req, res, next) {
                 case 1:
                     member = _a.sent();
                     if (!member)
-                        throw new response_1.HttpError(_enums_1.ErrorCode.Unknown_Error);
+                        throw new response_1.HttpError(_enums_1.ErrorCode.Member_Not_Exist);
                     if (member.status === _enums_1.MemberStatus.INACTIVE || !member.status)
                         throw new response_1.HttpError(_enums_1.ErrorCode.User_Blocked);
                     req.memberId = decoded.id;
