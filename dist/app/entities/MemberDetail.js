@@ -28,6 +28,10 @@ var MemberDetail = /** @class */ (function () {
     __decorate([
         typeorm_1.Column({ type: "varchar", length: 50 }),
         __metadata("design:type", String)
+    ], MemberDetail.prototype, "name", void 0);
+    __decorate([
+        typeorm_1.Column({ type: "varchar", length: 50 }),
+        __metadata("design:type", String)
     ], MemberDetail.prototype, "email", void 0);
     __decorate([
         typeorm_1.Column({ type: "date", nullable: true }),

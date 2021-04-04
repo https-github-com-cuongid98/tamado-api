@@ -100,18 +100,34 @@ var AuthController = /** @class */ (function () {
             });
         });
     };
-    // @Post("/register", [])
-    // async register(req: Request) {
-    //   const { body } = req;
-    //   validate(registerSchema, body);
-    //   return await service.register(body);
-    // }
-    // @Post("/login", [])
-    // async login(req: Request) {
-    //   const body = req.body;
-    //   validate(loginSchema, body);
-    //   return await service.login(body);
-    // }
+    AuthController.prototype.register = function (req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var body;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        body = req.body;
+                        ajv_1.validate(app_auth_1.registerSchema, body);
+                        return [4 /*yield*/, service.register(body)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    AuthController.prototype.login = function (req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var body;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        body = req.body;
+                        ajv_1.validate(app_auth_1.loginSchema, body);
+                        return [4 /*yield*/, service.login(body)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     AuthController.prototype.requestAccessToken = function (req) {
         return __awaiter(this, void 0, void 0, function () {
             var memberId, accessToken;
@@ -123,6 +139,38 @@ var AuthController = /** @class */ (function () {
                     case 1:
                         accessToken = _a.sent();
                         return [2 /*return*/, { accessToken: accessToken }];
+                }
+            });
+        });
+    };
+    AuthController.prototype.changePassword = function (req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var memberId, body;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        memberId = req.memberId, body = req.body;
+                        ajv_1.validate(app_auth_1.changePasswordSchema, body);
+                        return [4 /*yield*/, service.changePassword(memberId, body)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    AuthController.prototype.resetPassword = function (req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var body;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        body = req.body;
+                        ajv_1.validate(app_auth_1.resetPasswordSchema, body);
+                        return [4 /*yield*/, service.resetPassword(body)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         });
@@ -140,11 +188,35 @@ var AuthController = /** @class */ (function () {
         __metadata("design:returntype", Promise)
     ], AuthController.prototype, "checkVerifiedCode", null);
     __decorate([
+        decorator_1.Post("/register", []),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], AuthController.prototype, "register", null);
+    __decorate([
+        decorator_1.Post("/login", []),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], AuthController.prototype, "login", null);
+    __decorate([
         decorator_1.Post("/request-access-token", [app_1.checkRefreshTokenApp]),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", Promise)
     ], AuthController.prototype, "requestAccessToken", null);
+    __decorate([
+        decorator_1.Put("/change-password"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], AuthController.prototype, "changePassword", null);
+    __decorate([
+        decorator_1.Put("/reset-password", []),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], AuthController.prototype, "resetPassword", null);
     AuthController = __decorate([
         decorator_1.APP("/auth")
     ], AuthController);

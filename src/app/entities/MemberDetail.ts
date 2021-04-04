@@ -19,6 +19,9 @@ export default class MemberDetail {
   memberId: number;
 
   @Column({ type: "varchar", length: 50 })
+  name: string;
+
+  @Column({ type: "varchar", length: 50 })
   email: string;
 
   @Column({ type: "date", nullable: true })

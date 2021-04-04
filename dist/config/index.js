@@ -45,9 +45,9 @@ exports.default = {
         bucket: process.env.AWS_BUCKET,
     },
     twilio: {
-        sid: process.env.ACCOUNT_SID,
-        token: process.env.AUTH_TOKEN,
-        phoneNumber: process.env.PHONE_NUMBER,
+        sid: process.env.TWILIO_ACCOUNT_SID,
+        token: process.env.TWILIO_AUTH_TOKEN,
+        phoneNumber: process.env.TWILLIO_PHONE_NUMBER,
     },
     mongoDB: {
         database: process.env.MONGO_DB,

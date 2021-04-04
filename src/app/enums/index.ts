@@ -20,9 +20,9 @@ export enum ErrorCode {
   Cannot_Update_Default_Language = 13,
   Cannot_Delete_Default_Language = 14,
   Verified_Code_Invalid = 15,
-  Email_Existed = 16,
-  Email_Not_Exist = 17,
-  Email_Or_Password_Invalid = 18,
+  Phone_Existed = 16,
+  Phone_Not_Exist = 17,
+  Phone_Or_Password_Invalid = 18,
   Password_Invalid = 19,
   Verified_Code_Max_Try = 20,
 }

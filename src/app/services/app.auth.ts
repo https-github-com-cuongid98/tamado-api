@@ -1,10 +1,4 @@
-import {
-  getRepository,
-  EntityManager,
-  getConnection,
-  Repository,
-  MoreThan,
-} from "typeorm";
+import { getRepository, getConnection, MoreThan } from "typeorm";
 import { ErrorCode, MemberStatus, VerifiedCodeStatus } from "$enums";
 import { compare, hash } from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
@@ -16,6 +10,8 @@ import VerifiedCode from "$entities/VerifiedCode";
 import { randomOTP } from "$helpers/utils";
 import moment from "moment";
 import Member from "$entities/Member";
+import MemberDetail from "$entities/MemberDetail";
+import { handlePhoneNumber, sendSMS } from "$helpers/twillio";
 const verifyAsync = promisify(verify) as any;
 
 export async function getMemberById(memberId: number) {
@@ -24,47 +20,47 @@ export async function getMemberById(memberId: number) {
   return member;
 }
 
-// interface LoginParams {
-//   phone: string;
-//   password: string;
-// }
-// export async function login(params: LoginParams) {
-//   const memberRepository = getRepository(Member);
-//   const { phone, password } = params;
+interface LoginParams {
+  phone: string;
+  password: string;
+}
+export async function login(params: LoginParams) {
+  const memberRepository = getRepository(Member);
+  const { phone, password } = params;
 
-//   const member = await memberRepository.findOne({ phone });
+  const member = await memberRepository.findOne({ phone });
 
-//   if (!member) throw ErrorCode.Email_Or_Password_Invalid;
-//   if (member.status !== MemberStatus.ACTIVE) throw ErrorCode.Member_Blocked;
+  if (!member) throw ErrorCode.Member_Not_Exist;
+  if (member.status !== MemberStatus.ACTIVE) throw ErrorCode.Member_Blocked;
 
-//   const isTruePassword = await compare(password, member.password);
-//   if (!isTruePassword) throw ErrorCode.Email_Or_Password_Invalid;
+  const isTruePassword = await compare(password, member.password);
+  if (!isTruePassword) throw ErrorCode.Phone_Or_Password_Invalid;
 
-//   return generateToken(member.id);
-// }
+  return generateToken(member.id);
+}
 
-// interface ChangePasswordParams {
-//   oldPassword: string;
-//   newPassword: string;
-// }
-// export async function changePassword(
-//   memberId: number,
-//   params: ChangePasswordParams
-// ) {
-//   const repoMember = getRepository(Member);
-//   const { oldPassword, newPassword } = params;
-//   if (oldPassword === newPassword) throw ErrorCode.Invalid_Input;
+interface ChangePasswordParams {
+  oldPassword: string;
+  newPassword: string;
+}
+export async function changePassword(
+  memberId: number,
+  params: ChangePasswordParams
+) {
+  const repoMember = getRepository(Member);
+  const { oldPassword, newPassword } = params;
+  if (oldPassword === newPassword) throw ErrorCode.Invalid_Input;
 
-//   const member = await repoMember.findOne(memberId, { select: ["password"] });
-//   if (!member) throw ErrorCode.Member_Not_Exist;
+  const member = await repoMember.findOne(memberId, { select: ["password"] });
+  if (!member) throw ErrorCode.Member_Not_Exist;
 
-//   const isTruePassword = await compare(oldPassword, member.password);
-//   if (!isTruePassword) throw ErrorCode.Password_Invalid;
+  const isTruePassword = await compare(oldPassword, member.password);
+  if (!isTruePassword) throw ErrorCode.Password_Invalid;
 
-//   const passwordHash = await hash(newPassword, config.auth.SaltRounds);
-//   await repoMember.update(memberId, { password: passwordHash });
-//   return;
-// }
+  const passwordHash = await hash(newPassword, config.auth.SaltRounds);
+  await repoMember.update(memberId, { password: passwordHash });
+  return;
+}
 
 export async function generateToken(memberId: number) {
   const memberRepository = getRepository(Member);
@@ -81,10 +77,10 @@ export async function generateToken(memberId: number) {
     const dataEncodeRefreshToken = pick(member, ["id", "status", "phone"]);
     const newRefreshToken = generateRefreshToken(dataEncodeRefreshToken);
     await memberRepository.update(memberId, { refreshToken: newRefreshToken });
-    return { token, refreshToken: newRefreshToken };
+    return { memberId, token, refreshToken: newRefreshToken };
   }
 
-  return { token, refreshToken: oldRefreshToken };
+  return { memberId, token, refreshToken: oldRefreshToken };
 }
 
 export async function createAccessToken(memberId: number): Promise<string> {
@@ -113,6 +109,8 @@ interface RequestVerifiedCodeParams {
 export async function createVerifiedCode({ phone }: RequestVerifiedCodeParams) {
   const verifiedCodeRepo = getRepository(VerifiedCode);
 
+  phone = await handlePhoneNumber(phone);
+
   let verifiedCode = await verifiedCodeRepo.findOne({
     phone,
     status: VerifiedCodeStatus.UN_USED,
@@ -122,15 +120,16 @@ export async function createVerifiedCode({ phone }: RequestVerifiedCodeParams) {
     verifiedCode = new VerifiedCode();
   }
   verifiedCode.phone = phone;
-  verifiedCode.code = randomOTP();
+  verifiedCode.code = randomOTP(6);
   verifiedCode.status = VerifiedCodeStatus.UN_USED;
   verifiedCode.verifiedDate = null;
   verifiedCode.expiredDate = moment()
     .add(60 * 20, "seconds")
     .toDate();
   await verifiedCodeRepo.save(verifiedCode);
-  // TODO: Send verified code to email
-  return;
+
+  await sendSMS({ code: verifiedCode.code, to: verifiedCode.phone });
+  return { code: verifiedCode.code };
 }
 
 interface CheckVerifiedCodeParams {
@@ -161,66 +160,89 @@ export async function checkVerifiedCode({
   };
 }
 
-// interface RegisterParams {
-//   email: string;
-//   password: string;
-//   verifiedCode: string;
-// }
-// export async function register({
-//   email,
-//   password,
-//   verifiedCode,
-// }: RegisterParams) {
-//   const isVerifiedCodeValid = (await checkVerifiedCode({ email, verifiedCode }))
-//     ?.isValid;
-//   if (!isVerifiedCodeValid) throw ErrorCode.Verified_Code_Invalid;
-//   // const existedMember = await getMemberByEmail(email);
-//   // if (existedMember) throw ErrorCode.Email_Existed;
-//   const member = await getConnection().transaction(async (transaction) => {
-//     const memberRepo = transaction.getRepository(Member);
-//     const verifiedCodeRepo = transaction.getRepository(VerifiedCode);
-//     const member = await memberRepo.save({
-//       email,
-//       password: await hash(password, config.auth.SaltRounds),
-//     });
-//     await verifiedCodeRepo.update(
-//       { target: email },
-//       { status: VerifiedCodeStatus.USED, verifiedDate: new Date() }
-//     );
-//     return member;
-//   });
-//   return await generateToken(member.id);
-// }
+interface RegisterParams {
+  phone: string;
+  password: string;
+  name: string;
+  birthday: string;
+  verifiedCode: string;
+  email?: string;
+  introduce?: string;
+  hobby?: string;
+}
+export async function register(params: RegisterParams) {
+  const phone = await handlePhoneNumber(params.phone);
 
-// interface ResetPasswordParams {
-//   email: string;
-//   newPassword: string;
-//   verifiedCode: string;
-// }
-// export async function resetPassword({
-//   email,
-//   newPassword,
-//   verifiedCode,
-// }: ResetPasswordParams) {
-//   // const isVerifiedCodeValid = (await checkVerifiedCode({ email, verifiedCode }))
-//   //   ?.isValid;
-//   // if (!isVerifiedCodeValid) throw ErrorCode.Verified_Code_Invalid;
-//   // // const member = await getMemberByEmail(email);
-//   // // if (!member) throw ErrorCode.Email_Not_Exist;
-//   // await getConnection().transaction(async (transaction) => {
-//   //   const memberRepo = transaction.getRepository(Member);
-//   //   const verifiedCodeRepo = transaction.getRepository(VerifiedCode);
-//   //   await memberRepo.update(
-//   //     { email },
-//   //     {
-//   //       password: await hash(newPassword, config.auth.SaltRounds),
-//   //     }
-//   //   );
-//   //   await verifiedCodeRepo.update(
-//   //     { target: email },
-//   //     { status: VerifiedCodeStatus.USED, verifiedDate: new Date() }
-//   //   );
-//   //   return member;
-//   // });
-//   // return await generateToken(member.id);
-// }
+  const { verifiedCode } = params;
+
+  const isVerifiedCodeValid = (await checkVerifiedCode({ phone, verifiedCode }))
+    ?.isValid;
+  if (!isVerifiedCodeValid) throw ErrorCode.Verified_Code_Invalid;
+
+  const existedMember = await getMemberByPhone(phone);
+  if (existedMember) throw ErrorCode.Phone_Existed;
+
+  const member = await getConnection().transaction(async (transaction) => {
+    const memberRepo = transaction.getRepository(Member);
+    const memberDetailRepo = transaction.getRepository(MemberDetail);
+    const verifiedCodeRepo = transaction.getRepository(VerifiedCode);
+
+    const member = await memberRepo.save({
+      phone,
+      password: await hash(params.password, config.auth.SaltRounds),
+    });
+
+    delete params.phone;
+    delete params.password;
+
+    await memberDetailRepo.save(params);
+    await verifiedCodeRepo.update(
+      { code: verifiedCode, phone },
+      { status: VerifiedCodeStatus.USED, verifiedDate: new Date() }
+    );
+
+    return member;
+  });
+  return await generateToken(member.id);
+}
+
+interface ResetPasswordParams {
+  phone: string;
+  newPassword: string;
+  verifiedCode: string;
+}
+export async function resetPassword({
+  phone,
+  newPassword,
+  verifiedCode,
+}: ResetPasswordParams) {
+  phone = await handlePhoneNumber(phone);
+
+  const isVerifiedCodeValid = (await checkVerifiedCode({ phone, verifiedCode }))
+    ?.isValid;
+  if (!isVerifiedCodeValid) throw ErrorCode.Verified_Code_Invalid;
+
+  const member = await getMemberByPhone(phone);
+  if (!member) throw ErrorCode.Member_Not_Exist;
+
+  return getConnection().transaction(async (transaction) => {
+    const memberRepo = transaction.getRepository(Member);
+    const verifiedCodeRepo = transaction.getRepository(VerifiedCode);
+
+    await memberRepo.update(
+      { id: member.id },
+      {
+        password: await hash(newPassword, config.auth.SaltRounds),
+      }
+    );
+
+    await verifiedCodeRepo.update(
+      { code: verifiedCode, phone: phone },
+      { status: VerifiedCodeStatus.USED, verifiedDate: new Date() }
+    );
+  });
+}
+
+const getMemberByPhone = async (phone: string) => {
+  return getRepository(Member).findOne({ phone });
+};

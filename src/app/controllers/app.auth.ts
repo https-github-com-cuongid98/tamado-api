@@ -8,6 +8,7 @@ import {
   requestVerifiedCodeSchema,
   registerSchema,
   checkVerifiedCodeSchema,
+  resetPasswordSchema,
 } from "$validators/app.auth";
 import * as service from "$services/app.auth";
 import { Request } from "express";
@@ -28,19 +29,19 @@ export default class AuthController {
     return await service.checkVerifiedCode(body);
   }
 
-  // @Post("/register", [])
-  // async register(req: Request) {
-  //   const { body } = req;
-  //   validate(registerSchema, body);
-  //   return await service.register(body);
-  // }
+  @Post("/register", [])
+  async register(req: Request) {
+    const { body } = req;
+    validate(registerSchema, body);
+    return await service.register(body);
+  }
 
-  // @Post("/login", [])
-  // async login(req: Request) {
-  //   const body = req.body;
-  //   validate(loginSchema, body);
-  //   return await service.login(body);
-  // }
+  @Post("/login", [])
+  async login(req: Request) {
+    const body = req.body;
+    validate(loginSchema, body);
+    return await service.login(body);
+  }
 
   @Post("/request-access-token", [checkRefreshTokenApp])
   async requestAccessToken(req: Request) {
@@ -49,11 +50,19 @@ export default class AuthController {
     return { accessToken };
   }
 
-  // @Put("/change-password")
-  // async changePassword(req: Request) {
-  //   const { memberId, body } = req;
-  //   validate(changePasswordSchema, body);
-  //   await service.changePassword(memberId, body);
-  //   return;
-  // }
+  @Put("/change-password")
+  async changePassword(req: Request) {
+    const { memberId, body } = req;
+    validate(changePasswordSchema, body);
+    await service.changePassword(memberId, body);
+    return;
+  }
+
+  @Put("/reset-password", [])
+  async resetPassword(req: Request) {
+    const { body } = req;
+    validate(resetPasswordSchema, body);
+    await service.resetPassword(body);
+    return;
+  }
 }
