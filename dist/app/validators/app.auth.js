@@ -57,12 +57,16 @@ exports.resetPasswordSchema = {
 };
 exports.requestVerifiedCodeSchema = {
     type: "object",
-    required: ["phone"],
+    required: ["phone", "type"],
     additionalProperties: false,
     properties: {
         phone: {
             type: "string",
             pattern: "^\\d{11}$",
+        },
+        type: {
+            type: "number",
+            enum: [_enums_1.VerifiedCodeType.REGISTER, _enums_1.VerifiedCodeType.RESET_PASSWORD],
         },
     },
 };
@@ -83,7 +87,7 @@ exports.checkVerifiedCodeSchema = {
 };
 exports.registerSchema = {
     type: "object",
-    required: ["phone", "password", "name", "birthday", "gender", "verifiedCode"],
+    required: ["phone", "password", "name", "birthday", "gender"],
     additionalProperties: false,
     properties: {
         phone: {
@@ -94,10 +98,6 @@ exports.registerSchema = {
             type: "string",
             minLength: 6,
             maxLength: 255,
-        },
-        verifiedCode: {
-            type: "string",
-            pattern: "^\\d{6}$",
         },
         name: {
             type: "string",

@@ -119,3 +119,8 @@ export enum Gender {
   MALE = 1,
   FEMALE = 2,
 }
+
+export enum VerifiedCodeType {
+  REGISTER = 1,
+  RESET_PASSWORD = 2,
+}

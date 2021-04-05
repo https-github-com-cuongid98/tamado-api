@@ -360,3 +360,140 @@ Reason: Phone_Or_Password_Invalid
 Reason: Phone_Or_Password_Invalid
 [2021-04-05T03:02:52.770] [ERROR] AuthController - Method: POST | FullPath: /auth/login | Body: {"phone":"09876543211","password":"654321"}
 
+[2021-04-05T07:49:29.502] [ERROR] MemberController - Error: Relation with property path name in entity was not found.
+    at JoinAttribute.getValue (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:140:27)
+    at JoinAttribute.get (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:142:57)
+    at JoinAttribute.get (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:157:22)
+    at SelectQueryBuilder.join (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:943:27)
+    at SelectQueryBuilder.innerJoin (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:153:14)
+    at SelectQueryBuilder.innerJoinAndSelect (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:174:14)
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:138:24
+    at Array.forEach (<anonymous>)
+    at Function.FindOptionsUtils.applyOptionsToQueryBuilder (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:137:62)
+    at EntityManager.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:526:53)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at /home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:117:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:113:16)
+    at EntityManager.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:498:24)
+[2021-04-05T07:49:29.504] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+
+[2021-04-05T07:49:44.797] [ERROR] MemberController - QueryFailedError: Table 'tamado.name' doesn't exist
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_NO_SUCH_TABLE',
+  errno: 1146,
+  sqlState: '42S02',
+  sqlMessage: "Table 'tamado.name' doesn't exist",
+  query: 'SELECT DISTINCT `distinctAlias`.`memberDetail_id` as "ids_memberDetail_id" FROM (SELECT `memberDetail`.`id` AS `memberDetail_id`, `memberDetail`.`phone` AS `memberDetail_phone`, `memberDetail`.`password` AS `memberDetail_password`, `memberDetail`.`avatar` AS `memberDetail_avatar`, `memberDetail`.`status` AS `memberDetail_status`, `memberDetail`.`showLocation` AS `memberDetail_showLocation`, `memberDetail`.`lat` AS `memberDetail_lat`, `memberDetail`.`lng` AS `memberDetail_lng`, `memberDetail`.`refreshToken` AS `memberDetail_refreshToken`, `memberDetail`.`updateAt` AS `memberDetail_updateAt`, `memberDetail`.`createdAt` AS `memberDetail_createdAt`, `memberDetail__memberDetail`.`id` AS `memberDetail__memberDetail_id`, `memberDetail__memberDetail`.`memberId` AS `memberDetail__memberDetail_memberId`, `memberDetail__memberDetail`.`name` AS `memberDetail__memberDetail_name`, `memberDetail__memberDetail`.`gender` AS `memberDetail__memberDetail_gender`, `memberDetail__memberDetail`.`email` AS `memberDetail__memberDetail_email`, `memberDetail__memberDetail`.`birthday` AS `memberDetail__memberDetail_birthday`, `memberDetail__memberDetail`.`introduce` AS `memberDetail__memberDetail_introduce`, `memberDetail__memberDetail`.`hobby` AS `memberDetail__memberDetail_hobby`, `memberDetail__memberDetail`.`updateAt` AS `memberDetail__memberDetail_updateAt`, `memberDetail__memberDetail`.`createdAt` AS `memberDetail__memberDetail_createdAt`, `name`.* FROM `members` `memberDetail` LEFT JOIN `member_detail` `memberDetail__memberDetail` ON `memberDetail__memberDetail`.`memberId`=`memberDetail`.`id`  INNER JOIN `name` `name` WHERE `memberDetail`.`id` = ?) `distinctAlias` ORDER BY `memberDetail_id` ASC LIMIT 1',
+  parameters: [ 2 ]
+}
+[2021-04-05T07:49:44.797] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+
+[2021-04-05T07:49:59.065] [ERROR] MemberController - Error: Relation with property path name in entity was not found.
+    at JoinAttribute.getValue (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:140:27)
+    at JoinAttribute.get (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:142:57)
+    at JoinAttribute.get (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:157:22)
+    at SelectQueryBuilder.join (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:943:27)
+    at SelectQueryBuilder.innerJoin (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:153:14)
+    at SelectQueryBuilder.innerJoinAndSelect (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:174:14)
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:138:24
+    at Array.forEach (<anonymous>)
+    at Function.FindOptionsUtils.applyOptionsToQueryBuilder (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:137:62)
+    at EntityManager.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:526:53)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at /home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:117:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:113:16)
+    at EntityManager.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:498:24)
+[2021-04-05T07:49:59.065] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+
+[2021-04-05T07:50:23.168] [ERROR] MemberController - Error: Relation with property path name in entity was not found.
+    at JoinAttribute.getValue (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:140:27)
+    at JoinAttribute.get (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:142:57)
+    at JoinAttribute.get (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:157:22)
+    at SelectQueryBuilder.join (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:943:27)
+    at SelectQueryBuilder.innerJoin (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:153:14)
+    at SelectQueryBuilder.innerJoinAndSelect (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:174:14)
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:138:24
+    at Array.forEach (<anonymous>)
+    at Function.FindOptionsUtils.applyOptionsToQueryBuilder (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:137:62)
+    at EntityManager.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:526:53)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at /home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:117:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:113:16)
+    at EntityManager.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:498:24)
+[2021-04-05T07:50:23.169] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+
+[2021-04-05T07:52:55.613] [ERROR] MemberController - Error: memberDetail column was not found in the Member entity.
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:84:27
+    at Array.forEach (<anonymous>)
+    at Function.FindOptionsUtils.applyOptionsToQueryBuilder (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:82:28)
+    at EntityManager.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:526:53)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at /home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:117:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:113:16)
+    at EntityManager.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:498:24)
+    at Repository.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/repository/Repository.js:175:29)
+    at Object.<anonymous> (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:52:59)
+    at step (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:33:23)
+    at Object.next (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:14:53)
+    at /home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:8:71
+    at new Promise (<anonymous>)
+[2021-04-05T07:52:55.613] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+
+[2021-04-05T07:54:25.391] [ERROR] MemberController - FindRelationsNotFoundError: Relation "memberDetail.id" was not found; please check if it is correct and really exists in your entity.
+    at new FindRelationsNotFoundError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/FindRelationsNotFoundError.js:11:28)
+    at Function.FindOptionsUtils.applyOptionsToQueryBuilder (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:121:23)
+    at EntityManager.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:526:53)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at /home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:117:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:113:16)
+    at EntityManager.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:498:24)
+    at Repository.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/repository/Repository.js:175:29)
+    at Object.<anonymous> (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:52:59)
+    at step (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:33:23)
+    at Object.next (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:14:53)
+    at /home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:4:12)
+[2021-04-05T07:54:25.392] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+
+[2021-04-05T07:55:05.652] [ERROR] MemberController - FindRelationsNotFoundError: Relation "memberDetail.id" was not found; please check if it is correct and really exists in your entity.
+    at new FindRelationsNotFoundError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/FindRelationsNotFoundError.js:11:28)
+    at Function.FindOptionsUtils.applyOptionsToQueryBuilder (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:121:23)
+    at EntityManager.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:526:53)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at /home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:117:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:113:16)
+    at EntityManager.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:498:24)
+    at Repository.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/repository/Repository.js:175:29)
+    at Object.<anonymous> (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:52:59)
+    at step (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:33:23)
+    at Object.next (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:14:53)
+    at /home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:4:12)
+[2021-04-05T07:55:05.652] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+

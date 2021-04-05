@@ -200,21 +200,29 @@ var generateRefreshToken = function (dataEncode) {
     });
 };
 function createVerifiedCode(_a) {
-    var phone = _a.phone;
+    var phone = _a.phone, type = _a.type;
     return __awaiter(this, void 0, void 0, function () {
-        var verifiedCodeRepo, verifiedCode;
+        var verifiedCodeRepo, existedMember, verifiedCode;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     verifiedCodeRepo = typeorm_1.getRepository(VerifiedCode_1.default);
-                    return [4 /*yield*/, twillio_1.handlePhoneNumber(phone)];
+                    return [4 /*yield*/, getMemberByPhone(phone)];
                 case 1:
+                    existedMember = _b.sent();
+                    if (type == _enums_1.VerifiedCodeType.REGISTER && existedMember)
+                        throw _enums_1.ErrorCode.Phone_Existed;
+                    else if (type == _enums_1.VerifiedCodeType.RESET_PASSWORD && !existedMember)
+                        throw _enums_1.ErrorCode.Member_Not_Exist;
+                    return [4 /*yield*/, twillio_1.handlePhoneNumber(phone)];
+                case 2:
                     phone = _b.sent();
                     return [4 /*yield*/, verifiedCodeRepo.findOne({
                             phone: phone,
                             status: _enums_1.VerifiedCodeStatus.UN_USED,
+                            type: type,
                         })];
-                case 2:
+                case 3:
                     verifiedCode = _b.sent();
                     if (!verifiedCode) {
                         verifiedCode = new VerifiedCode_1.default();
@@ -222,15 +230,16 @@ function createVerifiedCode(_a) {
                     verifiedCode.phone = phone;
                     verifiedCode.code = utils_1.randomOTP(6);
                     verifiedCode.status = _enums_1.VerifiedCodeStatus.UN_USED;
+                    verifiedCode.type = type;
                     verifiedCode.verifiedDate = null;
                     verifiedCode.expiredDate = moment_1.default()
                         .add(60 * 20, "seconds")
                         .toDate();
                     return [4 /*yield*/, verifiedCodeRepo.save(verifiedCode)];
-                case 3:
+                case 4:
                     _b.sent();
                     return [4 /*yield*/, twillio_1.sendSMS({ code: verifiedCode.code, to: verifiedCode.phone })];
-                case 4:
+                case 5:
                     _b.sent();
                     return [2 /*return*/, { code: verifiedCode.code }];
             }
@@ -246,59 +255,55 @@ function checkVerifiedCode(_a) {
             switch (_c.label) {
                 case 0:
                     verifiedCodeRepo = typeorm_1.getRepository(VerifiedCode_1.default);
+                    return [4 /*yield*/, twillio_1.handlePhoneNumber(phone)];
+                case 1:
+                    phone = _c.sent();
                     return [4 /*yield*/, verifiedCodeRepo.findOne({
                             phone: phone,
                             status: _enums_1.VerifiedCodeStatus.UN_USED,
                             expiredDate: typeorm_1.MoreThan(new Date()),
                         })];
-                case 1:
+                case 2:
                     _b = _c.sent(), id = _b.id, code = _b.code, retry = _b.retry;
                     if (retry > 5)
                         throw _enums_1.ErrorCode.Verified_Code_Max_Try;
-                    if (!(code !== verifiedCode)) return [3 /*break*/, 3];
+                    if (!(code !== verifiedCode)) return [3 /*break*/, 4];
                     return [4 /*yield*/, verifiedCodeRepo.update({ id: id }, { retry: function () { return "`retry` + 1"; } })];
-                case 2:
+                case 3:
                     _c.sent();
                     throw _enums_1.ErrorCode.Verified_Code_Invalid;
-                case 3: return [2 /*return*/, {
-                        isValid: Boolean(code),
-                    }];
+                case 4: return [4 /*yield*/, verifiedCodeRepo.update({ id: id }, { status: _enums_1.VerifiedCodeStatus.USED, verifiedDate: new Date() })];
+                case 5:
+                    _c.sent();
+                    return [2 /*return*/, {
+                            isValid: Boolean(code),
+                        }];
             }
         });
     });
 }
 exports.checkVerifiedCode = checkVerifiedCode;
 function register(params) {
-    var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var phone, verifiedCode, isVerifiedCodeValid, existedMember, member;
+        var phone, existedMember;
         var _this = this;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0: return [4 /*yield*/, twillio_1.handlePhoneNumber(params.phone)];
                 case 1:
-                    phone = _b.sent();
-                    verifiedCode = params.verifiedCode;
-                    delete params.verifiedCode;
-                    delete params.phone;
-                    return [4 /*yield*/, checkVerifiedCode({ phone: phone, verifiedCode: verifiedCode })];
-                case 2:
-                    isVerifiedCodeValid = (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.isValid;
-                    if (!isVerifiedCodeValid)
-                        throw _enums_1.ErrorCode.Verified_Code_Invalid;
+                    phone = _a.sent();
                     return [4 /*yield*/, getMemberByPhone(phone)];
-                case 3:
-                    existedMember = _b.sent();
+                case 2:
+                    existedMember = _a.sent();
                     if (existedMember)
                         throw _enums_1.ErrorCode.Phone_Existed;
                     return [4 /*yield*/, typeorm_1.getConnection().transaction(function (transaction) { return __awaiter(_this, void 0, void 0, function () {
-                            var memberRepo, memberDetailRepo, verifiedCodeRepo, member, _a, _b, _c;
+                            var memberRepo, memberDetailRepo, member, _a, _b, _c;
                             return __generator(this, function (_d) {
                                 switch (_d.label) {
                                     case 0:
                                         memberRepo = transaction.getRepository(Member_1.default);
                                         memberDetailRepo = transaction.getRepository(MemberDetail_1.default);
-                                        verifiedCodeRepo = transaction.getRepository(VerifiedCode_1.default);
                                         _b = (_a = memberRepo).save;
                                         _c = {
                                             phone: phone
@@ -309,68 +314,45 @@ function register(params) {
                                     case 2:
                                         member = _d.sent();
                                         delete params.password;
+                                        delete params.phone;
                                         return [4 /*yield*/, memberDetailRepo.save(__assign(__assign({}, params), { memberId: member.id }))];
                                     case 3:
                                         _d.sent();
-                                        return [4 /*yield*/, verifiedCodeRepo.update({ code: verifiedCode, phone: phone }, { status: _enums_1.VerifiedCodeStatus.USED, verifiedDate: new Date() })];
-                                    case 4:
-                                        _d.sent();
-                                        return [2 /*return*/, member];
+                                        return [2 /*return*/];
                                 }
                             });
                         }); })];
-                case 4:
-                    member = _b.sent();
-                    return [4 /*yield*/, generateToken(member.id)];
-                case 5: return [2 /*return*/, _b.sent()];
+                case 3: return [2 /*return*/, _a.sent()];
             }
         });
     });
 }
 exports.register = register;
 function resetPassword(_a) {
-    var _b;
-    var phone = _a.phone, newPassword = _a.newPassword, verifiedCode = _a.verifiedCode;
+    var phone = _a.phone, newPassword = _a.newPassword;
     return __awaiter(this, void 0, void 0, function () {
-        var isVerifiedCodeValid, member;
-        var _this = this;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0: return [4 /*yield*/, twillio_1.handlePhoneNumber(phone)];
+        var memberRepo, member, _b, _c, _d, _e;
+        return __generator(this, function (_f) {
+            switch (_f.label) {
+                case 0:
+                    memberRepo = typeorm_1.getRepository(Member_1.default);
+                    return [4 /*yield*/, twillio_1.handlePhoneNumber(phone)];
                 case 1:
-                    phone = _c.sent();
-                    return [4 /*yield*/, checkVerifiedCode({ phone: phone, verifiedCode: verifiedCode })];
-                case 2:
-                    isVerifiedCodeValid = (_b = (_c.sent())) === null || _b === void 0 ? void 0 : _b.isValid;
-                    if (!isVerifiedCodeValid)
-                        throw _enums_1.ErrorCode.Verified_Code_Invalid;
+                    phone = _f.sent();
                     return [4 /*yield*/, getMemberByPhone(phone)];
-                case 3:
-                    member = _c.sent();
+                case 2:
+                    member = _f.sent();
                     if (!member)
                         throw _enums_1.ErrorCode.Member_Not_Exist;
-                    return [2 /*return*/, typeorm_1.getConnection().transaction(function (transaction) { return __awaiter(_this, void 0, void 0, function () {
-                            var memberRepo, verifiedCodeRepo, _a, _b, _c, _d;
-                            return __generator(this, function (_e) {
-                                switch (_e.label) {
-                                    case 0:
-                                        memberRepo = transaction.getRepository(Member_1.default);
-                                        verifiedCodeRepo = transaction.getRepository(VerifiedCode_1.default);
-                                        _b = (_a = memberRepo).update;
-                                        _c = [{ id: member.id }];
-                                        _d = {};
-                                        return [4 /*yield*/, bcryptjs_1.hash(newPassword, _config_1.default.auth.SaltRounds)];
-                                    case 1: return [4 /*yield*/, _b.apply(_a, _c.concat([(_d.password = _e.sent(),
-                                                _d)]))];
-                                    case 2:
-                                        _e.sent();
-                                        return [4 /*yield*/, verifiedCodeRepo.update({ code: verifiedCode, phone: phone }, { status: _enums_1.VerifiedCodeStatus.USED, verifiedDate: new Date() })];
-                                    case 3:
-                                        _e.sent();
-                                        return [2 /*return*/];
-                                }
-                            });
-                        }); })];
+                    _c = (_b = memberRepo).update;
+                    _d = [{ id: member.id }];
+                    _e = {};
+                    return [4 /*yield*/, bcryptjs_1.hash(newPassword, _config_1.default.auth.SaltRounds)];
+                case 3: return [4 /*yield*/, _c.apply(_b, _d.concat([(_e.password = _f.sent(),
+                            _e)]))];
+                case 4:
+                    _f.sent();
+                    return [2 /*return*/];
             }
         });
     });

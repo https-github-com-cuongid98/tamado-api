@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Gender = exports.ShowLocation = exports.IsRead = exports.MessagesType = exports.ConversationType = exports.ConversationMemberType = exports.KeyCacheRedis = exports.ConfigKeys = exports.VerifiedCodeStatus = exports.CommonStatus = exports.Permissions = exports.MemberStatus = exports.UserStatus = exports.ErrorMessage = exports.ErrorCode = void 0;
+exports.VerifiedCodeType = exports.Gender = exports.ShowLocation = exports.IsRead = exports.MessagesType = exports.ConversationType = exports.ConversationMemberType = exports.KeyCacheRedis = exports.ConfigKeys = exports.VerifiedCodeStatus = exports.CommonStatus = exports.Permissions = exports.MemberStatus = exports.UserStatus = exports.ErrorMessage = exports.ErrorCode = void 0;
 var _config_1 = __importDefault(require("$config"));
 var ErrorCode;
 (function (ErrorCode) {
@@ -124,4 +124,9 @@ var Gender;
     Gender[Gender["MALE"] = 1] = "MALE";
     Gender[Gender["FEMALE"] = 2] = "FEMALE";
 })(Gender = exports.Gender || (exports.Gender = {}));
+var VerifiedCodeType;
+(function (VerifiedCodeType) {
+    VerifiedCodeType[VerifiedCodeType["REGISTER"] = 1] = "REGISTER";
+    VerifiedCodeType[VerifiedCodeType["RESET_PASSWORD"] = 2] = "RESET_PASSWORD";
+})(VerifiedCodeType = exports.VerifiedCodeType || (exports.VerifiedCodeType = {}));
 //# sourceMappingURL=index.js.map
