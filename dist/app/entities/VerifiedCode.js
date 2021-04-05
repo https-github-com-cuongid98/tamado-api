@@ -27,6 +27,10 @@ var VerifiedCode = /** @class */ (function () {
         __metadata("design:type", String)
     ], VerifiedCode.prototype, "code", void 0);
     __decorate([
+        typeorm_1.Column({ type: "smallint", unsigned: true }),
+        __metadata("design:type", Number)
+    ], VerifiedCode.prototype, "type", void 0);
+    __decorate([
         typeorm_1.Column({ type: "smallint", unsigned: true, default: 0 }),
         __metadata("design:type", Number)
     ], VerifiedCode.prototype, "retry", void 0);

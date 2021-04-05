@@ -18,6 +18,9 @@ export default class VerifiedCode {
   @Column({ type: "varchar", length: 20 })
   code: string;
 
+  @Column({ type: "smallint", unsigned: true })
+  type: number;
+
   @Column({ type: "smallint", unsigned: true, default: 0 })
   retry: number;
 

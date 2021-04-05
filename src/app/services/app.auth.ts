@@ -1,5 +1,10 @@
 import { getRepository, getConnection, MoreThan } from "typeorm";
-import { ErrorCode, MemberStatus, VerifiedCodeStatus } from "$enums";
+import {
+  ErrorCode,
+  MemberStatus,
+  VerifiedCodeStatus,
+  VerifiedCodeType,
+} from "$enums";
 import { compare, hash } from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
 import { pick } from "lodash";
@@ -106,15 +111,26 @@ const generateRefreshToken = (dataEncode: any) => {
 
 interface RequestVerifiedCodeParams {
   phone: string;
+  type: number;
 }
-export async function createVerifiedCode({ phone }: RequestVerifiedCodeParams) {
+export async function createVerifiedCode({
+  phone,
+  type,
+}: RequestVerifiedCodeParams) {
   const verifiedCodeRepo = getRepository(VerifiedCode);
+
+  const existedMember = await getMemberByPhone(phone);
+  if (type == VerifiedCodeType.REGISTER && existedMember)
+    throw ErrorCode.Phone_Existed;
+  else if (type == VerifiedCodeType.RESET_PASSWORD && !existedMember)
+    throw ErrorCode.Member_Not_Exist;
 
   phone = await handlePhoneNumber(phone);
 
   let verifiedCode = await verifiedCodeRepo.findOne({
     phone,
     status: VerifiedCodeStatus.UN_USED,
+    type,
   });
 
   if (!verifiedCode) {
@@ -123,6 +139,7 @@ export async function createVerifiedCode({ phone }: RequestVerifiedCodeParams) {
   verifiedCode.phone = phone;
   verifiedCode.code = randomOTP(6);
   verifiedCode.status = VerifiedCodeStatus.UN_USED;
+  verifiedCode.type = type;
   verifiedCode.verifiedDate = null;
   verifiedCode.expiredDate = moment()
     .add(60 * 20, "seconds")
@@ -130,6 +147,7 @@ export async function createVerifiedCode({ phone }: RequestVerifiedCodeParams) {
   await verifiedCodeRepo.save(verifiedCode);
 
   await sendSMS({ code: verifiedCode.code, to: verifiedCode.phone });
+
   return { code: verifiedCode.code };
 }
 
@@ -142,6 +160,8 @@ export async function checkVerifiedCode({
   verifiedCode,
 }: CheckVerifiedCodeParams) {
   const verifiedCodeRepo = getRepository(VerifiedCode);
+
+  phone = await handlePhoneNumber(phone);
 
   const { id, code, retry } = await verifiedCodeRepo.findOne({
     phone,
@@ -156,6 +176,11 @@ export async function checkVerifiedCode({
     throw ErrorCode.Verified_Code_Invalid;
   }
 
+  await verifiedCodeRepo.update(
+    { id },
+    { status: VerifiedCodeStatus.USED, verifiedDate: new Date() }
+  );
+
   return {
     isValid: Boolean(code),
   };
@@ -166,7 +191,6 @@ interface RegisterParams {
   password: string;
   name: string;
   birthday: string;
-  verifiedCode: string;
   gender: number;
   email?: string;
   introduce?: string;
@@ -175,21 +199,12 @@ interface RegisterParams {
 export async function register(params: RegisterParams) {
   const phone = await handlePhoneNumber(params.phone);
 
-  const { verifiedCode } = params;
-  delete params.verifiedCode;
-  delete params.phone;
-
-  const isVerifiedCodeValid = (await checkVerifiedCode({ phone, verifiedCode }))
-    ?.isValid;
-  if (!isVerifiedCodeValid) throw ErrorCode.Verified_Code_Invalid;
-
   const existedMember = await getMemberByPhone(phone);
   if (existedMember) throw ErrorCode.Phone_Existed;
 
-  const member = await getConnection().transaction(async (transaction) => {
+  return await getConnection().transaction(async (transaction) => {
     const memberRepo = transaction.getRepository(Member);
     const memberDetailRepo = transaction.getRepository(MemberDetail);
-    const verifiedCodeRepo = transaction.getRepository(VerifiedCode);
 
     const member = await memberRepo.save({
       phone,
@@ -197,16 +212,10 @@ export async function register(params: RegisterParams) {
     });
 
     delete params.password;
+    delete params.phone;
 
     await memberDetailRepo.save({ ...params, memberId: member.id });
-    await verifiedCodeRepo.update(
-      { code: verifiedCode, phone },
-      { status: VerifiedCodeStatus.USED, verifiedDate: new Date() }
-    );
-
-    return member;
   });
-  return await generateToken(member.id);
 }
 
 interface ResetPasswordParams {
@@ -217,33 +226,19 @@ interface ResetPasswordParams {
 export async function resetPassword({
   phone,
   newPassword,
-  verifiedCode,
 }: ResetPasswordParams) {
+  const memberRepo = getRepository(Member);
   phone = await handlePhoneNumber(phone);
-
-  const isVerifiedCodeValid = (await checkVerifiedCode({ phone, verifiedCode }))
-    ?.isValid;
-  if (!isVerifiedCodeValid) throw ErrorCode.Verified_Code_Invalid;
 
   const member = await getMemberByPhone(phone);
   if (!member) throw ErrorCode.Member_Not_Exist;
 
-  return getConnection().transaction(async (transaction) => {
-    const memberRepo = transaction.getRepository(Member);
-    const verifiedCodeRepo = transaction.getRepository(VerifiedCode);
-
-    await memberRepo.update(
-      { id: member.id },
-      {
-        password: await hash(newPassword, config.auth.SaltRounds),
-      }
-    );
-
-    await verifiedCodeRepo.update(
-      { code: verifiedCode, phone: phone },
-      { status: VerifiedCodeStatus.USED, verifiedDate: new Date() }
-    );
-  });
+  await memberRepo.update(
+    { id: member.id },
+    {
+      password: await hash(newPassword, config.auth.SaltRounds),
+    }
+  );
 }
 
 const getMemberByPhone = async (phone: string) => {
