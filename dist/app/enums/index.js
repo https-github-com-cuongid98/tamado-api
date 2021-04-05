@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ShowLocation = exports.IsRead = exports.MessagesType = exports.ConversationType = exports.ConversationMemberType = exports.KeyCacheRedis = exports.ConfigKeys = exports.VerifiedCodeStatus = exports.CommonStatus = exports.Permissions = exports.MemberStatus = exports.UserStatus = exports.ErrorMessage = exports.ErrorCode = void 0;
+exports.Gender = exports.ShowLocation = exports.IsRead = exports.MessagesType = exports.ConversationType = exports.ConversationMemberType = exports.KeyCacheRedis = exports.ConfigKeys = exports.VerifiedCodeStatus = exports.CommonStatus = exports.Permissions = exports.MemberStatus = exports.UserStatus = exports.ErrorMessage = exports.ErrorCode = void 0;
 var _config_1 = __importDefault(require("$config"));
 var ErrorCode;
 (function (ErrorCode) {
@@ -119,4 +119,9 @@ var ShowLocation;
     ShowLocation[ShowLocation["YES"] = 1] = "YES";
     ShowLocation[ShowLocation["NO"] = 2] = "NO";
 })(ShowLocation = exports.ShowLocation || (exports.ShowLocation = {}));
+var Gender;
+(function (Gender) {
+    Gender[Gender["MALE"] = 1] = "MALE";
+    Gender[Gender["FEMALE"] = 2] = "FEMALE";
+})(Gender = exports.Gender || (exports.Gender = {}));
 //# sourceMappingURL=index.js.map

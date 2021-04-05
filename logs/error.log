@@ -252,3 +252,111 @@ Reason: Verified_Code_Max_Try
     at processTicksAndRejections (internal/process/task_queues.js:97:5)
 [2021-04-04T15:13:26.192] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"09876543211","verifiedCode":"049412"}
 
+[2021-04-05T02:47:53.989] [ERROR] AuthController - [
+  {
+    keyword: 'additionalProperties',
+    dataPath: '',
+    schemaPath: '#/additionalProperties',
+    params: { additionalProperty: 'verifiedCode' },
+    message: 'should NOT have additional properties'
+  }
+]
+[2021-04-05T02:47:53.989] [ERROR] AuthController - Method: POST | FullPath: /auth/register | Body: {"phone":"0987654321","verifiedCode":"098765","name":"test","password":"123456","birthday":"1995-03-15 12:00:00.000","gender":1,"email":"test@gmail.com","introduce":"Đẹp trai, body 6 múi.","hobby":"Yêu màu hường, ghét sự giả dối."}
+
+[2021-04-05T02:49:18.416] [ERROR] AuthController - [
+  {
+    keyword: 'pattern',
+    dataPath: '.phone',
+    schemaPath: '#/properties/phone/pattern',
+    params: { pattern: '^\\d{11}$' },
+    message: 'should match pattern "^\\d{11}$"'
+  }
+]
+[2021-04-05T02:49:18.416] [ERROR] AuthController - Method: POST | FullPath: /auth/register | Body: {"phone":"0987654321","verifiedCode":"098765","name":"test","password":"123456","birthday":"1995-03-15 12:00:00.000","gender":1,"email":"test@gmail.com","introduce":"Đẹp trai, body 6 múi.","hobby":"Yêu màu hường, ghét sự giả dối."}
+
+[2021-04-05T02:49:24.851] [ERROR] AuthController - Verified_Code_Invalid
+Reason: Verified_Code_Invalid
+[2021-04-05T02:49:24.851] [ERROR] AuthController - Method: POST | FullPath: /auth/register | Body: {"name":"test","password":"123456","birthday":"1995-03-15 12:00:00.000","gender":1,"email":"test@gmail.com","introduce":"Đẹp trai, body 6 múi.","hobby":"Yêu màu hường, ghét sự giả dối."}
+
+[2021-04-05T02:49:35.456] [ERROR] AuthController - QueryFailedError: Field 'memberId' doesn't have a default value
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_NO_DEFAULT_FOR_FIELD',
+  errno: 1364,
+  sqlState: 'HY000',
+  sqlMessage: "Field 'memberId' doesn't have a default value",
+  query: 'INSERT INTO `member_detail`(`id`, `memberId`, `name`, `gender`, `email`, `birthday`, `introduce`, `hobby`, `updateAt`, `createdAt`) VALUES (DEFAULT, DEFAULT, ?, ?, ?, ?, ?, ?, DEFAULT, DEFAULT)',
+  parameters: [
+    'test',
+    1,
+    'test@gmail.com',
+    '1995-03-15 12:00:00.000',
+    'Đẹp trai, body 6 múi.',
+    'Yêu màu hường, ghét sự giả dối.'
+  ]
+}
+[2021-04-05T02:49:35.457] [ERROR] AuthController - Method: POST | FullPath: /auth/register | Body: {"name":"test","birthday":"1995-03-15 12:00:00.000","gender":1,"email":"test@gmail.com","introduce":"Đẹp trai, body 6 múi.","hobby":"Yêu màu hường, ghét sự giả dối."}
+
+[2021-04-05T02:51:25.982] [ERROR] AuthController - Member_Not_Exist
+Reason: Member_Not_Exist
+[2021-04-05T02:51:25.982] [ERROR] AuthController - Method: POST | FullPath: /auth/login | Body: {"phone":"09876543211","password":"123456"}
+
+[2021-04-05T02:51:54.310] [ERROR] AuthController - Member_Not_Exist
+Reason: Member_Not_Exist
+[2021-04-05T02:51:54.310] [ERROR] AuthController - Method: POST | FullPath: /auth/login | Body: {"phone":"09876543211","password":"123456"}
+
+[2021-04-05T02:53:54.255] [ERROR] INFO - Refresh_Token_Not_Exist
+Reason: Refresh_Token_Not_Exist
+[2021-04-05T02:53:54.256] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:54:14.187] [ERROR] INFO - Refresh_Token_Not_Exist
+Reason: Refresh_Token_Not_Exist
+[2021-04-05T02:54:14.187] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:54:18.550] [ERROR] INFO - Refresh_Token_Not_Exist
+Reason: Refresh_Token_Not_Exist
+[2021-04-05T02:54:18.550] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:54:25.780] [ERROR] INFO - Refresh_Token_Not_Exist
+Reason: Refresh_Token_Not_Exist
+[2021-04-05T02:54:25.780] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:56:16.136] [ERROR] INFO - Refresh_Token_Not_Exist
+Reason: Refresh_Token_Not_Exist
+[2021-04-05T02:56:16.136] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:57:08.996] [ERROR] INFO - undefined
+[2021-04-05T02:57:08.996] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:57:27.460] [ERROR] INFO - undefined
+[2021-04-05T02:57:27.460] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:57:49.324] [ERROR] INFO - undefined
+[2021-04-05T02:57:49.324] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:59:42.164] [ERROR] INFO - undefined
+[2021-04-05T02:59:42.164] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T03:01:26.102] [ERROR] INFO - Token_Expired
+Reason: Token_Expired
+[2021-04-05T03:01:26.102] [ERROR] INFO - Method: PUT | FullPath: /auth/change-password | Body: {"oldPassword":"123456","newPassword":"654321"}
+
+[2021-04-05T03:01:42.917] [ERROR] AuthController - Phone_Or_Password_Invalid
+Reason: Phone_Or_Password_Invalid
+[2021-04-05T03:01:42.917] [ERROR] AuthController - Method: POST | FullPath: /auth/login | Body: {"phone":"09876543211","password":"123456"}
+
+[2021-04-05T03:02:52.770] [ERROR] AuthController - Phone_Or_Password_Invalid
+Reason: Phone_Or_Password_Invalid
+[2021-04-05T03:02:52.770] [ERROR] AuthController - Method: POST | FullPath: /auth/login | Body: {"phone":"09876543211","password":"654321"}
+

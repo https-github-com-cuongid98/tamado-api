@@ -1,3 +1,5 @@
+import { Gender } from "$enums";
+
 export const loginSchema: AjvSchema = {
   type: "object",
   required: ["phone", "password"],
@@ -84,7 +86,7 @@ export const checkVerifiedCodeSchema: AjvSchema = {
 
 export const registerSchema: AjvSchema = {
   type: "object",
-  required: ["phone", "password", "name", "birthday"],
+  required: ["phone", "password", "name", "birthday", "gender", "verifiedCode"],
   additionalProperties: false,
   properties: {
     phone: {
@@ -95,6 +97,10 @@ export const registerSchema: AjvSchema = {
       type: "string",
       minLength: 6,
       maxLength: 255,
+    },
+    verifiedCode: {
+      type: "string",
+      pattern: "^\\d{6}$",
     },
     name: {
       type: "string",
@@ -110,6 +116,10 @@ export const registerSchema: AjvSchema = {
     },
     hobby: {
       type: "string",
+    },
+    gender: {
+      type: "number",
+      enum: [Gender.FEMALE, Gender.MALE],
     },
   },
 };

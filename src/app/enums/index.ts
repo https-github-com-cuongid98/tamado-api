@@ -114,3 +114,8 @@ export enum ShowLocation {
   YES = 1,
   NO = 2,
 }
+
+export enum Gender {
+  MALE = 1,
+  FEMALE = 2,
+}

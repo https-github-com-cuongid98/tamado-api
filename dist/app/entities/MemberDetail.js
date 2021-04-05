@@ -30,6 +30,10 @@ var MemberDetail = /** @class */ (function () {
         __metadata("design:type", String)
     ], MemberDetail.prototype, "name", void 0);
     __decorate([
+        typeorm_1.Column({ type: "tinyint", unsigned: true, comment: "1.male,2.female" }),
+        __metadata("design:type", Number)
+    ], MemberDetail.prototype, "gender", void 0);
+    __decorate([
         typeorm_1.Column({ type: "varchar", length: 50 }),
         __metadata("design:type", String)
     ], MemberDetail.prototype, "email", void 0);
