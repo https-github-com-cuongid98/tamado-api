@@ -26,7 +26,8 @@ interface LoginParams {
 }
 export async function login(params: LoginParams) {
   const memberRepository = getRepository(Member);
-  const { phone, password } = params;
+  const { password } = params;
+  const phone = await handlePhoneNumber(params.phone);
 
   const member = await memberRepository.findOne({ phone });
 
@@ -166,6 +167,7 @@ interface RegisterParams {
   name: string;
   birthday: string;
   verifiedCode: string;
+  gender: number;
   email?: string;
   introduce?: string;
   hobby?: string;
@@ -174,6 +176,8 @@ export async function register(params: RegisterParams) {
   const phone = await handlePhoneNumber(params.phone);
 
   const { verifiedCode } = params;
+  delete params.verifiedCode;
+  delete params.phone;
 
   const isVerifiedCodeValid = (await checkVerifiedCode({ phone, verifiedCode }))
     ?.isValid;
@@ -192,10 +196,9 @@ export async function register(params: RegisterParams) {
       password: await hash(params.password, config.auth.SaltRounds),
     });
 
-    delete params.phone;
     delete params.password;
 
-    await memberDetailRepo.save(params);
+    await memberDetailRepo.save({ ...params, memberId: member.id });
     await verifiedCodeRepo.update(
       { code: verifiedCode, phone },
       { status: VerifiedCodeStatus.USED, verifiedDate: new Date() }

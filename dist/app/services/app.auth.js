@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -73,21 +84,24 @@ function getMemberById(memberId) {
 exports.getMemberById = getMemberById;
 function login(params) {
     return __awaiter(this, void 0, void 0, function () {
-        var memberRepository, phone, password, member, isTruePassword;
+        var memberRepository, password, phone, member, isTruePassword;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     memberRepository = typeorm_1.getRepository(Member_1.default);
-                    phone = params.phone, password = params.password;
-                    return [4 /*yield*/, memberRepository.findOne({ phone: phone })];
+                    password = params.password;
+                    return [4 /*yield*/, twillio_1.handlePhoneNumber(params.phone)];
                 case 1:
+                    phone = _a.sent();
+                    return [4 /*yield*/, memberRepository.findOne({ phone: phone })];
+                case 2:
                     member = _a.sent();
                     if (!member)
                         throw _enums_1.ErrorCode.Member_Not_Exist;
                     if (member.status !== _enums_1.MemberStatus.ACTIVE)
                         throw _enums_1.ErrorCode.Member_Blocked;
                     return [4 /*yield*/, bcryptjs_1.compare(password, member.password)];
-                case 2:
+                case 3:
                     isTruePassword = _a.sent();
                     if (!isTruePassword)
                         throw _enums_1.ErrorCode.Phone_Or_Password_Invalid;
@@ -265,6 +279,8 @@ function register(params) {
                 case 1:
                     phone = _b.sent();
                     verifiedCode = params.verifiedCode;
+                    delete params.verifiedCode;
+                    delete params.phone;
                     return [4 /*yield*/, checkVerifiedCode({ phone: phone, verifiedCode: verifiedCode })];
                 case 2:
                     isVerifiedCodeValid = (_a = (_b.sent())) === null || _a === void 0 ? void 0 : _a.isValid;
@@ -292,9 +308,8 @@ function register(params) {
                                                 _c)])];
                                     case 2:
                                         member = _d.sent();
-                                        delete params.phone;
                                         delete params.password;
-                                        return [4 /*yield*/, memberDetailRepo.save(params)];
+                                        return [4 /*yield*/, memberDetailRepo.save(__assign(__assign({}, params), { memberId: member.id }))];
                                     case 3:
                                         _d.sent();
                                         return [4 /*yield*/, verifiedCodeRepo.update({ code: verifiedCode, phone: phone }, { status: _enums_1.VerifiedCodeStatus.USED, verifiedDate: new Date() })];

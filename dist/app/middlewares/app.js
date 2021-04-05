@@ -78,6 +78,7 @@ function checkTokenApp(req, res, next) {
 exports.checkTokenApp = checkTokenApp;
 function checkRefreshTokenApp(req, res, next) {
     var _this = this;
+    console.log(req.body.refreshToken);
     var refreshToken = req.body.refreshToken || "";
     if (!refreshToken) {
         logger.warn("Can not find the refresh token");

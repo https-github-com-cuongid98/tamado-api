@@ -43,6 +43,7 @@ export function checkRefreshTokenApp(
   res: Response,
   next: NextFunction
 ) {
+  console.log(req.body.refreshToken);
   const refreshToken = req.body.refreshToken || "";
   if (!refreshToken) {
     logger.warn("Can not find the refresh token");

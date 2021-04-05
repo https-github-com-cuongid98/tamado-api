@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerSchema = exports.checkVerifiedCodeSchema = exports.requestVerifiedCodeSchema = exports.resetPasswordSchema = exports.changePasswordSchema = exports.loginSchema = void 0;
+var _enums_1 = require("$enums");
 exports.loginSchema = {
     type: "object",
     required: ["phone", "password"],
@@ -82,7 +83,7 @@ exports.checkVerifiedCodeSchema = {
 };
 exports.registerSchema = {
     type: "object",
-    required: ["phone", "password", "name", "birthday"],
+    required: ["phone", "password", "name", "birthday", "gender", "verifiedCode"],
     additionalProperties: false,
     properties: {
         phone: {
@@ -93,6 +94,10 @@ exports.registerSchema = {
             type: "string",
             minLength: 6,
             maxLength: 255,
+        },
+        verifiedCode: {
+            type: "string",
+            pattern: "^\\d{6}$",
         },
         name: {
             type: "string",
@@ -108,6 +113,10 @@ exports.registerSchema = {
         },
         hobby: {
             type: "string",
+        },
+        gender: {
+            type: "number",
+            enum: [_enums_1.Gender.FEMALE, _enums_1.Gender.MALE],
         },
     },
 };
