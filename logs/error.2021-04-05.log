@@ -1,0 +1,499 @@
+[2021-04-02T04:38:40.963] [ERROR] AuthController - undefined
+[2021-04-02T04:38:40.964] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {}
+
+[2021-04-02T04:39:16.298] [ERROR] AuthController - undefined
+[2021-04-02T04:39:16.298] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:39:32.654] [ERROR] AuthController - undefined
+[2021-04-02T04:39:32.654] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:39:49.970] [ERROR] AuthController - undefined
+[2021-04-02T04:39:49.971] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:41:09.280] [ERROR] AuthController - undefined
+[2021-04-02T04:41:09.281] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:43:21.888] [ERROR] AuthController - undefined
+[2021-04-02T04:43:21.888] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:48:58.786] [ERROR] AuthController - undefined
+[2021-04-02T04:48:58.787] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:49:44.764] [ERROR] AuthController - undefined
+[2021-04-02T04:49:44.765] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:51:48.978] [ERROR] AuthController - undefined
+[2021-04-02T04:51:48.978] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:53:29.157] [ERROR] AuthController - undefined
+[2021-04-02T04:53:29.157] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:54:02.888] [ERROR] AuthController - undefined
+[2021-04-02T04:54:02.889] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:55:06.803] [ERROR] AuthController - undefined
+[2021-04-02T04:55:06.804] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:55:30.943] [ERROR] AuthController - undefined
+[2021-04-02T04:55:30.944] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:55:32.411] [ERROR] AuthController - undefined
+[2021-04-02T04:55:32.411] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:56:11.082] [ERROR] AuthController - undefined
+[2021-04-02T04:56:11.082] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:56:20.855] [ERROR] AuthController - undefined
+[2021-04-02T04:56:20.857] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:56:35.837] [ERROR] AuthController - undefined
+[2021-04-02T04:56:35.838] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:57:11.898] [ERROR] AuthController - undefined
+[2021-04-02T04:57:11.898] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:58:34.170] [ERROR] AuthController - undefined
+[2021-04-02T04:58:34.170] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:58:45.935] [ERROR] AuthController - undefined
+[2021-04-02T04:58:45.935] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T04:58:50.871] [ERROR] AuthController - undefined
+[2021-04-02T04:58:50.871] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T05:01:49.157] [ERROR] AuthController - undefined
+[2021-04-02T05:01:49.157] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:03:44.184] [ERROR] AuthController - undefined
+[2021-04-02T06:03:44.185] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:07:36.436] [ERROR] AuthController - undefined
+[2021-04-02T06:07:36.436] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:07:38.805] [ERROR] AuthController - undefined
+[2021-04-02T06:07:38.805] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:07:40.433] [ERROR] AuthController - undefined
+[2021-04-02T06:07:40.433] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:11:43.331] [ERROR] AuthController - 
+[2021-04-02T06:11:43.331] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:14:29.379] [ERROR] AuthController - 
+[2021-04-02T06:14:29.379] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:19:05.449] [ERROR] AuthController - undefined
+[2021-04-02T06:19:05.449] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:19:48.592] [ERROR] AuthController - undefined
+[2021-04-02T06:19:48.592] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:20:42.807] [ERROR] AuthController - undefined
+[2021-04-02T06:20:42.807] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:23:31.511] [ERROR] AuthController - 
+[2021-04-02T06:23:31.511] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:24:05.658] [ERROR] AuthController - 
+[2021-04-02T06:24:05.658] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:25:32.524] [ERROR] AuthController - 
+[2021-04-02T06:25:32.524] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:28:13.670] [ERROR] AuthController - 
+[2021-04-02T06:28:13.671] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:28:38.141] [ERROR] AuthController - 
+[2021-04-02T06:28:38.141] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:30:58.054] [ERROR] AuthController - undefined
+[2021-04-02T06:30:58.054] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:31:19.449] [ERROR] AuthController - undefined
+[2021-04-02T06:31:19.449] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:31:35.644] [ERROR] AuthController - undefined
+[2021-04-02T06:31:35.645] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:32:45.913] [ERROR] AuthController - [
+  {
+    keyword: 'pattern',
+    dataPath: '.phone',
+    schemaPath: '#/properties/phone/pattern',
+    params: { pattern: '^\\d{11}$' },
+    message: 'should match pattern "^\\d{11}$"'
+  }
+]
+[2021-04-02T06:32:45.914] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:34:52.423] [ERROR] AuthController - [
+  {
+    keyword: 'pattern',
+    dataPath: '.phone',
+    schemaPath: '#/properties/phone/pattern',
+    params: { pattern: '^\\d{11}$' },
+    message: 'should match pattern "^\\d{11}$"'
+  }
+]
+[2021-04-02T06:34:52.423] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:35:20.707] [ERROR] AuthController - [
+  {
+    keyword: 'pattern',
+    dataPath: '.phone',
+    schemaPath: '#/properties/phone/pattern',
+    params: { pattern: '^\\d{11}$' },
+    message: 'should match pattern "^\\d{11}$"'
+  }
+]
+[2021-04-02T06:35:20.707] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:37:36.227] [ERROR] AuthController - [
+  {
+    keyword: 'pattern',
+    dataPath: '.phone',
+    schemaPath: '#/properties/phone/pattern',
+    params: { pattern: '^\\d{11}$' },
+    message: 'should match pattern "^\\d{11}$"'
+  }
+]
+[2021-04-02T06:37:36.227] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-02T06:37:42.292] [ERROR] AuthController - Cannot_Delete_Default_Language
+[2021-04-02T06:37:42.292] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"09876543211"}
+
+[2021-04-02T06:39:00.039] [ERROR] AuthController - Cannot_Delete_Default_Language
+Reason: Cannot_Delete_Default_Language
+[2021-04-02T06:39:00.039] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"09876543211"}
+
+[2021-04-02T06:45:41.432] [ERROR] Index - Error: Column retry of Entity VerifiedCode does not support length property.
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/EntityMetadataValidator.js:80:27
+    at Array.forEach (<anonymous>)
+    at EntityMetadataValidator.validate (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/EntityMetadataValidator.js:75:36)
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/EntityMetadataValidator.js:43:74
+    at Array.forEach (<anonymous>)
+    at EntityMetadataValidator.validateMany (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/metadata-builder/EntityMetadataValidator.js:43:25)
+    at Connection.buildMetadatas (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/connection/Connection.js:522:33)
+    at Connection.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/connection/Connection.js:128:30)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at fulfilled (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:114:62)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+[2021-04-02T07:07:08.091] [ERROR] AuthController - [
+  {
+    keyword: 'additionalProperties',
+    dataPath: '',
+    schemaPath: '#/additionalProperties',
+    params: { additionalProperty: 'code' },
+    message: 'should NOT have additional properties'
+  }
+]
+[2021-04-02T07:07:08.091] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"0987654321","code":"098765"}
+
+[2021-04-02T07:07:28.554] [ERROR] AuthController - [
+  {
+    keyword: 'pattern',
+    dataPath: '.phone',
+    schemaPath: '#/properties/phone/pattern',
+    params: { pattern: '^\\d{11}$' },
+    message: 'should match pattern "^\\d{11}$"'
+  }
+]
+[2021-04-02T07:07:28.554] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"0987654321","verifiedCode":"098765"}
+
+[2021-04-02T07:07:39.654] [ERROR] AuthController - Verified_Code_Invalid
+Reason: Verified_Code_Invalid
+[2021-04-02T07:07:39.654] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"09876543211","verifiedCode":"098765"}
+
+[2021-04-02T07:07:49.420] [ERROR] AuthController - Verified_Code_Invalid
+Reason: Verified_Code_Invalid
+[2021-04-02T07:07:49.421] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"09876543211","verifiedCode":"098765"}
+
+[2021-04-02T07:08:27.646] [ERROR] AuthController - Verified_Code_Invalid
+Reason: Verified_Code_Invalid
+[2021-04-02T07:08:27.647] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"09876543211","verifiedCode":"098765"}
+
+[2021-04-02T07:08:28.276] [ERROR] AuthController - Verified_Code_Invalid
+Reason: Verified_Code_Invalid
+[2021-04-02T07:08:28.276] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"09876543211","verifiedCode":"098765"}
+
+[2021-04-02T07:08:28.750] [ERROR] AuthController - Verified_Code_Invalid
+Reason: Verified_Code_Invalid
+[2021-04-02T07:08:28.750] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"09876543211","verifiedCode":"098765"}
+
+[2021-04-02T07:08:29.876] [ERROR] AuthController - Verified_Code_Invalid
+Reason: Verified_Code_Invalid
+[2021-04-02T07:08:29.876] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"09876543211","verifiedCode":"098765"}
+
+[2021-04-02T07:08:30.570] [ERROR] AuthController - Verified_Code_Max_Try
+Reason: Verified_Code_Max_Try
+[2021-04-02T07:08:30.570] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"09876543211","verifiedCode":"098765"}
+
+[2021-04-02T07:08:31.350] [ERROR] AuthController - Verified_Code_Max_Try
+Reason: Verified_Code_Max_Try
+[2021-04-02T07:08:31.350] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"09876543211","verifiedCode":"098765"}
+
+[2021-04-04T14:49:54.135] [ERROR] AuthController - [
+  {
+    keyword: 'pattern',
+    dataPath: '.phone',
+    schemaPath: '#/properties/phone/pattern',
+    params: { pattern: '^\\d{11}$' },
+    message: 'should match pattern "^\\d{11}$"'
+  }
+]
+[2021-04-04T14:49:54.137] [ERROR] AuthController - Method: POST | FullPath: /auth/request-verified-code | Body: {"phone":"0987654321"}
+
+[2021-04-04T15:13:26.191] [ERROR] AuthController - TypeError: Cannot read property 'id' of undefined
+    at Object.<anonymous> (/home/sonbui/Desktop/tamado-api/dist/app/services/app.auth.js:214:45)
+    at step (/home/sonbui/Desktop/tamado-api/dist/app/services/app.auth.js:33:23)
+    at Object.next (/home/sonbui/Desktop/tamado-api/dist/app/services/app.auth.js:14:53)
+    at fulfilled (/home/sonbui/Desktop/tamado-api/dist/app/services/app.auth.js:5:58)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+[2021-04-04T15:13:26.192] [ERROR] AuthController - Method: POST | FullPath: /auth/check-verified-code | Body: {"phone":"09876543211","verifiedCode":"049412"}
+
+[2021-04-05T02:47:53.989] [ERROR] AuthController - [
+  {
+    keyword: 'additionalProperties',
+    dataPath: '',
+    schemaPath: '#/additionalProperties',
+    params: { additionalProperty: 'verifiedCode' },
+    message: 'should NOT have additional properties'
+  }
+]
+[2021-04-05T02:47:53.989] [ERROR] AuthController - Method: POST | FullPath: /auth/register | Body: {"phone":"0987654321","verifiedCode":"098765","name":"test","password":"123456","birthday":"1995-03-15 12:00:00.000","gender":1,"email":"test@gmail.com","introduce":"Đẹp trai, body 6 múi.","hobby":"Yêu màu hường, ghét sự giả dối."}
+
+[2021-04-05T02:49:18.416] [ERROR] AuthController - [
+  {
+    keyword: 'pattern',
+    dataPath: '.phone',
+    schemaPath: '#/properties/phone/pattern',
+    params: { pattern: '^\\d{11}$' },
+    message: 'should match pattern "^\\d{11}$"'
+  }
+]
+[2021-04-05T02:49:18.416] [ERROR] AuthController - Method: POST | FullPath: /auth/register | Body: {"phone":"0987654321","verifiedCode":"098765","name":"test","password":"123456","birthday":"1995-03-15 12:00:00.000","gender":1,"email":"test@gmail.com","introduce":"Đẹp trai, body 6 múi.","hobby":"Yêu màu hường, ghét sự giả dối."}
+
+[2021-04-05T02:49:24.851] [ERROR] AuthController - Verified_Code_Invalid
+Reason: Verified_Code_Invalid
+[2021-04-05T02:49:24.851] [ERROR] AuthController - Method: POST | FullPath: /auth/register | Body: {"name":"test","password":"123456","birthday":"1995-03-15 12:00:00.000","gender":1,"email":"test@gmail.com","introduce":"Đẹp trai, body 6 múi.","hobby":"Yêu màu hường, ghét sự giả dối."}
+
+[2021-04-05T02:49:35.456] [ERROR] AuthController - QueryFailedError: Field 'memberId' doesn't have a default value
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_NO_DEFAULT_FOR_FIELD',
+  errno: 1364,
+  sqlState: 'HY000',
+  sqlMessage: "Field 'memberId' doesn't have a default value",
+  query: 'INSERT INTO `member_detail`(`id`, `memberId`, `name`, `gender`, `email`, `birthday`, `introduce`, `hobby`, `updateAt`, `createdAt`) VALUES (DEFAULT, DEFAULT, ?, ?, ?, ?, ?, ?, DEFAULT, DEFAULT)',
+  parameters: [
+    'test',
+    1,
+    'test@gmail.com',
+    '1995-03-15 12:00:00.000',
+    'Đẹp trai, body 6 múi.',
+    'Yêu màu hường, ghét sự giả dối.'
+  ]
+}
+[2021-04-05T02:49:35.457] [ERROR] AuthController - Method: POST | FullPath: /auth/register | Body: {"name":"test","birthday":"1995-03-15 12:00:00.000","gender":1,"email":"test@gmail.com","introduce":"Đẹp trai, body 6 múi.","hobby":"Yêu màu hường, ghét sự giả dối."}
+
+[2021-04-05T02:51:25.982] [ERROR] AuthController - Member_Not_Exist
+Reason: Member_Not_Exist
+[2021-04-05T02:51:25.982] [ERROR] AuthController - Method: POST | FullPath: /auth/login | Body: {"phone":"09876543211","password":"123456"}
+
+[2021-04-05T02:51:54.310] [ERROR] AuthController - Member_Not_Exist
+Reason: Member_Not_Exist
+[2021-04-05T02:51:54.310] [ERROR] AuthController - Method: POST | FullPath: /auth/login | Body: {"phone":"09876543211","password":"123456"}
+
+[2021-04-05T02:53:54.255] [ERROR] INFO - Refresh_Token_Not_Exist
+Reason: Refresh_Token_Not_Exist
+[2021-04-05T02:53:54.256] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:54:14.187] [ERROR] INFO - Refresh_Token_Not_Exist
+Reason: Refresh_Token_Not_Exist
+[2021-04-05T02:54:14.187] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:54:18.550] [ERROR] INFO - Refresh_Token_Not_Exist
+Reason: Refresh_Token_Not_Exist
+[2021-04-05T02:54:18.550] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:54:25.780] [ERROR] INFO - Refresh_Token_Not_Exist
+Reason: Refresh_Token_Not_Exist
+[2021-04-05T02:54:25.780] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:56:16.136] [ERROR] INFO - Refresh_Token_Not_Exist
+Reason: Refresh_Token_Not_Exist
+[2021-04-05T02:56:16.136] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:57:08.996] [ERROR] INFO - undefined
+[2021-04-05T02:57:08.996] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:57:27.460] [ERROR] INFO - undefined
+[2021-04-05T02:57:27.460] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:57:49.324] [ERROR] INFO - undefined
+[2021-04-05T02:57:49.324] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T02:59:42.164] [ERROR] INFO - undefined
+[2021-04-05T02:59:42.164] [ERROR] INFO - Method: POST | FullPath: /auth/request-access-token | Body: {}
+
+[2021-04-05T03:01:26.102] [ERROR] INFO - Token_Expired
+Reason: Token_Expired
+[2021-04-05T03:01:26.102] [ERROR] INFO - Method: PUT | FullPath: /auth/change-password | Body: {"oldPassword":"123456","newPassword":"654321"}
+
+[2021-04-05T03:01:42.917] [ERROR] AuthController - Phone_Or_Password_Invalid
+Reason: Phone_Or_Password_Invalid
+[2021-04-05T03:01:42.917] [ERROR] AuthController - Method: POST | FullPath: /auth/login | Body: {"phone":"09876543211","password":"123456"}
+
+[2021-04-05T03:02:52.770] [ERROR] AuthController - Phone_Or_Password_Invalid
+Reason: Phone_Or_Password_Invalid
+[2021-04-05T03:02:52.770] [ERROR] AuthController - Method: POST | FullPath: /auth/login | Body: {"phone":"09876543211","password":"654321"}
+
+[2021-04-05T07:49:29.502] [ERROR] MemberController - Error: Relation with property path name in entity was not found.
+    at JoinAttribute.getValue (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:140:27)
+    at JoinAttribute.get (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:142:57)
+    at JoinAttribute.get (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:157:22)
+    at SelectQueryBuilder.join (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:943:27)
+    at SelectQueryBuilder.innerJoin (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:153:14)
+    at SelectQueryBuilder.innerJoinAndSelect (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:174:14)
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:138:24
+    at Array.forEach (<anonymous>)
+    at Function.FindOptionsUtils.applyOptionsToQueryBuilder (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:137:62)
+    at EntityManager.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:526:53)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at /home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:117:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:113:16)
+    at EntityManager.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:498:24)
+[2021-04-05T07:49:29.504] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+
+[2021-04-05T07:49:44.797] [ERROR] MemberController - QueryFailedError: Table 'tamado.name' doesn't exist
+    at new QueryFailedError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/QueryFailedError.js:12:28)
+    at Query.onResult (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/driver/mysql/MysqlQueryRunner.js:217:45)
+    at Query.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:30:14)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_NO_SUCH_TABLE',
+  errno: 1146,
+  sqlState: '42S02',
+  sqlMessage: "Table 'tamado.name' doesn't exist",
+  query: 'SELECT DISTINCT `distinctAlias`.`memberDetail_id` as "ids_memberDetail_id" FROM (SELECT `memberDetail`.`id` AS `memberDetail_id`, `memberDetail`.`phone` AS `memberDetail_phone`, `memberDetail`.`password` AS `memberDetail_password`, `memberDetail`.`avatar` AS `memberDetail_avatar`, `memberDetail`.`status` AS `memberDetail_status`, `memberDetail`.`showLocation` AS `memberDetail_showLocation`, `memberDetail`.`lat` AS `memberDetail_lat`, `memberDetail`.`lng` AS `memberDetail_lng`, `memberDetail`.`refreshToken` AS `memberDetail_refreshToken`, `memberDetail`.`updateAt` AS `memberDetail_updateAt`, `memberDetail`.`createdAt` AS `memberDetail_createdAt`, `memberDetail__memberDetail`.`id` AS `memberDetail__memberDetail_id`, `memberDetail__memberDetail`.`memberId` AS `memberDetail__memberDetail_memberId`, `memberDetail__memberDetail`.`name` AS `memberDetail__memberDetail_name`, `memberDetail__memberDetail`.`gender` AS `memberDetail__memberDetail_gender`, `memberDetail__memberDetail`.`email` AS `memberDetail__memberDetail_email`, `memberDetail__memberDetail`.`birthday` AS `memberDetail__memberDetail_birthday`, `memberDetail__memberDetail`.`introduce` AS `memberDetail__memberDetail_introduce`, `memberDetail__memberDetail`.`hobby` AS `memberDetail__memberDetail_hobby`, `memberDetail__memberDetail`.`updateAt` AS `memberDetail__memberDetail_updateAt`, `memberDetail__memberDetail`.`createdAt` AS `memberDetail__memberDetail_createdAt`, `name`.* FROM `members` `memberDetail` LEFT JOIN `member_detail` `memberDetail__memberDetail` ON `memberDetail__memberDetail`.`memberId`=`memberDetail`.`id`  INNER JOIN `name` `name` WHERE `memberDetail`.`id` = ?) `distinctAlias` ORDER BY `memberDetail_id` ASC LIMIT 1',
+  parameters: [ 2 ]
+}
+[2021-04-05T07:49:44.797] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+
+[2021-04-05T07:49:59.065] [ERROR] MemberController - Error: Relation with property path name in entity was not found.
+    at JoinAttribute.getValue (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:140:27)
+    at JoinAttribute.get (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:142:57)
+    at JoinAttribute.get (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:157:22)
+    at SelectQueryBuilder.join (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:943:27)
+    at SelectQueryBuilder.innerJoin (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:153:14)
+    at SelectQueryBuilder.innerJoinAndSelect (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:174:14)
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:138:24
+    at Array.forEach (<anonymous>)
+    at Function.FindOptionsUtils.applyOptionsToQueryBuilder (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:137:62)
+    at EntityManager.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:526:53)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at /home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:117:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:113:16)
+    at EntityManager.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:498:24)
+[2021-04-05T07:49:59.065] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+
+[2021-04-05T07:50:23.168] [ERROR] MemberController - Error: Relation with property path name in entity was not found.
+    at JoinAttribute.getValue (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:140:27)
+    at JoinAttribute.get (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:142:57)
+    at JoinAttribute.get (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/JoinAttribute.js:157:22)
+    at SelectQueryBuilder.join (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:943:27)
+    at SelectQueryBuilder.innerJoin (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:153:14)
+    at SelectQueryBuilder.innerJoinAndSelect (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/query-builder/SelectQueryBuilder.js:174:14)
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:138:24
+    at Array.forEach (<anonymous>)
+    at Function.FindOptionsUtils.applyOptionsToQueryBuilder (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:137:62)
+    at EntityManager.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:526:53)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at /home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:117:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:113:16)
+    at EntityManager.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:498:24)
+[2021-04-05T07:50:23.169] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+
+[2021-04-05T07:52:55.613] [ERROR] MemberController - Error: memberDetail column was not found in the Member entity.
+    at /home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:84:27
+    at Array.forEach (<anonymous>)
+    at Function.FindOptionsUtils.applyOptionsToQueryBuilder (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:82:28)
+    at EntityManager.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:526:53)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at /home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:117:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:113:16)
+    at EntityManager.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:498:24)
+    at Repository.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/repository/Repository.js:175:29)
+    at Object.<anonymous> (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:52:59)
+    at step (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:33:23)
+    at Object.next (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:14:53)
+    at /home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:8:71
+    at new Promise (<anonymous>)
+[2021-04-05T07:52:55.613] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+
+[2021-04-05T07:54:25.391] [ERROR] MemberController - FindRelationsNotFoundError: Relation "memberDetail.id" was not found; please check if it is correct and really exists in your entity.
+    at new FindRelationsNotFoundError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/FindRelationsNotFoundError.js:11:28)
+    at Function.FindOptionsUtils.applyOptionsToQueryBuilder (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:121:23)
+    at EntityManager.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:526:53)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at /home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:117:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:113:16)
+    at EntityManager.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:498:24)
+    at Repository.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/repository/Repository.js:175:29)
+    at Object.<anonymous> (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:52:59)
+    at step (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:33:23)
+    at Object.next (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:14:53)
+    at /home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:4:12)
+[2021-04-05T07:54:25.392] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+
+[2021-04-05T07:55:05.652] [ERROR] MemberController - FindRelationsNotFoundError: Relation "memberDetail.id" was not found; please check if it is correct and really exists in your entity.
+    at new FindRelationsNotFoundError (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/error/FindRelationsNotFoundError.js:11:28)
+    at Function.FindOptionsUtils.applyOptionsToQueryBuilder (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/find-options/FindOptionsUtils.js:121:23)
+    at EntityManager.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:526:53)
+    at step (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:143:27)
+    at Object.next (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:124:57)
+    at /home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:117:75
+    at new Promise (<anonymous>)
+    at Object.__awaiter (/home/sonbui/Desktop/tamado-api/node_modules/tslib/tslib.js:113:16)
+    at EntityManager.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/entity-manager/EntityManager.js:498:24)
+    at Repository.findOne (/home/sonbui/Desktop/tamado-api/node_modules/typeorm/repository/Repository.js:175:29)
+    at Object.<anonymous> (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:52:59)
+    at step (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:33:23)
+    at Object.next (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:14:53)
+    at /home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (/home/sonbui/Desktop/tamado-api/dist/app/services/app.member.js:4:12)
+[2021-04-05T07:55:05.652] [ERROR] MemberController - Method: GET | FullPath: /members/my-profile | Body: {}
+

@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -69,7 +80,21 @@ var service = __importStar(require("$services/app.member"));
 var MemberController = /** @class */ (function () {
     function MemberController() {
     }
-    MemberController.prototype.requestVerifiedCode = function (req) {
+    MemberController.prototype.searchMember = function (req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var query, memberId;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        query = Object(req.query);
+                        memberId = req.memberId;
+                        return [4 /*yield*/, service.searchMember(__assign({ memberId: memberId }, query))];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    MemberController.prototype.getMyProfile = function (req) {
         return __awaiter(this, void 0, void 0, function () {
             var memberId;
             return __generator(this, function (_a) {
@@ -82,12 +107,58 @@ var MemberController = /** @class */ (function () {
             });
         });
     };
+    MemberController.prototype.getMemberDetailById = function (req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var memberId, targetId;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        memberId = req.memberId;
+                        targetId = Number(req.params.memberId);
+                        return [4 /*yield*/, service.getMemberDetailById(memberId, targetId)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    MemberController.prototype.followMember = function (req) {
+        return __awaiter(this, void 0, void 0, function () {
+            var targetId, memberId;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        targetId = Number(req.params.memberId);
+                        memberId = req.memberId;
+                        return [4 /*yield*/, service.followMember(memberId, targetId)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    __decorate([
+        decorator_1.Get("/search-map"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], MemberController.prototype, "searchMember", null);
     __decorate([
         decorator_1.Get("/my-profile"),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", Promise)
-    ], MemberController.prototype, "requestVerifiedCode", null);
+    ], MemberController.prototype, "getMyProfile", null);
+    __decorate([
+        decorator_1.Get("/:memberId"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], MemberController.prototype, "getMemberDetailById", null);
+    __decorate([
+        decorator_1.Put("/:memberId/follow"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], MemberController.prototype, "followMember", null);
     MemberController = __decorate([
         decorator_1.APP("/members")
     ], MemberController);

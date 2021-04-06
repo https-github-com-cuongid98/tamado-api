@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,9 +50,120 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMyProfile = void 0;
+exports.getMyProfile = exports.followMember = exports.getMemberDetailById = exports.searchMember = void 0;
 var Member_1 = __importDefault(require("$entities/Member"));
+var MemberFollow_1 = __importDefault(require("$entities/MemberFollow"));
+var MemberBlock_1 = __importDefault(require("$entities/MemberBlock"));
+var _enums_1 = require("$enums");
 var typeorm_1 = require("typeorm");
+function searchMember(params) {
+    return __awaiter(this, void 0, void 0, function () {
+        var memberRepository, queryBuilder, result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    memberRepository = typeorm_1.getRepository(Member_1.default);
+                    queryBuilder = memberRepository
+                        .createQueryBuilder("member")
+                        .where("member.status = " + _enums_1.MemberStatus.ACTIVE)
+                        .andWhere("member.showLocation = " + _enums_1.ShowLocation.YES)
+                        .andWhere("member.id != :memberId", { memberId: params.memberId })
+                        .innerJoin("member.memberDetail", "memberDetail")
+                        .select([
+                        "member.id id",
+                        "member.avatar avatar",
+                        "memberDetail.name name",
+                        "member.lat lat",
+                        "member.lng lng",
+                        "ST_Distance_Sphere(\n        ST_GeomFromText( CONCAT('POINT(', member.lat, ' ', member.lng, ')'), 4326),\n        ST_GeomFromText('POINT(" + params.lat + " " + params.lng + ")', 4326)\n      ) as distanceGeo",
+                    ])
+                        .andWhere("ST_Distance_Sphere(\n      ST_GeomFromText( CONCAT('POINT(', member.lat, ' ', member.lng, ')'), 4326),\n      ST_GeomFromText('POINT(" + params.lat + " " + params.lng + ")', 4326)\n    ) <= :distanceSearch", { distanceSearch: params.distanceSearch });
+                    if (params.gender) {
+                        queryBuilder.andWhere("memberDetail.gender = :gender", {
+                            gender: params.gender,
+                        });
+                    }
+                    return [4 /*yield*/, queryBuilder.orderBy("distanceGeo", "ASC").getRawMany()];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result];
+            }
+        });
+    });
+}
+exports.searchMember = searchMember;
+function getMemberDetailById(memberId, targetId) {
+    return __awaiter(this, void 0, void 0, function () {
+        var memberRepository, memberBlockRepository, memberBlock, member, checkFollow;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    memberRepository = typeorm_1.getRepository(Member_1.default);
+                    memberBlockRepository = typeorm_1.getRepository(MemberBlock_1.default);
+                    return [4 /*yield*/, memberBlockRepository.find({
+                            memberId: typeorm_1.In([memberId, targetId]),
+                            targetId: typeorm_1.In([memberId, targetId]),
+                        })];
+                case 1:
+                    memberBlock = _a.sent();
+                    if (memberBlock.length > 0)
+                        throw _enums_1.ErrorCode.Blocked;
+                    if (memberId == targetId)
+                        throw _enums_1.ErrorCode.Invalid_Input;
+                    return [4 /*yield*/, memberRepository
+                            .createQueryBuilder("member")
+                            .innerJoin("member.memberDetail", "memberDetail")
+                            .addSelect([
+                            "memberDetail.name",
+                            "memberDetail.gender",
+                            "memberDetail.email",
+                            "memberDetail.birthday",
+                            "memberDetail.introduce",
+                            "memberDetail.hobby",
+                        ])
+                            .leftJoin("member.memberImage", "memberImage")
+                            .addSelect(["memberImage.URL"])
+                            .leftJoinAndMapMany("member.memberFollowed", "MemberFollow", "memberFollowed", "memberFollowed.targetId = member.id")
+                            .where("member.status = " + _enums_1.MemberStatus.ACTIVE)
+                            .andWhere("member.id = :targetId", { targetId: targetId })
+                            .getOne()];
+                case 2:
+                    member = _a.sent();
+                    checkFollow = member["memberFollowed"].find(function (x) { return x.memberId == memberId; });
+                    return [2 /*return*/, __assign(__assign({}, member), { isFollow: checkFollow ? _enums_1.Following.YES : _enums_1.Following.NO, memberFollowed: member["memberFollowed"].length })];
+            }
+        });
+    });
+}
+exports.getMemberDetailById = getMemberDetailById;
+function followMember(memberId, targetId) {
+    return __awaiter(this, void 0, void 0, function () {
+        var memberFollowRepository, memberFollow, checkMemberFollow;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    memberFollowRepository = typeorm_1.getRepository(MemberFollow_1.default);
+                    if (memberId == targetId)
+                        throw _enums_1.ErrorCode.You_Can_Not_Follow_Yourself;
+                    memberFollow = { memberId: memberId, targetId: targetId };
+                    return [4 /*yield*/, memberFollowRepository.findOne(memberFollow)];
+                case 1:
+                    checkMemberFollow = _a.sent();
+                    if (!checkMemberFollow) return [3 /*break*/, 3];
+                    return [4 /*yield*/, memberFollowRepository.delete(memberFollow)];
+                case 2:
+                    _a.sent();
+                    return [3 /*break*/, 5];
+                case 3: return [4 /*yield*/, memberFollowRepository.save(memberFollow)];
+                case 4:
+                    _a.sent();
+                    _a.label = 5;
+                case 5: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.followMember = followMember;
 function getMyProfile(memberId) {
     return __awaiter(this, void 0, void 0, function () {
         var memberRepository;
