@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VerifiedCodeType = exports.Gender = exports.ShowLocation = exports.IsRead = exports.MessagesType = exports.ConversationType = exports.ConversationMemberType = exports.KeyCacheRedis = exports.ConfigKeys = exports.VerifiedCodeStatus = exports.CommonStatus = exports.Permissions = exports.MemberStatus = exports.UserStatus = exports.ErrorMessage = exports.ErrorCode = void 0;
+exports.Following = exports.VerifiedCodeType = exports.Gender = exports.ShowLocation = exports.IsRead = exports.MessagesType = exports.ConversationType = exports.ConversationMemberType = exports.KeyCacheRedis = exports.ConfigKeys = exports.VerifiedCodeStatus = exports.CommonStatus = exports.Permissions = exports.MemberStatus = exports.UserStatus = exports.ErrorMessage = exports.ErrorCode = void 0;
 var _config_1 = __importDefault(require("$config"));
 var ErrorCode;
 (function (ErrorCode) {
@@ -31,6 +31,8 @@ var ErrorCode;
     ErrorCode[ErrorCode["Phone_Or_Password_Invalid"] = 18] = "Phone_Or_Password_Invalid";
     ErrorCode[ErrorCode["Password_Invalid"] = 19] = "Password_Invalid";
     ErrorCode[ErrorCode["Verified_Code_Max_Try"] = 20] = "Verified_Code_Max_Try";
+    ErrorCode[ErrorCode["You_Can_Not_Follow_Yourself"] = 21] = "You_Can_Not_Follow_Yourself";
+    ErrorCode[ErrorCode["Blocked"] = 22] = "Blocked";
 })(ErrorCode = exports.ErrorCode || (exports.ErrorCode = {}));
 var ErrorMessage;
 (function (ErrorMessage) {
@@ -129,4 +131,9 @@ var VerifiedCodeType;
     VerifiedCodeType[VerifiedCodeType["REGISTER"] = 1] = "REGISTER";
     VerifiedCodeType[VerifiedCodeType["RESET_PASSWORD"] = 2] = "RESET_PASSWORD";
 })(VerifiedCodeType = exports.VerifiedCodeType || (exports.VerifiedCodeType = {}));
+var Following;
+(function (Following) {
+    Following[Following["YES"] = 1] = "YES";
+    Following[Following["NO"] = 0] = "NO";
+})(Following = exports.Following || (exports.Following = {}));
 //# sourceMappingURL=index.js.map

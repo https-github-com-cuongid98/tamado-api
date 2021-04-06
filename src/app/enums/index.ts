@@ -25,6 +25,8 @@ export enum ErrorCode {
   Phone_Or_Password_Invalid = 18,
   Password_Invalid = 19,
   Verified_Code_Max_Try = 20,
+  You_Can_Not_Follow_Yourself = 21,
+  Blocked = 22,
 }
 
 export enum ErrorMessage {
@@ -123,4 +125,9 @@ export enum Gender {
 export enum VerifiedCodeType {
   REGISTER = 1,
   RESET_PASSWORD = 2,
+}
+
+export enum Following {
+  YES = 1,
+  NO = 0,
 }
