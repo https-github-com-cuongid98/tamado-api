@@ -1,11 +1,4 @@
-import {
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryColumn,
-} from "typeorm";
-import Member from "./Member";
+import { CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
 
 @Entity("member_block")
 export default class MemberBlock {
