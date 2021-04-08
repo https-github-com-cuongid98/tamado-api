@@ -17,10 +17,10 @@ export default class Notification {
   @Column({ type: "int", unsigned: true })
   memberId: number;
 
-  @Column({ type: "tinyint", unique: true })
-  notificationType: number;
+  @Column({ type: "int" })
+  redirectType: number;
 
-  @Column({ type: "tinyint", unique: true })
+  @Column({ type: "int" })
   redirectId: number;
 
   @Column({

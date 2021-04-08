@@ -15,7 +15,7 @@ export default class ConversationMember {
   conversationId: number;
 
   @PrimaryColumn({ type: "int", unique: true })
-  memberId: string;
+  memberId: number;
 
   @PrimaryColumn({
     type: "tinyint",

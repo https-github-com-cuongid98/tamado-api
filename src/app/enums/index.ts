@@ -27,6 +27,8 @@ export enum ErrorCode {
   Verified_Code_Max_Try = 20,
   You_Can_Not_Follow_Yourself = 21,
   Blocked = 22,
+  Conversation_Not_Exist = 23,
+  You_Not_Member_In_This_Conversation = 24,
 }
 
 export enum ErrorMessage {
@@ -53,6 +55,11 @@ export enum ErrorMessage {
   Email_Not_Exist = 17,
   Email_Or_Password_Invalid = 18,
   Password_Invalid = 19,
+  Verified_Code_Max_Try = 20,
+  You_Can_Not_Follow_Yourself = 21,
+  Blocked = 22,
+  Conversation_Not_Exist = 23,
+  You_Not_Member_In_This_Conversation = 24,
 }
 
 export enum UserStatus {
@@ -130,4 +137,28 @@ export enum VerifiedCodeType {
 export enum Following {
   YES = 1,
   NO = 0,
+}
+
+export enum EventSocket {
+  CONVERSATIONS = "conversations",
+  MESSAGES = "messages",
+  READ_MESSAGE = "read_message",
+  CREATE_ROOM = "create_room",
+  JOIN_ROOM = "join_room",
+  LEAVE_ROOM = "leave_room",
+  VIDEO_CALL = "video_call",
+  START_TYPING = "start_typing",
+  END_TYPING = "end_typing",
+  TYPING = "typing",
+  OFF_TYPING = "off_typing",
+}
+
+export enum MemberType {
+  APP = 1,
+  CMS = 2,
+}
+
+export enum RedirectType {
+  HOME = 1,
+  MEMBER = 2,
 }
