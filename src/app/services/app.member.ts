@@ -1,8 +1,19 @@
 import Member from "$entities/Member";
 import MemberFollow from "$entities/MemberFollow";
 import MemberBlock from "$entities/MemberBlock";
-import { ErrorCode, MemberStatus, ShowLocation, Following } from "$enums";
-import { getRepository, In } from "typeorm";
+import {
+  ErrorCode,
+  MemberStatus,
+  ShowLocation,
+  Following,
+  RedirectType,
+  CommonStatus,
+} from "$enums";
+import { getConnection, getRepository, In } from "typeorm";
+import MemberDetail from "$entities/MemberDetail";
+import MemberImage from "$entities/MemberImage";
+import { isOnline } from "$helpers/socket";
+import Notification from "$entities/Notification";
 
 export async function searchMember(params: {
   memberId: number;
@@ -12,6 +23,7 @@ export async function searchMember(params: {
   gender?: number;
 }) {
   const memberRepository = getRepository(Member);
+  const memberBlockRepository = getRepository(MemberBlock);
 
   const queryBuilder = memberRepository
     .createQueryBuilder("member")
@@ -44,8 +56,20 @@ export async function searchMember(params: {
     });
   }
 
-  const result = await queryBuilder.orderBy("distanceGeo", "ASC").getRawMany();
-  return result;
+  const members = await queryBuilder.orderBy("distanceGeo", "ASC").getRawMany();
+
+  const listBlocks = await memberBlockRepository.find({
+    where: [{ memberId: params.memberId }, { targetId: params.memberId }],
+  });
+
+  const memberSearch = members.filter((member) => {
+    const checkBlock = listBlocks.find(
+      (block) => block.memberId == member.id || block.targetId == member.id
+    );
+    if (!checkBlock) return member;
+  });
+
+  return memberSearch;
 }
 
 export async function getMemberDetailById(memberId: number, targetId: number) {
@@ -96,26 +120,178 @@ export async function getMemberDetailById(memberId: number, targetId: number) {
 }
 
 export async function followMember(memberId: number, targetId: number) {
-  const memberFollowRepository = getRepository(MemberFollow);
+  return getConnection().transaction(async (transaction) => {
+    const memberRepository = transaction.getRepository(Member);
+    const memberFollowRepository = transaction.getRepository(MemberFollow);
+    const memberBlockRepository = transaction.getRepository(MemberBlock);
+    const notificationRepository = transaction.getRepository(Notification);
 
-  if (memberId == targetId) throw ErrorCode.You_Can_Not_Follow_Yourself;
+    const member = await memberRepository.findOne({
+      where: { id: memberId },
+      relations: ["memberDetail"],
+    });
+    const target = await memberRepository.findOne({
+      where: { id: targetId },
+      relations: ["memberDetail"],
+    });
 
-  const memberFollow = { memberId, targetId };
+    if (member.status != CommonStatus.ACTIVE) throw ErrorCode.Member_Blocked;
 
-  const checkMemberFollow = await memberFollowRepository.findOne(memberFollow);
+    if (memberId == targetId) throw ErrorCode.You_Can_Not_Follow_Yourself;
 
-  if (checkMemberFollow) {
-    await memberFollowRepository.delete(memberFollow);
-  } else {
-    await memberFollowRepository.save(memberFollow);
-  }
+    const memberFollow = { memberId, targetId };
+
+    const checkBlock = await memberBlockRepository.findOne({
+      where: [memberFollow, { memberId: targetId, targetId: memberId }],
+    });
+
+    if (checkBlock) throw ErrorCode.Blocked;
+
+    const checkMemberFollow = await memberFollowRepository.findOne(
+      memberFollow
+    );
+
+    if (checkMemberFollow) {
+      await memberFollowRepository.delete(memberFollow);
+      await notificationRepository.save({
+        memberId: targetId,
+        redirectType: RedirectType.MEMBER,
+        redirectId: memberId,
+        content: `${member.memberDetail.name} unfollowed you!`,
+      });
+    } else {
+      if (target.status != CommonStatus.ACTIVE) throw ErrorCode.Member_Blocked;
+
+      await notificationRepository.save({
+        memberId: targetId,
+        redirectType: RedirectType.MEMBER,
+        redirectId: memberId,
+        content: `${member.memberDetail.name} followed you!`,
+      });
+
+      await memberFollowRepository.save(memberFollow);
+    }
+  });
 }
 
 export async function getMyProfile(memberId: number) {
   const memberRepository = getRepository(Member);
+  const memberFollowRepository = getRepository(MemberFollow);
+  const memberBlockRepository = getRepository(MemberBlock);
 
-  return await memberRepository.findOne({
+  const profile = await memberRepository.findOne({
     where: { id: memberId },
-    relations: ["memberDetail"],
+    relations: ["memberDetail", "memberImages"],
   });
+
+  const memberFollowed = await memberFollowRepository.count({ memberId });
+  const memberFollowing = await memberFollowRepository.count({
+    targetId: memberId,
+  });
+  const memberBlock = await memberBlockRepository
+    .createQueryBuilder("memberBlock")
+    .select([
+      "member.id memberId",
+      "member.avatar avatar",
+      "memberDetail.name name",
+    ])
+    .leftJoin(Member, "member", "memberBlock.targetId = member.id")
+    .leftJoin("member.memberDetail", "memberDetail")
+    .where("memberBlock.memberId = :memberId", { memberId })
+    .getRawMany();
+
+  return {
+    ...profile,
+    memberFollowed,
+    memberFollowing,
+    memberBlock,
+  };
+}
+
+export async function blockMember(memberId: number, targetId: number) {
+  return getConnection().transaction(async (transaction) => {
+    const memberBlockRepository = transaction.getRepository(MemberBlock);
+    const memberFollowRepository = transaction.getRepository(MemberFollow);
+
+    if (memberId == targetId) throw ErrorCode.You_Can_Not_Follow_Yourself;
+
+    const memberBlock = { memberId, targetId };
+
+    const checkFollow = await memberFollowRepository.find({
+      where: [memberBlock, { memberId: targetId, targetId: memberId }],
+    });
+
+    for (const follow of checkFollow) {
+      const { memberId, targetId } = follow;
+      await memberFollowRepository.delete({ memberId, targetId });
+    }
+
+    const checkMemberBlock = await memberBlockRepository.findOne(memberBlock);
+
+    if (checkMemberBlock) {
+      await memberBlockRepository.delete(memberBlock);
+    } else {
+      await memberBlockRepository.save(memberBlock);
+    }
+  });
+}
+
+interface UpdateMyProfile {
+  avatar?: string;
+  showLocation?: number;
+  detail?: memberDetail[];
+  memberImages?: memberImages[];
+}
+
+interface memberDetail {
+  name: string;
+  email: string;
+  introduce: string;
+  hobby: string;
+}
+
+interface memberImages {
+  id: number;
+  URL: string;
+}
+export async function editMyProfile(memberId: number, params: UpdateMyProfile) {
+  return getConnection().transaction(async (transaction) => {
+    const memberRepo = transaction.getRepository(Member);
+    const memberDetailRepo = transaction.getRepository(MemberDetail);
+    const memberImageRepo = transaction.getRepository(MemberImage);
+
+    await memberRepo.update({ id: memberId }, params);
+  });
+}
+
+export async function updateGPS(
+  memberId: number,
+  params: { lat: number; lng: number }
+) {
+  return getConnection().transaction(async (transaction) => {
+    const memberRepo = transaction.getRepository(Member);
+
+    await memberRepo.update({ id: memberId }, params);
+  });
+}
+
+export async function getMemberOnline(memberId: number) {
+  const memberFollowRepository = getRepository(MemberFollow);
+
+  const listMemberFollowed = await memberFollowRepository
+    .createQueryBuilder("memberFollow")
+    .select(["member.id id", "member.avatar avatar", "memberDetail.name name"])
+    .innerJoin("Member", "member", "memberFollow.targetId = member.id")
+    .innerJoin("member.memberDetail", "memberDetail")
+    .where("memberFollow.memberId = :memberId", { memberId })
+    .andWhere(`member.status = ${MemberStatus.ACTIVE}`)
+    .getRawMany();
+
+  const role = 1;
+  const listOnline = listMemberFollowed.filter((memberFollow) => {
+    const id = memberFollow.id;
+    if (isOnline(id, role)) return memberFollow;
+  });
+
+  return listOnline;
 }

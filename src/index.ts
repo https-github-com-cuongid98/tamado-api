@@ -14,6 +14,7 @@ import logRequest from "$middlewares/logRequest";
 import log from "$helpers/log";
 import { handleError } from "$middlewares/handleError";
 import createMongoConnection from "$helpers/mongodb";
+import initSocket from "$helpers/socket";
 
 const logger = log("Index");
 const app = express();
@@ -30,6 +31,7 @@ createConnection()
     app.use(RootRoute);
 
     app.use(handleError);
+    initSocket(http);
     createMongoConnection();
     http.listen(process.env.SERVER_PORT, () => {
       logger.info(`Express server started on port ${process.env.SERVER_PORT}`);

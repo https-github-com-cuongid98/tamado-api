@@ -10,7 +10,6 @@ export const handleError = async (
   next: NextFunction
 ) => {
   const { statusCode, errorCode, errorKey, errorMessage } = error;
-  console.log(error);
   loggingError(req, error);
   const responseData = {
     success: false,

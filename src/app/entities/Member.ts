@@ -74,5 +74,5 @@ export default class Member {
   notification: Notification;
 
   @OneToMany(() => MemberImage, (memberImage) => memberImage.member)
-  memberImage: MemberImage;
+  memberImages: MemberImage[];
 }
