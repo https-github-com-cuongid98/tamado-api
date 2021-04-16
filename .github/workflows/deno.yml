@@ -3,16 +3,21 @@ on:
   push:
     branches:
       - master
-jobs:
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
-    steps:
-      - run: apt-get update && apt-get install rsync -y && apt-get install openssh-server -y
-      - run: mkdir -p ~/.ssh
-      - run: echo "$TEST_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-      - run: chmod 700 ~/.ssh/id_rsa
-      - run: echo "$TEST_ENV" > .env
-      - run: npm install
-      - run: npm run build
-      - run: rsync --progress -avzh -e "ssh " --rsync-path="sudo rsync" --exclude='.git' . ubuntu@124.155.223.181:/var/www/tamado-api
-      - run: ssh ubuntu@124.155.223.181 "cd /var/www/tamado-api && pm2 restart all"
+  jobs:
+    Explore-GitHub-Actions:
+      runs-on: ubuntu-latest
+      container: node:12.22.1
+      steps:
+        - shell: bash
+          env:
+            TEST_SSH_PRIVATE_KEY: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+            TEST_ENV: ${{ secrets.TEST_ENV }}
+        - run: apt-get update && apt-get install rsync -y && apt-get install openssh-server -y
+        - run: mkdir -p ~/.ssh
+        - run: echo "$TEST_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        - run: chmod 700 ~/.ssh/id_rsa
+        - run: echo "$TEST_ENV" > .env
+        - run: npm install
+        - run: npm run build
+        - run: rsync --progress -avzh -e "ssh " --rsync-path="sudo rsync" --exclude='.git' . sonbt@124.155.223.181:2728/var/www/tamado-api
+        - run: ssh sonbt@124.155.223.181 -p 2728 "cd /var/www/tamado-api && pm2 restart all"
