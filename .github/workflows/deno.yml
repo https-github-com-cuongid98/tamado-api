@@ -8,15 +8,19 @@ jobs:
     runs-on: ubuntu-latest
     container: node:12.22.1
     steps:
-      - shell: bash
-        env:
-          TEST_SSH_PRIVATE_KEY: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
-          TEST_ENV: ${{ secrets.TEST_ENV }}
       - run: apt-get update && apt-get install rsync -y && apt-get install openssh-server -y
       - run: mkdir -p ~/.ssh
-      - run: echo "$TEST_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+      - uses: actions/test_ssh_private_key
+        shell: bash
+        env:
+          TEST_SSH_PRIVATE_KEY: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
+        run: echo "$TEST_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
       - run: chmod 700 ~/.ssh/id_rsa
-      - run: echo "$TEST_ENV" > .env
+      - uses: actions/test_ssh_private_key
+        shell: bash
+        env:
+          TEST_ENV: ${{ secrets.TEST_ENV }}
+        run: echo "$TEST_ENV" > .env
       - run: npm install
       - run: npm run build
       - run: rsync --progress -avzh -e "ssh " --rsync-path="sudo rsync" --exclude='.git' . sonbt@124.155.223.181:2728/var/www/tamado-api
