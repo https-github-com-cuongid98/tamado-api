@@ -14,6 +14,7 @@ import MemberDetail from "$entities/MemberDetail";
 import MemberImage from "$entities/MemberImage";
 import { isOnline } from "$helpers/socket";
 import Notification from "$entities/Notification";
+import { pushNotificationToMember } from "$helpers/oneSignal";
 
 export async function searchMember(params: {
   memberId: number;
@@ -151,26 +152,22 @@ export async function followMember(memberId: number, targetId: number) {
       memberFollow
     );
 
+    const notificationObj = new Notification();
+    notificationObj.memberId = targetId;
+    notificationObj.redirectId = memberId;
+    notificationObj.redirectType = RedirectType.MEMBER;
+
     if (checkMemberFollow) {
       await memberFollowRepository.delete(memberFollow);
-      await notificationRepository.save({
-        memberId: targetId,
-        redirectType: RedirectType.MEMBER,
-        redirectId: memberId,
-        content: `${member.memberDetail.name} unfollowed you!`,
-      });
+      notificationObj.content = `${member.memberDetail.name} unfollowed you!`;
     } else {
       if (target.status != CommonStatus.ACTIVE) throw ErrorCode.Member_Blocked;
-
-      await notificationRepository.save({
-        memberId: targetId,
-        redirectType: RedirectType.MEMBER,
-        redirectId: memberId,
-        content: `${member.memberDetail.name} followed you!`,
-      });
-
       await memberFollowRepository.save(memberFollow);
+      notificationObj.content = `${member.memberDetail.name} followed you!`;
     }
+
+    await notificationRepository.save(notificationObj);
+    await pushNotificationToMember(notificationObj);
   });
 }
 

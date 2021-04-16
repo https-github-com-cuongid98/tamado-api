@@ -4,8 +4,6 @@ import log from "$helpers/log";
 import { Server } from "http";
 import SocketIO, { Socket } from "socket.io";
 import { EventSocket } from "$enums";
-// import { assignThumbURL } from './utils';
-// import { saveMessage } from '$services/app.conversation';
 const logger = log("Socket utils");
 
 type RoleType = "app" | string;
