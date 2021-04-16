@@ -16,7 +16,7 @@ jobs:
           TEST_SSH_PRIVATE_KEY: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
         run: echo "$TEST_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
       - run: chmod 700 ~/.ssh/id_rsa
-      - uses: actions/test_env
+      - name: actions/test_env
         shell: bash
         env:
           TEST_ENV: ${{ secrets.TEST_ENV }}
