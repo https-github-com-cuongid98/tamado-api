@@ -58,5 +58,9 @@ exports.default = {
         appId: process.env.AGORA_APP_ID,
         appCertificate: process.env.AGORA_APP_CERTIFICATE,
     },
+    oneSignal: {
+        appId: process.env.ONESIGNAL_APP_ID,
+        apiKey: process.env.ONESIGNAL_API_KEY,
+    },
 };
 //# sourceMappingURL=index.js.map

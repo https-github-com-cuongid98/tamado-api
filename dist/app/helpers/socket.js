@@ -45,8 +45,6 @@ var _config_1 = __importDefault(require("$config"));
 var log_1 = __importDefault(require("$helpers/log"));
 var socket_io_1 = __importDefault(require("socket.io"));
 var _enums_1 = require("$enums");
-// import { assignThumbURL } from './utils';
-// import { saveMessage } from '$services/app.conversation';
 var logger = log_1.default("Socket utils");
 var MemberType;
 (function (MemberType) {

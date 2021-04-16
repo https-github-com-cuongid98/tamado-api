@@ -64,7 +64,7 @@ var AuthController = /** @class */ (function () {
                         // TODO: Generate thumbnail if needed
                         // try {
                         //   if (/\.(gif|jpe?g|tiff|png|webp|bmp|svg|heic)$/gi.test(f.key)) {
-                        //     axios.get(awsGetThumb(f.key, '50x50'));
+                        //     axios.get(awsGetThumb(f.key, "50x50"));
                         //   }
                         // } catch (e) {}
                     });

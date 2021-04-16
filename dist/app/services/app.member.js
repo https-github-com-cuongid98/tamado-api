@@ -60,6 +60,7 @@ var MemberDetail_1 = __importDefault(require("$entities/MemberDetail"));
 var MemberImage_1 = __importDefault(require("$entities/MemberImage"));
 var socket_1 = require("$helpers/socket");
 var Notification_1 = __importDefault(require("$entities/Notification"));
+var oneSignal_1 = require("$helpers/oneSignal");
 function searchMember(params) {
     return __awaiter(this, void 0, void 0, function () {
         var memberRepository, memberBlockRepository, queryBuilder, members, listBlocks, memberSearch;
@@ -156,7 +157,7 @@ function followMember(memberId, targetId) {
         var _this = this;
         return __generator(this, function (_a) {
             return [2 /*return*/, typeorm_1.getConnection().transaction(function (transaction) { return __awaiter(_this, void 0, void 0, function () {
-                    var memberRepository, memberFollowRepository, memberBlockRepository, notificationRepository, member, target, memberFollow, checkBlock, checkMemberFollow;
+                    var memberRepository, memberFollowRepository, memberBlockRepository, notificationRepository, member, target, memberFollow, checkBlock, checkMemberFollow, notificationObj;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
@@ -191,35 +192,31 @@ function followMember(memberId, targetId) {
                                 return [4 /*yield*/, memberFollowRepository.findOne(memberFollow)];
                             case 4:
                                 checkMemberFollow = _a.sent();
-                                if (!checkMemberFollow) return [3 /*break*/, 7];
+                                notificationObj = new Notification_1.default();
+                                notificationObj.memberId = targetId;
+                                notificationObj.redirectId = memberId;
+                                notificationObj.redirectType = _enums_1.RedirectType.MEMBER;
+                                if (!checkMemberFollow) return [3 /*break*/, 6];
                                 return [4 /*yield*/, memberFollowRepository.delete(memberFollow)];
                             case 5:
                                 _a.sent();
-                                return [4 /*yield*/, notificationRepository.save({
-                                        memberId: targetId,
-                                        redirectType: _enums_1.RedirectType.MEMBER,
-                                        redirectId: memberId,
-                                        content: member.memberDetail.name + " unfollowed you!",
-                                    })];
+                                notificationObj.content = member.memberDetail.name + " unfollowed you!";
+                                return [3 /*break*/, 8];
                             case 6:
-                                _a.sent();
-                                return [3 /*break*/, 10];
-                            case 7:
                                 if (target.status != _enums_1.CommonStatus.ACTIVE)
                                     throw _enums_1.ErrorCode.Member_Blocked;
-                                return [4 /*yield*/, notificationRepository.save({
-                                        memberId: targetId,
-                                        redirectType: _enums_1.RedirectType.MEMBER,
-                                        redirectId: memberId,
-                                        content: member.memberDetail.name + " followed you!",
-                                    })];
-                            case 8:
-                                _a.sent();
                                 return [4 /*yield*/, memberFollowRepository.save(memberFollow)];
+                            case 7:
+                                _a.sent();
+                                notificationObj.content = member.memberDetail.name + " followed you!";
+                                _a.label = 8;
+                            case 8: return [4 /*yield*/, notificationRepository.save(notificationObj)];
                             case 9:
                                 _a.sent();
-                                _a.label = 10;
-                            case 10: return [2 /*return*/];
+                                return [4 /*yield*/, oneSignal_1.pushNotificationToMember(notificationObj)];
+                            case 10:
+                                _a.sent();
+                                return [2 /*return*/];
                         }
                     });
                 }); })];
