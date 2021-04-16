@@ -1,8 +1,8 @@
-import config from '$config';
-import { KeyCacheRedis } from '$enums';
-import flatten from 'flat';
-import format from 'string-format';
-import _ from 'lodash';
+import config from "$config";
+import { KeyCacheRedis } from "$enums";
+import flatten from "flat";
+import format from "string-format";
+import _ from "lodash";
 
 interface PagingParams {
   pageIndex: number;
@@ -11,7 +11,12 @@ interface PagingParams {
   [key: string]: any;
 }
 
-export function returnPaging(data: any, totalItems: number, params: any, metadata = {}) {
+export function returnPaging(
+  data: any,
+  totalItems: number,
+  params: any,
+  metadata = {}
+) {
   return {
     data,
     totalItems,
@@ -33,9 +38,9 @@ export function assignPaging(params) {
  * @param length(option) length of result.
  */
 export function randomOTP(length: number = 6): string {
-  const digits = '0123456789';
+  const digits = "0123456789";
   const digitsLength = digits.length;
-  let result = '';
+  let result = "";
   for (let i = 0; i < length; i++) {
     const index = Math.floor(Math.random() * digitsLength);
     result += digits[index];
@@ -43,7 +48,10 @@ export function randomOTP(length: number = 6): string {
   return result;
 }
 
-export function convertToObject(data: Array<Object>, key: string): { [key: string]: Array<any> } {
+export function convertToObject(
+  data: Array<Object>,
+  key: string
+): { [key: string]: Array<any> } {
   const result = {};
   for (let i = 0; i < data.length; i++) {
     const element = data[i];
@@ -62,8 +70,11 @@ export function getKeyCacheLanguage(environment: string) {
 }
 
 //! "When i wrote this code, only me and God knew how it works. Now only God knows..."
-export function reformatFileLanguage(data: Array<any>, params: { code?: string; environment: string }) {
-  const groupByLanguageCode = convertToObject(data, 'code');
+export function reformatFileLanguage(
+  data: Array<any>,
+  params: { code?: string; environment: string }
+) {
+  const groupByLanguageCode = convertToObject(data, "code");
 
   const languageObject = Object.keys(groupByLanguageCode).reduce((acc, cur) => {
     acc[cur] = groupByLanguageCode[cur].reduce((ac, cu) => {
@@ -81,31 +92,45 @@ export function reformatFileLanguage(data: Array<any>, params: { code?: string; 
 }
 
 export function awsGetThumb(img: any, size: any) {
-  if (img && img != '' && !img.startsWith('http') && !img.startsWith('https'))
-    return size === ''
-      ? format('{0}/{1}', config.awsUpload.downloadUrlThumb, img)
-      : format('{0}/{1}/{2}', config.awsUpload.downloadUrlThumb, size, img);
+  if (img && img != "" && !img.startsWith("http") && !img.startsWith("https"))
+    return size === ""
+      ? format("{0}/{1}", config.awsUpload.downloadUrlThumb, img)
+      : format("{0}/{1}/{2}", config.awsUpload.downloadUrlThumb, size, img);
   return img;
 }
 
 export function awsThumbFormat(img: string, w?: any, h?: any) {
-  if (!img) return img;
-  // if (!img) {
-  //   if (w && h) return format('{0}/{1}x{2}/{3}', config.awsUpload.downloadUrl, w, h, config.avatar.default);
-  //   else return format('{0}/{1}', config.awsUpload.downloadUrl, config.avatar.default);
-  // }
+  if (img) return img;
+  if (!img) {
+    if (w && h)
+      return format(
+        "{0}/{1}x{2}/{3}",
+        config.awsUpload.downloadUrl,
+        w,
+        h
+        // config.avatar.default
+      );
+    else
+      return format(
+        "{0}/{1}",
+        config.awsUpload.downloadUrl
+        // config.avatar.default
+      );
+  }
 
-  if (!img.startsWith('http')) {
-    if (w && h && !img.includes('graph.facebook.com'))
-      return format('{0}/{1}x{2}/{3}', config.awsUpload.downloadUrl, w, h, img);
-    else return format('{0}/{1}', config.awsUpload.downloadUrl, img);
+  if (!img.startsWith("http")) {
+    if (w && h && !img.includes("graph.facebook.com"))
+      return format("{0}/{1}x{2}/{3}", config.awsUpload.downloadUrl, w, h, img);
+    else return format("{0}/{1}", config.awsUpload.downloadUrl, img);
   } else {
-    if (w && h && !img.includes('graph.facebook.com')) {
-      img = img.replace(/%2F/g, '/');
-      let arr_split = img.split('/');
-      arr_split[arr_split.length - 1] = `${w}x${h}/${arr_split[arr_split.length - 1]}`;
+    if (w && h && !img.includes("graph.facebook.com")) {
+      img = img.replace(/%2F/g, "/");
+      let arr_split = img.split("/");
+      arr_split[arr_split.length - 1] = `${w}x${h}/${
+        arr_split[arr_split.length - 1]
+      }`;
 
-      return arr_split.join('/');
+      return arr_split.join("/");
     } else {
       return img;
     }

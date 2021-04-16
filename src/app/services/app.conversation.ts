@@ -14,7 +14,7 @@ import {
   pushSocketMessage,
 } from "$helpers/socket";
 import { assignThumbUrl, returnPaging } from "$helpers/utils";
-import { unionWith } from "lodash";
+import { differenceBy, unionWith } from "lodash";
 import { getConnection, getRepository, Repository } from "typeorm";
 
 export async function getListMassageInConversation(
