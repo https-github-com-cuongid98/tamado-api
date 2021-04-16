@@ -33,9 +33,9 @@ exports.assignPaging = assignPaging;
  */
 function randomOTP(length) {
     if (length === void 0) { length = 6; }
-    var digits = '0123456789';
+    var digits = "0123456789";
     var digitsLength = digits.length;
-    var result = '';
+    var result = "";
     for (var i = 0; i < length; i++) {
         var index = Math.floor(Math.random() * digitsLength);
         result += digits[index];
@@ -63,7 +63,7 @@ function getKeyCacheLanguage(environment) {
 exports.getKeyCacheLanguage = getKeyCacheLanguage;
 //! "When i wrote this code, only me and God knew how it works. Now only God knows..."
 function reformatFileLanguage(data, params) {
-    var groupByLanguageCode = convertToObject(data, 'code');
+    var groupByLanguageCode = convertToObject(data, "code");
     var languageObject = Object.keys(groupByLanguageCode).reduce(function (acc, cur) {
         acc[cur] = groupByLanguageCode[cur].reduce(function (ac, cu) {
             ac[cu.key] = cu.value;
@@ -79,32 +79,38 @@ function reformatFileLanguage(data, params) {
 }
 exports.reformatFileLanguage = reformatFileLanguage;
 function awsGetThumb(img, size) {
-    if (img && img != '' && !img.startsWith('http') && !img.startsWith('https'))
-        return size === ''
-            ? string_format_1.default('{0}/{1}', _config_1.default.awsUpload.downloadUrlThumb, img)
-            : string_format_1.default('{0}/{1}/{2}', _config_1.default.awsUpload.downloadUrlThumb, size, img);
+    if (img && img != "" && !img.startsWith("http") && !img.startsWith("https"))
+        return size === ""
+            ? string_format_1.default("{0}/{1}", _config_1.default.awsUpload.downloadUrlThumb, img)
+            : string_format_1.default("{0}/{1}/{2}", _config_1.default.awsUpload.downloadUrlThumb, size, img);
     return img;
 }
 exports.awsGetThumb = awsGetThumb;
 function awsThumbFormat(img, w, h) {
-    if (!img)
+    if (img)
         return img;
-    // if (!img) {
-    //   if (w && h) return format('{0}/{1}x{2}/{3}', config.awsUpload.downloadUrl, w, h, config.avatar.default);
-    //   else return format('{0}/{1}', config.awsUpload.downloadUrl, config.avatar.default);
-    // }
-    if (!img.startsWith('http')) {
-        if (w && h && !img.includes('graph.facebook.com'))
-            return string_format_1.default('{0}/{1}x{2}/{3}', _config_1.default.awsUpload.downloadUrl, w, h, img);
+    if (!img) {
+        if (w && h)
+            return string_format_1.default("{0}/{1}x{2}/{3}", _config_1.default.awsUpload.downloadUrl, w, h
+            // config.avatar.default
+            );
         else
-            return string_format_1.default('{0}/{1}', _config_1.default.awsUpload.downloadUrl, img);
+            return string_format_1.default("{0}/{1}", _config_1.default.awsUpload.downloadUrl
+            // config.avatar.default
+            );
+    }
+    if (!img.startsWith("http")) {
+        if (w && h && !img.includes("graph.facebook.com"))
+            return string_format_1.default("{0}/{1}x{2}/{3}", _config_1.default.awsUpload.downloadUrl, w, h, img);
+        else
+            return string_format_1.default("{0}/{1}", _config_1.default.awsUpload.downloadUrl, img);
     }
     else {
-        if (w && h && !img.includes('graph.facebook.com')) {
-            img = img.replace(/%2F/g, '/');
-            var arr_split = img.split('/');
+        if (w && h && !img.includes("graph.facebook.com")) {
+            img = img.replace(/%2F/g, "/");
+            var arr_split = img.split("/");
             arr_split[arr_split.length - 1] = w + "x" + h + "/" + arr_split[arr_split.length - 1];
-            return arr_split.join('/');
+            return arr_split.join("/");
         }
         else {
             return img;

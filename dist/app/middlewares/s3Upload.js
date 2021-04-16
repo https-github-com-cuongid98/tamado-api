@@ -14,21 +14,23 @@ var s3 = new aws_sdk_1.default.S3({
 // https://www.npmjs.com/package/multer-s3
 var s3Upload = {
     upload: multer_1.default({
-    //   storage: multerS3({
-    //     s3: s3,
-    //     bucket: config.awsUpload.bucket,
-    //     acl: 'public-read',
-    //     contentType: multerS3.AUTO_CONTENT_TYPE,
-    //     metadata: (req, file, callback) => {
-    //       callback(null, { fieldName: file.fieldname });
-    //     },
-    //     key: (req, file, callback) => {
-    //       let arr_ext = (file.originalname || '').split('.');
-    //       let md5FileName =
-    //         arr_ext.length > 0 ? `${md5(file.originalname)}.${arr_ext[arr_ext.length - 1]}` : md5(file.originalname);
-    //       callback(null, `${Date.now().toString()}-${md5FileName}`);
-    //     },
-    //   }),
+    // storage: multerS3({
+    //   s3: s3,
+    //   bucket: config.awsUpload.bucket,
+    //   acl: "public-read",
+    //   contentType: multerS3.AUTO_CONTENT_TYPE,
+    //   metadata: (req, file, callback) => {
+    //     callback(null, { fieldName: file.fieldname });
+    //   },
+    //   key: (req, file, callback) => {
+    //     let arr_ext = (file.originalname || "").split(".");
+    //     let md5FileName =
+    //       arr_ext.length > 0
+    //         ? `${md5(file.originalname)}.${arr_ext[arr_ext.length - 1]}`
+    //         : md5(file.originalname);
+    //     callback(null, `${Date.now().toString()}-${md5FileName}`);
+    //   },
+    // }),
     }),
 };
 exports.default = s3Upload;
