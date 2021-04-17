@@ -1,0 +1,72 @@
+[2021-04-17T09:07:46.377] [ERROR] Index - Error: Access denied for user 'tamado'@'localhost' (using password: YES)
+    at Packet.asError (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packets/packet.js:712:17)
+    at ClientHandshake.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:28:26)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'tamado'@'localhost' (using password: YES)"
+}
+[2021-04-17T09:07:59.167] [ERROR] Index - Error: Access denied for user 'tamado'@'localhost' (using password: YES)
+    at Packet.asError (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packets/packet.js:712:17)
+    at ClientHandshake.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:28:26)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'tamado'@'localhost' (using password: YES)"
+}
+[2021-04-17T09:08:11.525] [ERROR] Index - Error: Access denied for user 'tamado'@'localhost' (using password: YES)
+    at Packet.asError (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packets/packet.js:712:17)
+    at ClientHandshake.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:28:26)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'tamado'@'localhost' (using password: YES)"
+}
+[2021-04-17T09:08:19.239] [ERROR] Index - Error: Access denied for user 'tamado'@'localhost' (using password: YES)
+    at Packet.asError (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packets/packet.js:712:17)
+    at ClientHandshake.execute (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/commands/command.js:28:26)
+    at PoolConnection.handlePacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:425:32)
+    at PacketParser.onPacket (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/home/sonbui/Desktop/tamado-api/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:314:20)
+    at Socket.EventEmitter.emit (domain.js:483:12)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
+    at Socket.Readable.push (_stream_readable.js:213:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:188:23) {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'tamado'@'localhost' (using password: YES)"
+}

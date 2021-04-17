@@ -238,9 +238,7 @@ function createVerifiedCode(_a) {
                     return [4 /*yield*/, verifiedCodeRepo.save(verifiedCode)];
                 case 4:
                     _b.sent();
-                    return [4 /*yield*/, twillio_1.sendSMS({ code: verifiedCode.code, to: verifiedCode.phone })];
-                case 5:
-                    _b.sent();
+                    // await sendSMS({ code: verifiedCode.code, to: verifiedCode.phone });
                     return [2 /*return*/, { code: verifiedCode.code }];
             }
         });
