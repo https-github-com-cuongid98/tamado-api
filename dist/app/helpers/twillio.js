@@ -35,14 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendSMS = exports.handlePhoneNumber = void 0;
-var _config_1 = __importDefault(require("$config"));
-var string_format_1 = __importDefault(require("string-format"));
-var client = require("twilio")(_config_1.default.twilio.sid, _config_1.default.twilio.token);
+exports.handlePhoneNumber = void 0;
+// const client = require("twilio")(config.twilio.sid, config.twilio.token);
 var message = "M\u00E3 x\u00E1c th\u1EF1c c\u1EE7a b\u1EA1n l\u00E0: {code}";
 exports.handlePhoneNumber = function (phoneNumber) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
@@ -53,16 +48,12 @@ exports.handlePhoneNumber = function (phoneNumber) { return __awaiter(void 0, vo
         return [2 /*return*/, phoneNumber];
     });
 }); };
-exports.sendSMS = function (params) { return __awaiter(void 0, void 0, void 0, function () {
-    var code, to, body;
-    return __generator(this, function (_a) {
-        code = params.code, to = params.to;
-        body = string_format_1.default(message, { code: code });
-        client.messages
-            .create({ body: body, from: _config_1.default.twilio.phoneNumber, to: to })
-            .then(function () { return console.log("success"); })
-            .catch(function (err) { return console.log("err", err); });
-        return [2 /*return*/];
-    });
-}); };
+// export const sendSMS = async (params: any) => {
+//   const { code, to } = params;
+//   const body = format(message, { code });
+//   client.messages
+//     .create({ body, from: config.twilio.phoneNumber, to })
+//     .then(() => console.log("success"))
+//     .catch((err) => console.log("err", err));
+// };
 //# sourceMappingURL=twillio.js.map
