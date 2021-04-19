@@ -38,5 +38,5 @@ export default class Conversation {
     () => ConversationMember,
     (conversationMember) => conversationMember.conversation
   )
-  conversationMember: ConversationMember[];
+  conversationMembers: ConversationMember[];
 }

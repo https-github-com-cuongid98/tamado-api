@@ -1,21 +1,27 @@
 import Conversation from "$entities/Conversation";
 import ConversationMember from "$entities/ConversationMember";
+import Member from "$entities/Member";
 import MemberBlock from "$entities/MemberBlock";
 import Message from "$entities/Message";
 import {
   CommonStatus,
   ConversationType,
   ErrorCode,
+  EventSocket,
   IsRead,
+  MemberStatus,
   MemberType,
 } from "$enums";
 import {
+  emitToSpecificClient,
   getMembersOnlineInConversation,
   pushSocketMessage,
 } from "$helpers/socket";
 import { assignThumbUrl, returnPaging } from "$helpers/utils";
-import { differenceBy, unionWith } from "lodash";
+import { unionWith } from "lodash";
 import { getConnection, getRepository, Repository } from "typeorm";
+import { RtcTokenBuilder, RtcRole } from "agora-access-token";
+import config from "$config";
 
 export async function getListMassageInConversation(
   memberId: number,
@@ -24,7 +30,7 @@ export async function getListMassageInConversation(
 ) {
   const conversationRepo = getRepository(Conversation);
   const memberBlockRepo = getRepository(MemberBlock);
-  const conversationMemberRepository = getRepository(ConversationMember);
+  const conversationMemberRepo = getRepository(ConversationMember);
 
   if (!conversationId) throw ErrorCode.Invalid_Input;
 
@@ -39,12 +45,12 @@ export async function getListMassageInConversation(
 
   if (!conversation) throw ErrorCode.Conversation_Not_Exist;
 
-  const conversationMember = conversation.conversationMember.find(
+  const conversationMember = conversation.conversationMembers.find(
     (member) => member.memberId == memberId
   );
   if (!conversationMember) throw ErrorCode.You_Not_Member_In_This_Conversation;
 
-  const target = conversation.conversationMember.find(
+  const target = conversation.conversationMembers.find(
     (member) => member.memberId != memberId
   );
 
@@ -69,7 +75,7 @@ export async function getListMassageInConversation(
   }
 
   if (params.isRead === IsRead.UN_SEEN) {
-    const member = await conversationMemberRepository.findOne({
+    const member = await conversationMemberRepo.findOne({
       memberId,
       conversationId: params.conversationId,
     });
@@ -85,7 +91,7 @@ export async function getListMassageInConversation(
 
   const data = await query.lean();
 
-  await conversationMemberRepository.update(
+  await conversationMemberRepo.update(
     {
       conversationId: params.conversationId,
       memberId,
@@ -118,14 +124,20 @@ export async function getOrCreateConversation(
     });
     if (checkBlock) throw ErrorCode.Blocked;
 
-    const conversationMember = [{ memberId }, { memberId: params.targetId }];
+    const checkConversationMember = await conversationMemberRepo
+      .createQueryBuilder("conversationMember")
+      .select("conversationMember.conversationId conversationId")
+      .where(
+        "conversationMember.memberId = :memberId OR conversationMember.memberId = :targetId",
+        { memberId, targetId: params.targetId }
+      )
+      .having(`count(conversationMember.conversationId) >1`)
+      .limit(1)
+      .groupBy(`conversationMember.conversationId`)
+      .getRawOne();
 
-    const checkConversationMember = await conversationMemberRepo.find({
-      where: conversationMember,
-    });
-
-    if (checkConversationMember.length == 2) {
-      return { conversationId: checkConversationMember[0].conversationId };
+    if (checkConversationMember) {
+      return { conversationId: checkConversationMember.conversationId };
     }
 
     const conversation = await conversationRepo.save({
@@ -340,4 +352,128 @@ export async function getListConversationByMemberId(memberId: number, params) {
     .getRawMany();
 
   return returnPaging(conversations, totalItems, params);
+}
+
+export async function videoCall(memberId: number, targetId: number) {
+  if (memberId == targetId) throw ErrorCode.Invalid_Input;
+  return getConnection().transaction(async (transaction) => {
+    const conversationRepo = transaction.getRepository(Conversation);
+    const memberRepo = transaction.getRepository(Member);
+    const memberBlockRepo = transaction.getRepository(MemberBlock);
+    const conversationMemberRepo = transaction.getRepository(
+      ConversationMember
+    );
+
+    const target = await memberRepo.findOne({ id: targetId });
+    if (!target) throw ErrorCode.Member_Not_Exist;
+    if (target.status == MemberStatus.INACTIVE) throw ErrorCode.Member_Blocked;
+
+    const members = [
+      { memberId, targetId },
+      { memberId: targetId, targetId: memberId },
+    ];
+    const checkBlock = await memberBlockRepo.findOne({ where: members });
+    if (checkBlock) throw ErrorCode.Member_Blocked;
+
+    const { conversationId } = await conversationMemberRepo
+      .createQueryBuilder("conversationMember")
+      .select("conversationMember.conversationId conversationId")
+      .where(
+        "conversationMember.memberId = :memberId OR conversationMember.memberId = :targetId",
+        { memberId, targetId }
+      )
+      .having(`count(conversationMember.conversationId) >1`)
+      .limit(1)
+      .groupBy(`conversationMember.conversationId`)
+      .getRawOne();
+
+    const privilegeExpiredTs = Math.floor(Date.now() / 1000) + 60 * 60 * 2;
+
+    if (conversationId) {
+      const conversation = await conversationRepo.findOne({
+        where: {
+          id: conversationId,
+        },
+        relations: ["conversationMembers"],
+      });
+
+      if (!conversation.channelName) {
+        conversation.channelName = `channel_${conversationId}`;
+      }
+
+      for (let conversationMember of conversation.conversationMembers) {
+        conversationMember.agoraToken = RtcTokenBuilder.buildTokenWithUid(
+          config.agora.appId,
+          config.agora.appCertificate,
+          conversation.channelName,
+          conversationMember.memberId,
+          RtcRole.PUBLISHER,
+          privilegeExpiredTs
+        );
+
+        const {
+          memberId,
+          memberType,
+          agoraToken,
+        } = await conversationMemberRepo.save(conversationMember);
+
+        emitToSpecificClient(memberId, memberType, EventSocket.VIDEO_CALL, {
+          channelName: conversation.channelName,
+          agoraToken,
+          memberId,
+        });
+      }
+    } else {
+      const conversation = await conversationRepo.save({
+        conversationType: ConversationType.PERSON,
+      });
+
+      conversation.channelName = `channel_${conversation.id}`;
+
+      const members = [
+        {
+          memberId,
+          agoraToken: RtcTokenBuilder.buildTokenWithUid(
+            config.agora.appId,
+            config.agora.appCertificate,
+            conversation.channelName,
+            memberId,
+            RtcRole.PUBLISHER,
+            privilegeExpiredTs
+          ),
+          memberType: MemberType.APP,
+          conversationId: conversation.id,
+        },
+        {
+          memberId: targetId,
+          agoraToken: RtcTokenBuilder.buildTokenWithUid(
+            config.agora.appId,
+            config.agora.appCertificate,
+            conversation.channelName,
+            targetId,
+            RtcRole.PUBLISHER,
+            privilegeExpiredTs
+          ),
+          memberType: MemberType.APP,
+          conversationId: conversation.id,
+        },
+      ];
+
+      await conversationMemberRepo.insert(members);
+      await conversationRepo.save(conversation);
+
+      for (const member of members) {
+        emitToSpecificClient(
+          member.memberId,
+          member.memberType,
+          EventSocket.VIDEO_CALL,
+          {
+            channelName: conversation.channelName,
+            agoraToken: member.agoraToken,
+            memberId: member.memberId,
+          }
+        );
+      }
+    }
+  });
 }
