@@ -1,4 +1,5 @@
 import { MemberStatus, ShowLocation } from "$enums";
+import Conversations from "twilio/lib/rest/Conversations";
 import {
   Column,
   CreateDateColumn,

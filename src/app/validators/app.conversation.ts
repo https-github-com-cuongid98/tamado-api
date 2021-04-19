@@ -13,7 +13,7 @@ export const getOrCreateConversationSchema: AjvSchema = {
 
 export const sendMessageSchema: AjvSchema = {
   type: "object",
-  required: ["conversationId", "content", "messageType", "image", "metadata"],
+  required: ["conversationId", "content", "messageType"],
   additionalProperties: false,
   properties: {
     conversationId: {

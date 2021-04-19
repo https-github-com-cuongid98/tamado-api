@@ -1,4 +1,4 @@
-import { ConversationMemberType } from "$enums";
+import { MemberType } from "$enums";
 import {
   Column,
   CreateDateColumn,
@@ -19,8 +19,7 @@ export default class ConversationMember {
 
   @PrimaryColumn({
     type: "tinyint",
-    default: ConversationMemberType.MEMBER,
-    comment: "1: member, 2: Admin",
+    default: MemberType.APP,
   })
   memberType: number;
 

@@ -144,6 +144,9 @@ export function awsThumbFormat(img: string, w?: any, h?: any) {
  * @description assign thumb url for image property of object
  */
 export function assignThumbUrl(obj: any | Array<any>, path: string) {
+  if (obj[`${path}`]) {
+    return;
+  }
   _.flatten([obj]).forEach((item) => {
     const img = _.get(item, path) as string;
     const url = awsThumbFormat(img);

@@ -42,4 +42,11 @@ export default class ConversationController {
     validate(sendMessageSchema, body);
     return await service.sendMassage(memberId, body);
   }
+
+  @Put("/:targetId/video-call")
+  async videoCall(req: Request) {
+    const { memberId } = req;
+    const targetId = Number(req.params.targetId);
+    return await service.videoCall(memberId, targetId);
+  }
 }

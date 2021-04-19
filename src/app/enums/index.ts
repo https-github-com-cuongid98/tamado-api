@@ -112,6 +112,7 @@ export enum ConversationType {
 export enum MessagesType {
   TEXT = 1,
   IMAGE = 2,
+  VIDEO_CALL = 3,
 }
 
 export enum IsRead {
@@ -161,4 +162,11 @@ export enum MemberType {
 export enum RedirectType {
   HOME = 1,
   MEMBER = 2,
+}
+
+export enum VideoCallStatus {
+  WAITING = 1,
+  MISSED = 2,
+  CALLING = 3,
+  ENDED = 4,
 }
