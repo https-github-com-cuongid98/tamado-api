@@ -16,10 +16,7 @@ import { randomOTP } from "$helpers/utils";
 import moment from "moment";
 import Member from "$entities/Member";
 import MemberDetail from "$entities/MemberDetail";
-import {
-  handlePhoneNumber,
-  //  sendSMS
-} from "$helpers/twillio";
+import { handlePhoneNumber, sendSMS } from "$helpers/twillio";
 const verifyAsync = promisify(verify) as any;
 
 export async function getMemberById(memberId: number) {
@@ -149,7 +146,7 @@ export async function createVerifiedCode({
     .toDate();
   await verifiedCodeRepo.save(verifiedCode);
 
-  // await sendSMS({ code: verifiedCode.code, to: verifiedCode.phone });
+  await sendSMS({ code: verifiedCode.code, to: verifiedCode.phone });
 
   return { code: verifiedCode.code };
 }
