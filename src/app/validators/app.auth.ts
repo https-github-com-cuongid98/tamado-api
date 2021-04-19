@@ -7,7 +7,7 @@ export const loginSchema: AjvSchema = {
   properties: {
     phone: {
       type: "string",
-      pattern: "^\\d{10,12}$",
+      pattern: `^([0]|[84])(\\d{9})$`,
     },
     password: {
       type: "string",
@@ -42,7 +42,7 @@ export const resetPasswordSchema: AjvSchema = {
   properties: {
     phone: {
       type: "string",
-      pattern: "^\\d{11}$",
+      pattern: `^([0]|[84])(\\d{9})$`,
     },
     newPassword: {
       type: "string",
@@ -63,7 +63,7 @@ export const requestVerifiedCodeSchema: AjvSchema = {
   properties: {
     phone: {
       type: "string",
-      pattern: "^\\d{11}$",
+      pattern: `^([0]|[84])(\\d{9})$`,
     },
     type: {
       type: "number",
@@ -79,7 +79,7 @@ export const checkVerifiedCodeSchema: AjvSchema = {
   properties: {
     phone: {
       type: "string",
-      pattern: "^\\d{11}$",
+      pattern: `^([0]|[84])(\\d{9})$`,
     },
     verifiedCode: {
       type: "string",
@@ -95,7 +95,7 @@ export const registerSchema: AjvSchema = {
   properties: {
     phone: {
       type: "string",
-      pattern: "^\\d{11}$",
+      pattern: `^([0]|[84])(\\d{9})$`,
     },
     password: {
       type: "string",
