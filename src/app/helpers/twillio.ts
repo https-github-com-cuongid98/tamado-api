@@ -6,7 +6,7 @@ const message = `Mã xác thực của bạn là: {code}`;
 
 export const handlePhoneNumber = async (phoneNumber: string) => {
   if (phoneNumber.startsWith("84")) phoneNumber = "+" + phoneNumber;
-  if (phoneNumber.startsWith("0")) phoneNumber = "+81" + phoneNumber.substr(1);
+  if (phoneNumber.startsWith("0")) phoneNumber = "+84" + phoneNumber.substr(1);
   return phoneNumber;
 };
 
