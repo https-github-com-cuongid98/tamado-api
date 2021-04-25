@@ -50,7 +50,8 @@
     "socketio-jwt": "^4.6.2",
     "string-format": "^2.0.0",
     "twilio": "^3.59.0",
-    "typeorm": "^0.2.26"
+    "typeorm": "^0.2.26",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

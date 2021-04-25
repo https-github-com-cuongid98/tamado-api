@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import ConversationMember from "./ConversationMember";
 import { ConversationType } from "$enums";
+import VideoCall from "./VideoCall";
 
 @Entity("conversations")
 export default class Conversation {
@@ -15,9 +16,6 @@ export default class Conversation {
 
   @Column({ type: "text", nullable: true })
   lastMessage: string;
-
-  @Column({ type: "varchar", nullable: true })
-  channelName: string;
 
   @Column({ type: "tinyint", unsigned: true, default: ConversationType.PERSON })
   conversationType: number;
@@ -39,4 +37,7 @@ export default class Conversation {
     (conversationMember) => conversationMember.conversation
   )
   conversationMembers: ConversationMember[];
+
+  @OneToMany(() => VideoCall, (videoCall) => videoCall.conversation)
+  videoCalls: VideoCall[];
 }

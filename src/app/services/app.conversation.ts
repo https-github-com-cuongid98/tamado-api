@@ -11,6 +11,8 @@ import {
   IsRead,
   MemberStatus,
   MemberType,
+  MessagesType,
+  VideoCallStatus,
 } from "$enums";
 import {
   emitToSpecificClient,
@@ -22,6 +24,8 @@ import { unionWith } from "lodash";
 import { getConnection, getRepository, Repository } from "typeorm";
 import { RtcTokenBuilder, RtcRole } from "agora-access-token";
 import config from "$config";
+import VideoCall from "$entities/VideoCall";
+import { v4 as uuidv4 } from "uuid";
 
 export async function getListMassageInConversation(
   memberId: number,
@@ -39,7 +43,7 @@ export async function getListMassageInConversation(
     .where("conversation.id = :conversationId", {
       conversationId,
     })
-    .innerJoin("conversation.conversationMember", "conversationMember")
+    .innerJoin("conversation.conversationMembers", "conversationMember")
     .addSelect(["conversationMember.memberId"])
     .getOne();
 
@@ -84,7 +88,7 @@ export async function getListMassageInConversation(
 
   query
     .select(
-      "_id memberId conversationId body metadata image status messageType createdAt memberType"
+      "_id memberId content conversationId body metadata image status messageType createdAt memberType"
     )
     .limit(params.take)
     .sort("-createdAt");
@@ -99,6 +103,8 @@ export async function getListMassageInConversation(
     },
     { isRead: IsRead.SEEN, lastReadTime: new Date().getTime() }
   );
+
+  assignThumbUrl(data, "image");
 
   return returnPaging(data, null, params);
 }
@@ -145,12 +151,8 @@ export async function getOrCreateConversation(
     });
 
     const members = [
-      { memberId, memberType: MemberType.APP, conversationId: conversation.id },
-      {
-        memberId: params.targetId,
-        memberType: MemberType.APP,
-        conversationId: conversation.id,
-      },
+      { memberId, conversationId: conversation.id },
+      { memberId: params.targetId, conversationId: conversation.id },
     ];
 
     await conversationMemberRepo.insert(members);
@@ -210,7 +212,7 @@ export async function sendMassage(memberId: number, params) {
     );
 
     const messageObj = {
-      content: params.content,
+      content: params?.content,
       image: params?.image,
       metadata: params.metadata,
       memberId,
@@ -219,7 +221,6 @@ export async function sendMassage(memberId: number, params) {
       conversationId: params.conversationId,
       createdAt: new Date().getTime(),
     };
-    assignThumbUrl(messageObj, "image");
 
     const message = await saveMessage(messageObj);
     Object.assign(messageObj, {
@@ -360,6 +361,7 @@ export async function videoCall(memberId: number, targetId: number) {
     const conversationRepo = transaction.getRepository(Conversation);
     const memberRepo = transaction.getRepository(Member);
     const memberBlockRepo = transaction.getRepository(MemberBlock);
+    const videoCallRepo = transaction.getRepository(VideoCall);
     const conversationMemberRepo = transaction.getRepository(
       ConversationMember
     );
@@ -375,9 +377,10 @@ export async function videoCall(memberId: number, targetId: number) {
     const checkBlock = await memberBlockRepo.findOne({ where: members });
     if (checkBlock) throw ErrorCode.Member_Blocked;
 
-    const { conversationId } = await conversationMemberRepo
-      .createQueryBuilder("conversationMember")
-      .select("conversationMember.conversationId conversationId")
+    let conversation = await conversationRepo
+      .createQueryBuilder("conversation")
+      .innerJoin("conversation.conversationMembers", "conversationMember")
+      .select("conversation.id id")
       .where(
         "conversationMember.memberId = :memberId OR conversationMember.memberId = :targetId",
         { memberId, targetId }
@@ -389,91 +392,89 @@ export async function videoCall(memberId: number, targetId: number) {
 
     const privilegeExpiredTs = Math.floor(Date.now() / 1000) + 60 * 60 * 2;
 
-    if (conversationId) {
-      const conversation = await conversationRepo.findOne({
-        where: {
-          id: conversationId,
-        },
-        relations: ["conversationMembers"],
-      });
-
-      if (!conversation.channelName) {
-        conversation.channelName = `channel_${conversationId}`;
-      }
-
-      for (let conversationMember of conversation.conversationMembers) {
-        conversationMember.agoraToken = RtcTokenBuilder.buildTokenWithUid(
-          config.agora.appId,
-          config.agora.appCertificate,
-          conversation.channelName,
-          conversationMember.memberId,
-          RtcRole.PUBLISHER,
-          privilegeExpiredTs
-        );
-
-        const {
-          memberId,
-          memberType,
-          agoraToken,
-        } = await conversationMemberRepo.save(conversationMember);
-
-        emitToSpecificClient(memberId, memberType, EventSocket.VIDEO_CALL, {
-          channelName: conversation.channelName,
-          agoraToken,
-          memberId,
-        });
-      }
-    } else {
-      const conversation = await conversationRepo.save({
+    if (!conversation) {
+      conversation = await conversationRepo.save({
         conversationType: ConversationType.PERSON,
       });
-
-      conversation.channelName = `channel_${conversation.id}`;
-
-      const members = [
-        {
-          memberId,
-          agoraToken: RtcTokenBuilder.buildTokenWithUid(
-            config.agora.appId,
-            config.agora.appCertificate,
-            conversation.channelName,
-            memberId,
-            RtcRole.PUBLISHER,
-            privilegeExpiredTs
-          ),
-          memberType: MemberType.APP,
-          conversationId: conversation.id,
-        },
-        {
-          memberId: targetId,
-          agoraToken: RtcTokenBuilder.buildTokenWithUid(
-            config.agora.appId,
-            config.agora.appCertificate,
-            conversation.channelName,
-            targetId,
-            RtcRole.PUBLISHER,
-            privilegeExpiredTs
-          ),
-          memberType: MemberType.APP,
-          conversationId: conversation.id,
-        },
-      ];
-
-      await conversationMemberRepo.insert(members);
-      await conversationRepo.save(conversation);
-
-      for (const member of members) {
-        emitToSpecificClient(
-          member.memberId,
-          member.memberType,
-          EventSocket.VIDEO_CALL,
-          {
-            channelName: conversation.channelName,
-            agoraToken: member.agoraToken,
-            memberId: member.memberId,
-          }
-        );
-      }
     }
+
+    let videoCall = await videoCallRepo.save({
+      conversationId: conversation.id,
+      creatorId: memberId,
+      channelName: uuidv4(),
+      startAt: new Date().toISOString(),
+    });
+
+    let conversationMembers = await conversationMemberRepo.find({
+      conversationId: conversation.id,
+    });
+
+    if (!conversationMembers) {
+      conversationMembers = await conversationMemberRepo.save([
+        { memberId, conversationId: conversation.id },
+        { memberId: targetId, conversationId: conversation.id },
+      ]);
+    }
+
+    for (let conversationMember of conversationMembers) {
+      const checkMemberCalling = await conversationMemberRepo
+        .createQueryBuilder("conversationMember")
+        .innerJoin("conversationMember.conversation", "conversation")
+        .addSelect(["conversation.id"])
+        .innerJoin(
+          "conversation.videoCalls",
+          "videoCall",
+          `(videoCall.status IN (${VideoCallStatus.WAITING},${VideoCallStatus.CALLING}))`
+        )
+        .getOne();
+
+      if (checkMemberCalling) {
+        videoCall.status = VideoCallStatus.MISSED;
+        videoCall.endAt = new Date().toISOString();
+        videoCall = await videoCallRepo.save(videoCall);
+
+        const messageObj = {
+          metadata: videoCall,
+          memberId,
+          messageType: MessagesType.VIDEO_CALL,
+          memberType: MemberType.APP,
+          conversationId: conversation.id,
+          createdAt: new Date().getTime(),
+        };
+
+        const message = await saveMessage(messageObj);
+        Object.assign(messageObj, {
+          _id: message["_id"],
+          status: message["status"],
+        });
+
+        return;
+      }
+      conversationMember.agoraToken = RtcTokenBuilder.buildTokenWithUid(
+        config.agora.appId,
+        config.agora.appCertificate,
+        videoCall.channelName,
+        conversationMember.memberId,
+        RtcRole.PUBLISHER,
+        privilegeExpiredTs
+      );
+    }
+
+    conversationMembers = await conversationMemberRepo.save(
+      conversationMembers
+    );
+
+    conversationMembers.forEach((conversationMember) => {
+      emitToSpecificClient(
+        memberId,
+        conversationMember.memberType,
+        EventSocket.VIDEO_CALL,
+        {
+          channelName: videoCall.channelName,
+          agoraToken: conversationMember.agoraToken,
+          memberId,
+        }
+      );
+    });
   });
 }

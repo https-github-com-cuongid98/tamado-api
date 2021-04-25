@@ -7,6 +7,7 @@ export default mongoose.model(
   new Schema({
     conversationId: { type: Number, required: true },
     memberId: { type: Number, required: true },
+    content: { type: String, default: null },
     body: { type: String, required: false },
     image: { type: String, required: false, default: null },
     status: { type: Number, required: true, default: CommonStatus.ACTIVE },
