@@ -95,10 +95,16 @@ export async function getMemberDetailById(memberId: number, targetId: number) {
       "memberDetail.email",
       "memberDetail.birthday",
       "memberDetail.introduce",
-      "memberDetail.hobby",
+      "memberDetail.jobId",
     ])
     .leftJoin("member.memberImages", "memberImage")
     .addSelect(["memberImage.URL"])
+    .leftJoin("member.memberHobbies", "memberHobby")
+    .addSelect(["memberHobby.hobbyId"])
+    .leftJoin("memberHobby.hobby", "hobby")
+    .addSelect(["hobby.hobby"])
+    .leftJoin("memberDetail.job", "job")
+    .addSelect(["job.jobName"])
     .leftJoinAndMapMany(
       "member.memberFollowed",
       "MemberFollow",
