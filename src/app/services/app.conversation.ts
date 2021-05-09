@@ -20,8 +20,15 @@ import {
   pushSocketMessage,
 } from "$helpers/socket";
 import { assignThumbUrl, returnPaging } from "$helpers/utils";
-import { unionWith } from "lodash";
-import { getConnection, getRepository, Repository } from "typeorm";
+import { unionWith, uniq } from "lodash";
+import {
+  EntityManager,
+  getConnection,
+  getManager,
+  getRepository,
+  In,
+  Repository,
+} from "typeorm";
 import { RtcTokenBuilder, RtcRole } from "agora-access-token";
 import config from "$config";
 import VideoCall from "$entities/VideoCall";
@@ -111,33 +118,38 @@ export async function getListMassageInConversation(
 
 export async function getOrCreateConversation(
   memberId: number,
-  params: { targetId: number }
+  params: { targetIds: number[] }
 ) {
-  if (memberId == params.targetId) throw ErrorCode.Invalid_Input;
+  const { targetIds } = params;
+
+  targetIds.forEach((targetId) => {
+    if (memberId == targetId) throw ErrorCode.Invalid_Input;
+  });
 
   return getConnection().transaction(async (transaction) => {
     const conversationRepo = transaction.getRepository(Conversation);
+    const memberRepo = transaction.getRepository(Member);
     const conversationMemberRepo = transaction.getRepository(
       ConversationMember
     );
     const memberBlockRepo = transaction.getRepository(MemberBlock);
 
-    const checkBlock = await memberBlockRepo.findOne({
-      where: [
-        { memberId, targetId: params.targetId },
-        { memberId: params.targetId, targetId: memberId },
-      ],
+    const countTarget = await memberRepo.count({ id: In(targetIds) });
+    if (countTarget != targetIds.length) throw ErrorCode.Member_Not_Exist;
+
+    const listBlocks = await getListMemberBlockIds(memberId, transaction);
+    targetIds.forEach((targetId) => {
+      if (listBlocks.includes(targetId)) throw ErrorCode.Member_Blocked;
     });
-    if (checkBlock) throw ErrorCode.Blocked;
 
     const checkConversationMember = await conversationMemberRepo
       .createQueryBuilder("conversationMember")
       .select("conversationMember.conversationId conversationId")
       .where(
-        "conversationMember.memberId = :memberId OR conversationMember.memberId = :targetId",
-        { memberId, targetId: params.targetId }
+        "conversationMember.memberId = :memberId OR conversationMember.memberId IN (:targetIds)",
+        { memberId, targetIds }
       )
-      .having(`count(conversationMember.conversationId) >1`)
+      .having(`count(conversationMember.conversationId) >${targetIds.length}`)
       .limit(1)
       .groupBy(`conversationMember.conversationId`)
       .getRawOne();
@@ -146,14 +158,20 @@ export async function getOrCreateConversation(
       return { conversationId: checkConversationMember.conversationId };
     }
 
-    const conversation = await conversationRepo.save({
-      conversationType: ConversationType.PERSON,
-    });
+    let conversationType = ConversationType.PERSON;
 
-    const members = [
-      { memberId, conversationId: conversation.id },
-      { memberId: params.targetId, conversationId: conversation.id },
-    ];
+    if (targetIds.length > 1) {
+      conversationType = ConversationType.GROUP;
+    }
+    const conversation = await conversationRepo.save({ conversationType });
+
+    const members = targetIds.map((targetId) => {
+      return {
+        memberId: targetId,
+        conversationId: conversation.id,
+      };
+    });
+    members.push({ memberId, conversationId: conversation.id });
 
     await conversationMemberRepo.insert(members);
 
@@ -317,164 +335,160 @@ export async function getListConversationByMemberId(memberId: number, params) {
   const conversationRepo = getRepository(Conversation);
   const conversationMemberRepo = getRepository(ConversationMember);
 
-  const conversationMembers = await conversationMemberRepo.find({ memberId });
+  const [
+    conversationMembers,
+    totalItems,
+  ] = await conversationMemberRepo.findAndCount({
+    where: { memberId },
+    skip: params.skip,
+    take: params.take,
+  });
 
   const conversationIds = conversationMembers.map(
     (conversationMember) => conversationMember.conversationId
   );
 
-  const queryBuilder = conversationRepo
+  const queryBuilder = await conversationRepo
     .createQueryBuilder("conversation")
-    .leftJoin(
-      "conversation.conversationMember",
-      "conversationMember",
-      "conversationMember.memberId != :memberId",
-      { memberId }
+    .select(["conversation.id"])
+    .leftJoin("conversation.conversationMembers", "conversationMember")
+    .addSelect(["conversationMember.memberId"])
+    .leftJoinAndMapOne(
+      "conversationMember.members",
+      "Member",
+      "member",
+      "conversationMember.memberId = member.id"
     )
-    .select([
-      "conversation.id conversationId",
-      "conversationMember.memberId memberId",
-      "conversationMember.memberType memberType",
-      "conversationMember.isRead isRead",
-      "conversationMember.lastReadTime lastReadTime",
-      "memberDetail.name memberName",
-      "member.avatar memberAvatar",
-      "conversation.lastMessage lastMessage",
-      "conversation.lastMessageType lastMessageType",
-      "conversation.lastSentMemberId lastSentMemberId",
-      "conversation.lastTimeSent lastTimeSent",
-    ])
-    .leftJoin("Member", "member", "conversationMember.memberId = member.id")
-    .leftJoin("member.memberDetail", "memberDetail");
-  const totalItems = await queryBuilder.getCount();
-  const conversations = await queryBuilder
-    .limit(params.take)
-    .offset(params.skip)
-    .getRawMany();
+    .leftJoin("member.memberDetail", "memberDetail")
+    .addSelect(["memberDetail.name"])
+    .where(`conversationMember.conversationId IN (${conversationIds})`)
+    .andWhere("conversationMember.memberId != :memberId", { memberId })
+    .getMany();
 
-  return returnPaging(conversations, totalItems, params);
-}
-
-export async function videoCall(memberId: number, targetId: number) {
-  if (memberId == targetId) throw ErrorCode.Invalid_Input;
-  return getConnection().transaction(async (transaction) => {
-    const conversationRepo = transaction.getRepository(Conversation);
-    const memberRepo = transaction.getRepository(Member);
-    const memberBlockRepo = transaction.getRepository(MemberBlock);
-    const videoCallRepo = transaction.getRepository(VideoCall);
-    const conversationMemberRepo = transaction.getRepository(
-      ConversationMember
-    );
-
-    const target = await memberRepo.findOne({ id: targetId });
-    if (!target) throw ErrorCode.Member_Not_Exist;
-    if (target.status == MemberStatus.INACTIVE) throw ErrorCode.Member_Blocked;
-
-    const members = [
-      { memberId, targetId },
-      { memberId: targetId, targetId: memberId },
-    ];
-    const checkBlock = await memberBlockRepo.findOne({ where: members });
-    if (checkBlock) throw ErrorCode.Member_Blocked;
-
-    let conversation = await conversationRepo
-      .createQueryBuilder("conversation")
-      .innerJoin("conversation.conversationMembers", "conversationMember")
-      .select("conversation.id id")
-      .where(
-        "conversationMember.memberId = :memberId OR conversationMember.memberId = :targetId",
-        { memberId, targetId }
-      )
-      .having(`count(conversationMember.conversationId) >1`)
-      .limit(1)
-      .groupBy(`conversationMember.conversationId`)
-      .getRawOne();
-
-    const privilegeExpiredTs = Math.floor(Date.now() / 1000) + 60 * 60 * 2;
-
-    if (!conversation) {
-      conversation = await conversationRepo.save({
-        conversationType: ConversationType.PERSON,
-      });
-    }
-
-    let videoCall = await videoCallRepo.save({
-      conversationId: conversation.id,
-      creatorId: memberId,
-      channelName: uuidv4(),
-      startAt: new Date().toISOString(),
-    });
-
-    let conversationMembers = await conversationMemberRepo.find({
-      conversationId: conversation.id,
-    });
-
-    if (!conversationMembers) {
-      conversationMembers = await conversationMemberRepo.save([
-        { memberId, conversationId: conversation.id },
-        { memberId: targetId, conversationId: conversation.id },
-      ]);
-    }
-
-    for (let conversationMember of conversationMembers) {
-      const checkMemberCalling = await conversationMemberRepo
-        .createQueryBuilder("conversationMember")
-        .innerJoin("conversationMember.conversation", "conversation")
-        .addSelect(["conversation.id"])
-        .innerJoin(
-          "conversation.videoCalls",
-          "videoCall",
-          `(videoCall.status IN (${VideoCallStatus.WAITING},${VideoCallStatus.CALLING}))`
-        )
-        .getOne();
-
-      if (checkMemberCalling) {
-        videoCall.status = VideoCallStatus.MISSED;
-        videoCall.endAt = new Date().toISOString();
-        videoCall = await videoCallRepo.save(videoCall);
-
-        const messageObj = {
-          metadata: videoCall,
-          memberId,
-          messageType: MessagesType.VIDEO_CALL,
-          memberType: MemberType.APP,
-          conversationId: conversation.id,
-          createdAt: new Date().getTime(),
-        };
-
-        const message = await saveMessage(messageObj);
-        Object.assign(messageObj, {
-          _id: message["_id"],
-          status: message["status"],
-        });
-
-        return;
-      }
-      conversationMember.agoraToken = RtcTokenBuilder.buildTokenWithUid(
-        config.agora.appId,
-        config.agora.appCertificate,
-        videoCall.channelName,
-        conversationMember.memberId,
-        RtcRole.PUBLISHER,
-        privilegeExpiredTs
-      );
-    }
-
-    conversationMembers = await conversationMemberRepo.save(
-      conversationMembers
-    );
-
-    conversationMembers.forEach((conversationMember) => {
-      emitToSpecificClient(
-        memberId,
-        conversationMember.memberType,
-        EventSocket.VIDEO_CALL,
-        {
-          channelName: videoCall.channelName,
-          agoraToken: conversationMember.agoraToken,
-          memberId,
-        }
-      );
+  queryBuilder.forEach((item) => {
+    item.conversationMembers.forEach((x) => {
+      assignThumbUrl(x["members"], "avatar");
     });
   });
+
+  const data = conversationMembers.map((conversationMember) => {
+    const conversation = queryBuilder.find(
+      (x) => x.id == conversationMember.conversationId
+    );
+    return {
+      ...conversationMember,
+      conversation,
+    };
+  });
+
+  return returnPaging(data, totalItems, params);
+}
+
+export async function startVideoCall(
+  memberId: number,
+  params: { targetIds: number[] }
+) {
+  const { targetIds } = params;
+
+  const conversation = await getOrCreateConversation(memberId, params);
+
+  //   const videoCallRepo = transaction.getRepository(VideoCall);
+
+  //   //   const privilegeExpiredTs = Math.floor(Date.now() / 1000) + 60 * 60 * 2;
+  //   //   if (!conversation) {
+  //   //     conversation = await conversationRepo.save({
+  //   //       conversationType: ConversationType.PERSON,
+  //   //     });
+  //   //   }
+  //   //   let videoCall = await videoCallRepo.save({
+  //   //     conversationId: conversation.id,
+  //   //     creatorId: memberId,
+  //   //     channelName: uuidv4(),
+  //   //     startAt: new Date().toISOString(),
+  //   //   });
+  //   //   let conversationMembers = await conversationMemberRepo.find({
+  //   //     conversationId: conversation.id,
+  //   //   });
+  //   //   if (!conversationMembers) {
+  //   //     conversationMembers = await conversationMemberRepo.save([
+  //   //       { memberId, conversationId: conversation.id },
+  //   //       { memberId: targetId, conversationId: conversation.id },
+  //   //     ]);
+  //   //   }
+  //   //   for (let conversationMember of conversationMembers) {
+  //   //     const checkMemberCalling = await conversationMemberRepo
+  //   //       .createQueryBuilder("conversationMember")
+  //   //       .innerJoin("conversationMember.conversation", "conversation")
+  //   //       .addSelect(["conversation.id"])
+  //   //       .innerJoin(
+  //   //         "conversation.videoCalls",
+  //   //         "videoCall",
+  //   //         `(videoCall.status IN (${VideoCallStatus.WAITING},${VideoCallStatus.CALLING}))`
+  //   //       )
+  //   //       .getOne();
+  //   //     if (checkMemberCalling) {
+  //   //       videoCall.status = VideoCallStatus.MISSED;
+  //   //       videoCall.endAt = new Date().toISOString();
+  //   //       videoCall = await videoCallRepo.save(videoCall);
+  //   //       const messageObj = {
+  //   //         metadata: videoCall,
+  //   //         memberId,
+  //   //         messageType: MessagesType.VIDEO_CALL,
+  //   //         memberType: MemberType.APP,
+  //   //         conversationId: conversation.id,
+  //   //         createdAt: new Date().getTime(),
+  //   //       };
+  //   //       const message = await saveMessage(messageObj);
+  //   //       Object.assign(messageObj, {
+  //   //         _id: message["_id"],
+  //   //         status: message["status"],
+  //   //       });
+  //   //       return;
+  //   //     }
+  //   //     conversationMember.agoraToken = RtcTokenBuilder.buildTokenWithUid(
+  //   //       config.agora.appId,
+  //   //       config.agora.appCertificate,
+  //   //       videoCall.channelName,
+  //   //       conversationMember.memberId,
+  //   //       RtcRole.PUBLISHER,
+  //   //       privilegeExpiredTs
+  //   //     );
+  //   //   }
+  //   //   conversationMembers = await conversationMemberRepo.save(
+  //   //     conversationMembers
+  //   //   );
+  //   //   conversationMembers.forEach((conversationMember) => {
+  //   //     emitToSpecificClient(
+  //   //       memberId,
+  //   //       conversationMember.memberType,
+  //   //       EventSocket.VIDEO_CALL,
+  //   //       {
+  //   //         channelName: videoCall.channelName,
+  //   //         agoraToken: conversationMember.agoraToken,
+  //   //         memberId,
+  //   //       }
+  //   //     );
+  //   //   });
+  // });
+}
+
+export async function closeVideoCall(
+  memberId: number,
+  params: { videoCallId: number }
+) {}
+
+export async function getListMemberBlockIds(
+  memberId: number,
+  transaction?: EntityManager
+) {
+  const manager = transaction ? transaction.connection.manager : getManager();
+
+  const result = await manager.query(
+    `SELECT memberId as memberId FROM member_block WHERE memberId != ? AND targetId = ? UNION ALL SELECT targetId as memberId FROM member_block WHERE memberId = ? AND targetId != ?`,
+    [memberId, memberId, memberId, memberId]
+  );
+
+  const data = result.map((item) => item.memberId);
+  data.push(-1);
+  return uniq(data);
 }

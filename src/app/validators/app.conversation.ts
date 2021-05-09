@@ -2,11 +2,14 @@ import { MessagesType } from "$enums";
 
 export const getOrCreateConversationSchema: AjvSchema = {
   type: "object",
-  required: ["targetId"],
+  required: ["targetIds"],
   additionalProperties: false,
   properties: {
-    targetId: {
-      type: "number",
+    targetIds: {
+      type: "array",
+      items: {
+        type: "number",
+      },
     },
   },
 };
@@ -32,6 +35,32 @@ export const sendMessageSchema: AjvSchema = {
     },
     metadata: {
       type: ["object", "null"],
+    },
+  },
+};
+
+export const closeVideoCallSchema: AjvSchema = {
+  type: "object",
+  required: ["videoCallId"],
+  additionalProperties: false,
+  properties: {
+    videoCallId: {
+      type: "number",
+      minimum: 1,
+    },
+  },
+};
+
+export const startVideoCallSchema: AjvSchema = {
+  type: "object",
+  required: ["targetIds"],
+  additionalProperties: false,
+  properties: {
+    targetIds: {
+      type: "array",
+      items: {
+        type: "number",
+      },
     },
   },
 };

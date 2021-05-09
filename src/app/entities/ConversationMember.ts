@@ -8,6 +8,7 @@ import {
   PrimaryColumn,
 } from "typeorm";
 import Conversation from "./Conversation";
+import Member from "./Member";
 
 @Entity("conversation_member")
 export default class ConversationMember {
@@ -17,7 +18,7 @@ export default class ConversationMember {
   @PrimaryColumn({ type: "int", unique: true })
   memberId: number;
 
-  @PrimaryColumn({
+  @Column({
     type: "tinyint",
     default: MemberType.APP,
   })
@@ -41,6 +42,6 @@ export default class ConversationMember {
   createdDate: Date;
 
   @ManyToOne(() => Conversation)
-  @JoinColumn({ referencedColumnName: "id", name: "conversationId" })
+  @JoinColumn({ name: "conversationId" })
   conversation: Conversation;
 }
