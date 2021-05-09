@@ -39,14 +39,14 @@ export async function searchMember(params: {
       "member.lat lat",
       "member.lng lng",
       `ST_Distance_Sphere(
-        ST_GeomFromText(CONCAT('POINT(', member.lng,' ', member.lat,')'), 4326),
-        ST_GeomFromText('POINT(${params.lng} ${params.lat})', 4326)
+        ST_GeomFromText(CONCAT('POINT(', member.lat,' ', member.lng,')'), 4326),
+        ST_GeomFromText('POINT(${params.lat} ${params.lng})', 4326)
       ) as distanceGeo`,
     ])
     .andWhere(
       `ST_Distance_Sphere(
-      ST_GeomFromText(CONCAT('POINT(', member.lng, ' ', member.lat,')'), 4326),
-      ST_GeomFromText('POINT(${params.lng} ${params.lat})', 4326)
+      ST_GeomFromText(CONCAT('POINT(', member.lat, ' ', member.lng,')'), 4326),
+      ST_GeomFromText('POINT(${params.lat} ${params.lng})', 4326)
     ) <= :distanceSearch`,
       { distanceSearch: params.distanceSearch }
     );
