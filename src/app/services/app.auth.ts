@@ -17,6 +17,8 @@ import moment from "moment";
 import Member from "$entities/Member";
 import MemberDetail from "$entities/MemberDetail";
 import { handlePhoneNumber, sendSMS } from "$helpers/twillio";
+
+import MemberHobby from "$entities/MemberHobby";
 const verifyAsync = promisify(verify) as any;
 
 export async function getMemberById(memberId: number) {
@@ -194,7 +196,8 @@ interface RegisterParams {
   gender: number;
   email?: string;
   introduce?: string;
-  hobby?: string;
+  hobbyIds?: number[];
+  jobId?: number;
 }
 export async function register(params: RegisterParams) {
   const phone = await handlePhoneNumber(params.phone);
@@ -205,14 +208,23 @@ export async function register(params: RegisterParams) {
   return await getConnection().transaction(async (transaction) => {
     const memberRepo = transaction.getRepository(Member);
     const memberDetailRepo = transaction.getRepository(MemberDetail);
+    const memberHobbyRepo = transaction.getRepository(MemberHobby);
 
     const member = await memberRepo.save({
       phone,
       password: await hash(params.password, config.auth.SaltRounds),
     });
-
     delete params.password;
     delete params.phone;
+
+    if (params.hobbyIds) {
+      await memberHobbyRepo.save(
+        params.hobbyIds.map((hobbyId) => {
+          return { hobbyId, memberId: member.id };
+        })
+      );
+      delete params.hobbyIds;
+    }
 
     await memberDetailRepo.save({ ...params, memberId: member.id });
   });

@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import Job from "./Job";
 import Member from "./Member";
 
 @Entity("member_detail")
@@ -32,8 +34,8 @@ export default class MemberDetail {
   @Column({ type: "text", nullable: true })
   introduce: string | null;
 
-  @Column({ type: "text", nullable: true })
-  hobby: string | null;
+  @Column({ type: "int", nullable: true, unsigned: true })
+  jobId: number;
 
   @UpdateDateColumn({ type: "datetime" })
   updateAt: string | Date;
@@ -44,4 +46,8 @@ export default class MemberDetail {
   @OneToOne(() => Member)
   @JoinColumn({ name: "memberId", referencedColumnName: "id" })
   member: Member;
+
+  @ManyToOne(() => Job)
+  @JoinColumn({ name: "jobId" })
+  job: Job;
 }

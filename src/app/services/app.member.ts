@@ -39,14 +39,14 @@ export async function searchMember(params: {
       "member.lat lat",
       "member.lng lng",
       `ST_Distance_Sphere(
-        ST_GeomFromText( CONCAT('POINT(', member.lat, ' ', member.lng, ')'), 4326),
-        ST_GeomFromText('POINT(${params.lat} ${params.lng})', 4326)
+        ST_GeomFromText(CONCAT('POINT(', member.lng,' ', member.lat,')'), 4326),
+        ST_GeomFromText('POINT(${params.lng} ${params.lat})', 4326)
       ) as distanceGeo`,
     ])
     .andWhere(
       `ST_Distance_Sphere(
-      ST_GeomFromText( CONCAT('POINT(', member.lat, ' ', member.lng, ')'), 4326),
-      ST_GeomFromText('POINT(${params.lat} ${params.lng})', 4326)
+      ST_GeomFromText(CONCAT('POINT(', member.lng, ' ', member.lat,')'), 4326),
+      ST_GeomFromText('POINT(${params.lng} ${params.lat})', 4326)
     ) <= :distanceSearch`,
       { distanceSearch: params.distanceSearch }
     );
@@ -77,14 +77,14 @@ export async function getMemberDetailById(memberId: number, targetId: number) {
   const memberRepository = getRepository(Member);
   const memberBlockRepository = getRepository(MemberBlock);
 
+  if (memberId == targetId) throw ErrorCode.Invalid_Input;
+
   const memberBlock = await memberBlockRepository.find({
     memberId: In([memberId, targetId]),
     targetId: In([memberId, targetId]),
   });
 
   if (memberBlock.length > 0) throw ErrorCode.Blocked;
-
-  if (memberId == targetId) throw ErrorCode.Invalid_Input;
 
   const member = await memberRepository
     .createQueryBuilder("member")
@@ -97,7 +97,7 @@ export async function getMemberDetailById(memberId: number, targetId: number) {
       "memberDetail.introduce",
       "memberDetail.hobby",
     ])
-    .leftJoin("member.memberImage", "memberImage")
+    .leftJoin("member.memberImages", "memberImage")
     .addSelect(["memberImage.URL"])
     .leftJoinAndMapMany(
       "member.memberFollowed",
@@ -109,14 +109,16 @@ export async function getMemberDetailById(memberId: number, targetId: number) {
     .andWhere("member.id = :targetId", { targetId })
     .getOne();
 
-  const checkFollow = member["memberFollowed"].find(
+  if (!member) throw ErrorCode.Member_Not_Exist;
+
+  const checkFollow = member["memberFollowed"]?.find(
     (x) => x.memberId == memberId
   );
 
   return {
     ...member,
     isFollow: checkFollow ? Following.YES : Following.NO,
-    memberFollowed: member["memberFollowed"].length,
+    memberFollowed: member["memberFollowed"]?.length,
   };
 }
 

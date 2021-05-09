@@ -1,4 +1,4 @@
-import { ConversationMemberType } from "$enums";
+import { MemberType } from "$enums";
 import {
   Column,
   CreateDateColumn,
@@ -8,6 +8,7 @@ import {
   PrimaryColumn,
 } from "typeorm";
 import Conversation from "./Conversation";
+import Member from "./Member";
 
 @Entity("conversation_member")
 export default class ConversationMember {
@@ -17,10 +18,9 @@ export default class ConversationMember {
   @PrimaryColumn({ type: "int", unique: true })
   memberId: number;
 
-  @PrimaryColumn({
+  @Column({
     type: "tinyint",
-    default: ConversationMemberType.MEMBER,
-    comment: "1: member, 2: Admin",
+    default: MemberType.APP,
   })
   memberType: number;
 
@@ -42,6 +42,6 @@ export default class ConversationMember {
   createdDate: Date;
 
   @ManyToOne(() => Conversation)
-  @JoinColumn({ referencedColumnName: "id", name: "conversationId" })
+  @JoinColumn({ name: "conversationId" })
   conversation: Conversation;
 }

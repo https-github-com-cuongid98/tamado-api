@@ -10,6 +10,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import MemberDetail from "./MemberDetail";
+import MemberHobby from "./MemberHobby";
 import MemberImage from "./MemberImage";
 import Notification from "./Notification";
 
@@ -75,4 +76,7 @@ export default class Member {
 
   @OneToMany(() => MemberImage, (memberImage) => memberImage.member)
   memberImages: MemberImage[];
+
+  @OneToMany(() => MemberHobby, (memberHobby) => memberHobby.member)
+  memberHobbies: MemberHobby[];
 }

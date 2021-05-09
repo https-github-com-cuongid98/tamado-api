@@ -3,6 +3,8 @@ import { validate } from "$helpers/ajv";
 import {
   getOrCreateConversationSchema,
   sendMessageSchema,
+  closeVideoCallSchema,
+  startVideoCallSchema,
 } from "$validators/app.conversation";
 import * as service from "$services/app.conversation";
 import { Request } from "express";
@@ -41,5 +43,19 @@ export default class ConversationController {
     const { memberId, body } = req;
     validate(sendMessageSchema, body);
     return await service.sendMassage(memberId, body);
+  }
+
+  @Put("/close-video-call")
+  async closeVideoCall(req: Request) {
+    const { memberId, body } = req;
+    validate(closeVideoCallSchema, body);
+    return await service.closeVideoCall(memberId, body);
+  }
+
+  @Put("/start-video-call")
+  async startVideoCall(req: Request) {
+    const { memberId, body } = req;
+    validate(startVideoCallSchema, body);
+    return await service.startVideoCall(memberId, body);
   }
 }

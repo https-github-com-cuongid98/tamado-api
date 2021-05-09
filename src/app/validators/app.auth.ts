@@ -114,12 +114,18 @@ export const registerSchema: AjvSchema = {
     introduce: {
       type: "string",
     },
-    hobby: {
-      type: "string",
+    hobbyIds: {
+      type: "array",
+      items: {
+        type: "number",
+      },
     },
     gender: {
       type: "number",
       enum: [Gender.FEMALE, Gender.MALE],
+    },
+    jobId: {
+      type: "number",
     },
   },
 };
