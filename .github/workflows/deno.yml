@@ -22,8 +22,8 @@ jobs:
           TEST_ENV: ${{ secrets.TEST_ENV }}
         run: echo "$TEST_ENV" > .env
       - run: npm install
-        working-directory: ./tamado-api
+        working-directory: ..
       - run: npm run build
-        working-directory: ./tamado-api
+        working-directory: ..
       - run: rsync --progress -avzh -e "ssh " --rsync-path="sudo rsync" --exclude='.git' . sonbt@124.155.223.181 -p 2728:/var/www/tamado-api
       - run: ssh sonbt@124.155.223.181 -p 2728 "cd /var/www/tamado-api && pm2 restart all"
