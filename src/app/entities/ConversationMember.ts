@@ -1,4 +1,4 @@
-import { MemberType } from "$enums";
+import { MemberType, IsCalling } from "$enums";
 import {
   Column,
   CreateDateColumn,
@@ -8,7 +8,6 @@ import {
   PrimaryColumn,
 } from "typeorm";
 import Conversation from "./Conversation";
-import Member from "./Member";
 
 @Entity("conversation_member")
 export default class ConversationMember {
@@ -34,6 +33,9 @@ export default class ConversationMember {
 
   @Column({ type: "varchar", nullable: true, length: 255 })
   agoraToken: string;
+
+  @Column({ type: "tinyint", default: IsCalling.NO })
+  isCalling: number;
 
   @Column({ type: "bigint", nullable: true })
   lastReadTime: number;

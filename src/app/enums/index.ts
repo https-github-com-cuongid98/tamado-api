@@ -168,3 +168,8 @@ export enum VideoCallStatus {
   CALLING = 3,
   ENDED = 4,
 }
+
+export enum IsCalling {
+  YES = 1,
+  NO = 0,
+}

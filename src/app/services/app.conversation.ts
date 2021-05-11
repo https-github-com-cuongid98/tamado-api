@@ -8,6 +8,7 @@ import {
   ConversationType,
   ErrorCode,
   EventSocket,
+  IsCalling,
   IsRead,
   MemberStatus,
   MemberType,
@@ -17,10 +18,11 @@ import {
 import {
   emitToSpecificClient,
   getMembersOnlineInConversation,
+  pushMessage,
   pushSocketMessage,
 } from "$helpers/socket";
 import { assignThumbUrl, returnPaging } from "$helpers/utils";
-import { unionWith, uniq } from "lodash";
+import { differenceBy, unionWith, uniq } from "lodash";
 import {
   EntityManager,
   getConnection,
@@ -129,10 +131,8 @@ export async function getOrCreateConversation(
   return getConnection().transaction(async (transaction) => {
     const conversationRepo = transaction.getRepository(Conversation);
     const memberRepo = transaction.getRepository(Member);
-    const conversationMemberRepo = transaction.getRepository(
-      ConversationMember
-    );
-    const memberBlockRepo = transaction.getRepository(MemberBlock);
+    const conversationMemberRepo =
+      transaction.getRepository(ConversationMember);
 
     const countTarget = await memberRepo.count({ id: In(targetIds) });
     if (countTarget != targetIds.length) throw ErrorCode.Member_Not_Exist;
@@ -142,49 +142,30 @@ export async function getOrCreateConversation(
       if (listBlocks.includes(targetId)) throw ErrorCode.Member_Blocked;
     });
 
-    const checkConversationMember = await conversationMemberRepo
-      .createQueryBuilder("conversationMember")
-      .select("conversationMember.conversationId conversationId")
-      .where(
-        "conversationMember.memberId = :memberId OR conversationMember.memberId IN (:targetIds)",
-        { memberId, targetIds }
-      )
-      .having(`count(conversationMember.conversationId) >${targetIds.length}`)
-      .limit(1)
-      .groupBy(`conversationMember.conversationId`)
-      .getRawOne();
+    let conversationId = await getConversation(
+      memberId,
+      targetIds,
+      conversationMemberRepo
+    );
 
-    if (checkConversationMember) {
-      return { conversationId: checkConversationMember.conversationId };
+    if (!conversationId) {
+      conversationId = await createConversation(
+        memberId,
+        targetIds,
+        conversationMemberRepo,
+        conversationRepo
+      );
     }
 
-    let conversationType = ConversationType.PERSON;
-
-    if (targetIds.length > 1) {
-      conversationType = ConversationType.GROUP;
-    }
-    const conversation = await conversationRepo.save({ conversationType });
-
-    const members = targetIds.map((targetId) => {
-      return {
-        memberId: targetId,
-        conversationId: conversation.id,
-      };
-    });
-    members.push({ memberId, conversationId: conversation.id });
-
-    await conversationMemberRepo.insert(members);
-
-    return { conversationId: conversation.id };
+    return { conversationId };
   });
 }
 
 export async function sendMassage(memberId: number, params) {
   return await getConnection().transaction(async (transaction) => {
     const conversationRepository = transaction.getRepository(Conversation);
-    const conversationMemberRepository = transaction.getRepository(
-      ConversationMember
-    );
+    const conversationMemberRepository =
+      transaction.getRepository(ConversationMember);
 
     const conversation = await conversationRepository.findOne({
       where: { id: params.conversationId },
@@ -335,14 +316,12 @@ export async function getListConversationByMemberId(memberId: number, params) {
   const conversationRepo = getRepository(Conversation);
   const conversationMemberRepo = getRepository(ConversationMember);
 
-  const [
-    conversationMembers,
-    totalItems,
-  ] = await conversationMemberRepo.findAndCount({
-    where: { memberId },
-    skip: params.skip,
-    take: params.take,
-  });
+  const [conversationMembers, totalItems] =
+    await conversationMemberRepo.findAndCount({
+      where: { memberId },
+      skip: params.skip,
+      take: params.take,
+    });
 
   const conversationIds = conversationMembers.map(
     (conversationMember) => conversationMember.conversationId
@@ -390,86 +369,80 @@ export async function startVideoCall(
 ) {
   const { targetIds } = params;
 
-  const conversation = await getOrCreateConversation(memberId, params);
+  return getConnection().transaction(async (transaction) => {
+    const videoCallRepo = transaction.getRepository(VideoCall);
+    const conversationMemberRepo =
+      transaction.getRepository(ConversationMember);
+    const conversationRepo = transaction.getRepository(Conversation);
 
-  //   const videoCallRepo = transaction.getRepository(VideoCall);
+    const checkMemberCall = await checkMemberCalling([memberId]);
+    if (checkMemberCall.length > 0) throw ErrorCode.Invalid_Input;
+    if (targetIds.length < 1) throw ErrorCode.Invalid_Input;
 
-  //   //   const privilegeExpiredTs = Math.floor(Date.now() / 1000) + 60 * 60 * 2;
-  //   //   if (!conversation) {
-  //   //     conversation = await conversationRepo.save({
-  //   //       conversationType: ConversationType.PERSON,
-  //   //     });
-  //   //   }
-  //   //   let videoCall = await videoCallRepo.save({
-  //   //     conversationId: conversation.id,
-  //   //     creatorId: memberId,
-  //   //     channelName: uuidv4(),
-  //   //     startAt: new Date().toISOString(),
-  //   //   });
-  //   //   let conversationMembers = await conversationMemberRepo.find({
-  //   //     conversationId: conversation.id,
-  //   //   });
-  //   //   if (!conversationMembers) {
-  //   //     conversationMembers = await conversationMemberRepo.save([
-  //   //       { memberId, conversationId: conversation.id },
-  //   //       { memberId: targetId, conversationId: conversation.id },
-  //   //     ]);
-  //   //   }
-  //   //   for (let conversationMember of conversationMembers) {
-  //   //     const checkMemberCalling = await conversationMemberRepo
-  //   //       .createQueryBuilder("conversationMember")
-  //   //       .innerJoin("conversationMember.conversation", "conversation")
-  //   //       .addSelect(["conversation.id"])
-  //   //       .innerJoin(
-  //   //         "conversation.videoCalls",
-  //   //         "videoCall",
-  //   //         `(videoCall.status IN (${VideoCallStatus.WAITING},${VideoCallStatus.CALLING}))`
-  //   //       )
-  //   //       .getOne();
-  //   //     if (checkMemberCalling) {
-  //   //       videoCall.status = VideoCallStatus.MISSED;
-  //   //       videoCall.endAt = new Date().toISOString();
-  //   //       videoCall = await videoCallRepo.save(videoCall);
-  //   //       const messageObj = {
-  //   //         metadata: videoCall,
-  //   //         memberId,
-  //   //         messageType: MessagesType.VIDEO_CALL,
-  //   //         memberType: MemberType.APP,
-  //   //         conversationId: conversation.id,
-  //   //         createdAt: new Date().getTime(),
-  //   //       };
-  //   //       const message = await saveMessage(messageObj);
-  //   //       Object.assign(messageObj, {
-  //   //         _id: message["_id"],
-  //   //         status: message["status"],
-  //   //       });
-  //   //       return;
-  //   //     }
-  //   //     conversationMember.agoraToken = RtcTokenBuilder.buildTokenWithUid(
-  //   //       config.agora.appId,
-  //   //       config.agora.appCertificate,
-  //   //       videoCall.channelName,
-  //   //       conversationMember.memberId,
-  //   //       RtcRole.PUBLISHER,
-  //   //       privilegeExpiredTs
-  //   //     );
-  //   //   }
-  //   //   conversationMembers = await conversationMemberRepo.save(
-  //   //     conversationMembers
-  //   //   );
-  //   //   conversationMembers.forEach((conversationMember) => {
-  //   //     emitToSpecificClient(
-  //   //       memberId,
-  //   //       conversationMember.memberType,
-  //   //       EventSocket.VIDEO_CALL,
-  //   //       {
-  //   //         channelName: videoCall.channelName,
-  //   //         agoraToken: conversationMember.agoraToken,
-  //   //         memberId,
-  //   //       }
-  //   //     );
-  //   //   });
-  // });
+    const listBlocks = await getListMemberBlockIds(memberId, transaction);
+    targetIds.forEach((targetId) => {
+      if (listBlocks.includes(targetId)) throw ErrorCode.Member_Blocked;
+    });
+
+    let conversationId = await getConversation(
+      memberId,
+      targetIds,
+      conversationMemberRepo
+    );
+
+    if (!conversationId) {
+      conversationId = await createConversation(
+        memberId,
+        targetIds,
+        conversationMemberRepo,
+        conversationRepo
+      );
+    }
+    const privilegeExpiredTs = Math.floor(Date.now() / 1000) + 60 * 60 * 2;
+
+    const videoCall = await videoCallRepo.save({
+      conversationId,
+      creatorId: memberId,
+      channelName: uuidv4(),
+      startAt: new Date().toISOString(),
+    });
+
+    const memberCalling = await checkMemberCalling(targetIds);
+    if (memberCalling.length > 0 && memberCalling.length == targetIds.length) {
+      const messageObj = {
+        content: "",
+        image: "",
+        metadata: JSON.stringify({ ...videoCall, isMiss: true }),
+        memberId,
+        messageType: MessagesType.VIDEO_CALL,
+        memberType: MemberType.APP,
+        conversationId: conversationId,
+        createdAt: new Date().getTime(),
+      };
+      const message = await saveMessage(messageObj);
+      Object.assign(messageObj, {
+        _id: message["_id"],
+        status: message["status"],
+      });
+      pushMessage(conversationId, messageObj);
+
+      videoCall.status = VideoCallStatus.MISSED;
+      videoCall.endAt = new Date().toString();
+      await videoCallRepo.save(videoCall);
+
+      return { conversationId };
+    }
+
+    const conversationMember = await conversationMemberRepo.find({
+      conversationId,
+    });
+
+    const memberFree = differenceBy(
+      conversationMember,
+      memberCalling,
+      "memberId"
+    );
+  });
 }
 
 export async function closeVideoCall(
@@ -491,4 +464,62 @@ export async function getListMemberBlockIds(
   const data = result.map((item) => item.memberId);
   data.push(-1);
   return uniq(data);
+}
+
+async function getConversation(
+  memberId: number,
+  targetIds: number[],
+  conversationMemberRepo: Repository<ConversationMember>
+) {
+  const conversation = await conversationMemberRepo
+    .createQueryBuilder("conversationMember")
+    .select("conversationMember.conversationId conversationId")
+    .where(
+      "conversationMember.memberId = :memberId OR conversationMember.memberId IN (:targetIds)",
+      { memberId, targetIds }
+    )
+    .having(`count(conversationMember.conversationId) >${targetIds.length}`)
+    .limit(1)
+    .groupBy(`conversationMember.conversationId`)
+    .getRawOne();
+  return conversation?.conversationId;
+}
+
+async function createConversation(
+  memberId: number,
+  targetIds: number[],
+  conversationMemberRepo: Repository<ConversationMember>,
+  conversationRepo: Repository<Conversation>
+) {
+  let conversationType = ConversationType.PERSON;
+
+  if (targetIds.length > 1) {
+    conversationType = ConversationType.GROUP;
+  }
+  const conversation = await conversationRepo.save({ conversationType });
+
+  const members = targetIds.map((targetId) => {
+    return {
+      memberId: targetId,
+      conversationId: conversation.id,
+    };
+  });
+  members.push({ memberId, conversationId: conversation.id });
+
+  await conversationMemberRepo.insert(members);
+
+  return conversation.id;
+}
+
+async function checkMemberCalling(memberIds: number[]) {
+  const conversationMemberRepo = getRepository(ConversationMember);
+
+  const member = await conversationMemberRepo.find({
+    where: {
+      memberId: In(memberIds),
+      isCalling: IsCalling.YES,
+    },
+  });
+
+  return member;
 }

@@ -7,7 +7,6 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import MemberDetail from "./MemberDetail";
-import MemberHobby from "./MemberHobby";
 
 @Entity("jobs")
 export default class Job {

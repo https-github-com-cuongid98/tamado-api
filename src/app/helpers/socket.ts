@@ -51,7 +51,7 @@ interface OnlineParams {
 interface IConversationObj {
   id: number;
   lastMessage: string;
-  lastMessageType: MessageType;
+  lastMessageType: number;
   lastTimeSent: string;
   lastReadTime: number;
   lastSentMemberId: number;
@@ -341,6 +341,13 @@ export async function pushSocketMessage(
       );
     }, 500);
   }
+}
+
+export async function pushMessage(conversationId: number, messageObj) {
+  io.in(`conversation_${conversationId}`).emit(
+    EventSocket.MESSAGES,
+    messageObj
+  );
 }
 
 /**
