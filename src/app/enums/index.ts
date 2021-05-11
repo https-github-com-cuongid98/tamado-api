@@ -95,8 +95,6 @@ export enum ConfigKeys {
 
 export const KeyCacheRedis = {
   RESOURCE: `${config.appName}:${config.environment}:resource`,
-  CONFIG: `${config.appName}:${config.environment}:config`,
-  LANGUAGE: `${config.appName}:${config.environment}:language`,
 };
 
 export enum ConversationMemberType {

@@ -3,6 +3,7 @@ import { Request } from "express";
 import axios from "axios";
 import s3Upload from "$middlewares/s3Upload";
 import { awsGetThumb } from "$helpers/utils";
+import * as service from "$services/common";
 
 @APP("")
 export default class AuthController {
@@ -21,5 +22,15 @@ export default class AuthController {
       });
     }
     return files;
+  }
+
+  @Get("/resources", [])
+  async getListResource(req: Request) {
+    return await service.getListResource();
+  }
+
+  @Get("/clear-cache", [])
+  async clearCache(req: Request) {
+    return await service.clearCache();
   }
 }

@@ -65,32 +65,6 @@ export function convertToObject(
   return result;
 }
 
-export function getKeyCacheLanguage(environment: string) {
-  return `${KeyCacheRedis.LANGUAGE}:${environment}`;
-}
-
-//! "When i wrote this code, only me and God knew how it works. Now only God knows..."
-export function reformatFileLanguage(
-  data: Array<any>,
-  params: { code?: string; environment: string }
-) {
-  const groupByLanguageCode = convertToObject(data, "code");
-
-  const languageObject = Object.keys(groupByLanguageCode).reduce((acc, cur) => {
-    acc[cur] = groupByLanguageCode[cur].reduce((ac, cu) => {
-      ac[cu.key] = cu.value;
-      return ac;
-    }, {});
-    return acc;
-  }, {});
-
-  const result = flatten.unflatten(languageObject);
-  if (params.code) {
-    return result[params.code];
-  }
-  return result;
-}
-
 export function awsGetThumb(img: any, size: any) {
   if (img && img != "" && !img.startsWith("http") && !img.startsWith("https"))
     return size === ""
