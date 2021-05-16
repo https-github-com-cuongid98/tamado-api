@@ -184,22 +184,22 @@ export async function followMember(memberId: number, targetId: number) {
       memberFollow
     );
 
-    const notificationObj = new Notification();
-    notificationObj.memberId = targetId;
-    notificationObj.redirectId = memberId;
-    notificationObj.redirectType = RedirectType.MEMBER;
+    // const notificationObj = new Notification();
+    // notificationObj.memberId = targetId;
+    // notificationObj.redirectId = memberId;
+    // notificationObj.redirectType = RedirectType.MEMBER;
 
     if (checkMemberFollow) {
       await memberFollowRepository.delete(memberFollow);
-      notificationObj.content = `${member.memberDetail.name} unfollowed you!`;
+      // notificationObj.content = `${member.memberDetail.name} unfollowed you!`;
     } else {
       if (target.status != CommonStatus.ACTIVE) throw ErrorCode.Member_Blocked;
       await memberFollowRepository.save(memberFollow);
-      notificationObj.content = `${member.memberDetail.name} followed you!`;
+      // notificationObj.content = `${member.memberDetail.name} followed you!`;
     }
 
-    await notificationRepository.save(notificationObj);
-    await pushNotificationToMember(notificationObj);
+    // await notificationRepository.save(notificationObj);
+    // await pushNotificationToMember(notificationObj);
   });
 }
 
