@@ -25,7 +25,7 @@ export default class MemberDetail {
   @Column({ type: "tinyint", unsigned: true, comment: "1.male,2.female" })
   gender: number;
 
-  @Column({ type: "varchar", length: 50 })
+  @Column({ type: "varchar", length: 50, nullable: true })
   email: string;
 
   @Column({ type: "date", nullable: true })
