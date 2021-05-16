@@ -20,31 +20,30 @@ export const editMyProfileSchema: AjvSchema = {
         name: {
           type: "string",
         },
+        gender: {
+          type: "number",
+        },
         email: {
           format: "email",
         },
         introduce: {
           type: "string",
         },
-        hobby: {
+        birthday: {
           type: "string",
         },
       },
     },
-    memberImages: {
+    images: {
       type: "array",
       items: {
-        type: "object",
-        required: ["id", "URL"],
-        additionalProperties: false,
-        properties: {
-          id: {
-            type: "number",
-          },
-          URL: {
-            type: "string",
-          },
-        },
+        type: "string",
+      },
+    },
+    hobbyIds: {
+      type: "array",
+      items: {
+        type: "number",
       },
     },
   },

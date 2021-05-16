@@ -38,7 +38,7 @@ export default class Notification {
   @Column({ type: "text" })
   content: string;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", nullable: true })
   metaData: string;
 
   @CreateDateColumn({ type: "datetime", nullable: true })
