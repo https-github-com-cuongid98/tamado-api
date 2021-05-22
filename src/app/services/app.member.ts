@@ -17,6 +17,7 @@ import Notification from "$entities/Notification";
 import { pushNotificationToMember } from "$helpers/oneSignal";
 import MemberHobby from "$entities/MemberHobby";
 import Hobby from "$entities/Hobby";
+import { returnPaging } from "$helpers/utils";
 
 export async function searchMember(params: {
   memberId: number;
@@ -75,7 +76,10 @@ export async function searchMember(params: {
       });
   }
 
-  const members = await queryBuilder.orderBy("distanceGeo", "ASC").getRawMany();
+  const members = await queryBuilder
+    .orderBy("distanceGeo", "ASC")
+    .groupBy("member.id ")
+    .getRawMany();
 
   const listBlocks = await memberBlockRepository.find({
     where: [{ memberId: params.memberId }, { targetId: params.memberId }],
@@ -383,4 +387,62 @@ export async function getMemberOnline(memberId: number) {
   });
 
   return listOnline;
+}
+
+export async function getFollower(
+  memberId: number,
+  params: { take: number; skip: number; keyword?: string }
+) {
+  const memberFollowRepository = getRepository(MemberFollow);
+
+  const queryBuilder = memberFollowRepository
+    .createQueryBuilder("memberFollow")
+    .select(["member.id id", "member.avatar avatar", "memberDetail.name name"])
+    .innerJoin("Member", "member", "memberFollow.targetId = member.id")
+    .innerJoin("member.memberDetail", "memberDetail")
+    .where("memberFollow.targetId = :memberId", { memberId })
+    .andWhere(`member.status = ${MemberStatus.ACTIVE}`);
+
+  if (params.keyword) {
+    queryBuilder.andWhere("memberDetail.name LIKE :keyword", {
+      keyword: `%${params.keyword}%`,
+    });
+  }
+
+  const totalItems = await queryBuilder.getCount();
+  const listFollower = await queryBuilder
+    .limit(params.take)
+    .offset(params.skip)
+    .getRawMany();
+
+  return returnPaging(listFollower, totalItems, params);
+}
+
+export async function getFollowed(
+  memberId: number,
+  params: { take: number; skip: number; keyword?: string }
+) {
+  const memberFollowRepository = getRepository(MemberFollow);
+
+  const queryBuilder = memberFollowRepository
+    .createQueryBuilder("memberFollow")
+    .select(["member.id id", "member.avatar avatar", "memberDetail.name name"])
+    .innerJoin("Member", "member", "memberFollow.targetId = member.id")
+    .innerJoin("member.memberDetail", "memberDetail")
+    .where("memberFollow.memberId = :memberId", { memberId })
+    .andWhere(`member.status = ${MemberStatus.ACTIVE}`);
+
+  if (params.keyword) {
+    queryBuilder.andWhere("memberDetail.name LIKE :keyword", {
+      keyword: `%${params.keyword}%`,
+    });
+  }
+
+  const totalItems = await queryBuilder.getCount();
+  const listFollowed = await queryBuilder
+    .limit(params.take)
+    .offset(params.skip)
+    .getRawMany();
+
+  return returnPaging(listFollowed, totalItems, params);
 }
