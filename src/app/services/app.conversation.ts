@@ -129,9 +129,8 @@ export async function getOrCreateConversation(
   return getConnection().transaction(async (transaction) => {
     const conversationRepo = transaction.getRepository(Conversation);
     const memberRepo = transaction.getRepository(Member);
-    const conversationMemberRepo = transaction.getRepository(
-      ConversationMember
-    );
+    const conversationMemberRepo =
+      transaction.getRepository(ConversationMember);
     const memberBlockRepo = transaction.getRepository(MemberBlock);
 
     const countTarget = await memberRepo.count({ id: In(targetIds) });
@@ -182,9 +181,8 @@ export async function getOrCreateConversation(
 export async function sendMassage(memberId: number, params) {
   return await getConnection().transaction(async (transaction) => {
     const conversationRepository = transaction.getRepository(Conversation);
-    const conversationMemberRepository = transaction.getRepository(
-      ConversationMember
-    );
+    const conversationMemberRepository =
+      transaction.getRepository(ConversationMember);
 
     const conversation = await conversationRepository.findOne({
       where: { id: params.conversationId },
@@ -335,18 +333,18 @@ export async function getListConversationByMemberId(memberId: number, params) {
   const conversationRepo = getRepository(Conversation);
   const conversationMemberRepo = getRepository(ConversationMember);
 
-  const [
-    conversationMembers,
-    totalItems,
-  ] = await conversationMemberRepo.findAndCount({
-    where: { memberId },
-    skip: params.skip,
-    take: params.take,
-  });
+  const [conversationMembers, totalItems] =
+    await conversationMemberRepo.findAndCount({
+      where: { memberId },
+      skip: params.skip,
+      take: params.take,
+    });
 
   const conversationIds = conversationMembers.map(
     (conversationMember) => conversationMember.conversationId
   );
+
+  if (conversationIds.length < 1) return;
 
   const queryBuilder = await conversationRepo
     .createQueryBuilder("conversation")
