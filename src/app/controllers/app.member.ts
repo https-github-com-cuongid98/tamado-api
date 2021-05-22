@@ -3,6 +3,7 @@ import { APP, Get, Post, Put } from "$helpers/decorator";
 import * as service from "$services/app.member";
 import { Request } from "express";
 import { editMyProfileSchema, updateGPSSchema } from "$validators/app.member";
+import { assignPaging } from "$helpers/utils";
 
 @APP("/members")
 export default class MemberController {
@@ -23,6 +24,20 @@ export default class MemberController {
   async getMemberOnline(req: Request) {
     const { memberId } = req;
     return await service.getMemberOnline(memberId);
+  }
+
+  @Get("/follower")
+  async getFollower(req: Request) {
+    const { memberId } = req;
+    const query = assignPaging(req.query);
+    return await service.getFollower(memberId, query);
+  }
+
+  @Get("/followed")
+  async getFollowed(req: Request) {
+    const { memberId } = req;
+    const query = assignPaging(req.query);
+    return await service.getFollowed(memberId, query);
   }
 
   @Get("/:memberId")
