@@ -9,7 +9,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import Job from "./Job";
 import MemberDetail from "./MemberDetail";
 import MemberHobby from "./MemberHobby";
 import MemberImage from "./MemberImage";

@@ -333,12 +333,9 @@ export async function getListConversationByMemberId(memberId: number, params) {
   const conversationRepo = getRepository(Conversation);
   const conversationMemberRepo = getRepository(ConversationMember);
 
-  const [conversationMembers, totalItems] =
-    await conversationMemberRepo.findAndCount({
-      where: { memberId },
-      skip: params.skip,
-      take: params.take,
-    });
+  const conversationMembers = await conversationMemberRepo.find({
+    where: { memberId },
+  });
 
   const conversationIds = conversationMembers.map(
     (conversationMember) => conversationMember.conversationId
@@ -346,37 +343,33 @@ export async function getListConversationByMemberId(memberId: number, params) {
 
   if (conversationIds.length < 1) return;
 
-  const queryBuilder = await conversationRepo
+  const queryBuilder = conversationRepo
     .createQueryBuilder("conversation")
-    .select(["conversation.id"])
+    .select([
+      "conversation.id id",
+      "conversation.lastMessage lastMessage",
+      "conversation.lastMessageType lastMessageType",
+      "conversation.lastSentMemberId lastSentMemberId",
+      "conversation.lastTimeSent lastTimeSent",
+      "conversationMember.memberId memberId",
+      "memberDetail.name memberName",
+      "member.avatar avatar",
+    ])
     .leftJoin("conversation.conversationMembers", "conversationMember")
-    .addSelect(["conversationMember.memberId"])
-    .leftJoinAndMapOne(
-      "conversationMember.members",
-      "Member",
-      "member",
-      "conversationMember.memberId = member.id"
-    )
+    .leftJoin("Member", "member", "conversationMember.memberId = member.id")
     .leftJoin("member.memberDetail", "memberDetail")
-    .addSelect(["memberDetail.name"])
-    .where(`conversationMember.conversationId IN (${conversationIds})`)
-    .andWhere("conversationMember.memberId != :memberId", { memberId })
-    .getMany();
+    .where(`(conversationMember.conversationId IN (${conversationIds}))`)
+    .andWhere("(conversationMember.memberId != :memberId)", { memberId })
+    .andWhere("(conversation.lastMessage IS NOT NULL)");
 
-  queryBuilder.forEach((item) => {
-    item.conversationMembers.forEach((x) => {
-      assignThumbUrl(x["members"], "avatar");
-    });
-  });
+  const totalItems = await queryBuilder.getCount();
+  const data = await queryBuilder
+    .limit(params.take)
+    .offset(params.skip)
+    .getRawMany();
 
-  const data = conversationMembers.map((conversationMember) => {
-    const conversation = queryBuilder.find(
-      (x) => x.id == conversationMember.conversationId
-    );
-    return {
-      ...conversationMember,
-      conversation,
-    };
+  data?.forEach((item) => {
+    assignThumbUrl(item, "avatar");
   });
 
   return returnPaging(data, totalItems, params);

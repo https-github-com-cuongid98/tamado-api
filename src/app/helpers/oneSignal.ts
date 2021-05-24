@@ -5,11 +5,15 @@ import log from "./log";
 import { CreateNotificationBody } from "onesignal-node/lib/types";
 
 const logger = log("Push Notification");
+
 const notificationClient = new Client(
   config.oneSignal.appId,
   config.oneSignal.apiKey
 );
-// const adminNotificationClient = new Client(config.oneSignal.appId, config.oneSignal.apiKey);
+const adminNotificationClient = new Client(
+  config.oneSignal.appId,
+  config.oneSignal.apiKey
+);
 
 interface notificationObj {
   memberId: number;
