@@ -45,17 +45,17 @@ export default class ConversationController {
     return await service.sendMassage(memberId, body);
   }
 
-  @Put("/close-video-call")
-  async closeVideoCall(req: Request) {
-    const { memberId, body } = req;
-    validate(closeVideoCallSchema, body);
-    return await service.closeVideoCall(memberId, body);
-  }
+  // @Put("/close-video-call")
+  // async closeVideoCall(req: Request) {
+  //   const { memberId, body } = req;
+  //   validate(closeVideoCallSchema, body);
+  //   return await service.closeVideoCall(memberId, body);
+  // }
 
-  @Put("/start-video-call")
-  async startVideoCall(req: Request) {
-    const { memberId, body } = req;
-    validate(startVideoCallSchema, body);
-    return await service.startVideoCall(memberId, body);
-  }
+  // @Put("/start-video-call")
+  // async startVideoCall(req: Request) {
+  //   const { memberId, body } = req;
+  //   validate(startVideoCallSchema, body);
+  //   return await service.startVideoCall(memberId, body);
+  // }
 }

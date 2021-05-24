@@ -397,7 +397,13 @@ export async function getFollower(
 
   const queryBuilder = memberFollowRepository
     .createQueryBuilder("memberFollow")
-    .select(["member.id id", "member.avatar avatar", "memberDetail.name name"])
+    .select([
+      "member.id id",
+      "member.avatar avatar",
+      "memberDetail.name name",
+      "memberDetail.introduce introduce",
+      "memberDetail.birthday birthday",
+    ])
     .innerJoin("Member", "member", "memberFollow.targetId = member.id")
     .innerJoin("member.memberDetail", "memberDetail")
     .where("memberFollow.targetId = :memberId", { memberId })
@@ -426,7 +432,13 @@ export async function getFollowed(
 
   const queryBuilder = memberFollowRepository
     .createQueryBuilder("memberFollow")
-    .select(["member.id id", "member.avatar avatar", "memberDetail.name name"])
+    .select([
+      "member.id id",
+      "member.avatar avatar",
+      "memberDetail.name name",
+      "memberDetail.introduce introduce",
+      "memberDetail.birthday birthday",
+    ])
     .innerJoin("Member", "member", "memberFollow.targetId = member.id")
     .innerJoin("member.memberDetail", "memberDetail")
     .where("memberFollow.memberId = :memberId", { memberId })
