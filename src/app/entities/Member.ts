@@ -1,4 +1,4 @@
-import { MemberStatus, ShowLocation } from "$enums";
+import { CommonStatus, MemberStatus, ShowLocation } from "$enums";
 import {
   Column,
   CreateDateColumn,
@@ -33,6 +33,9 @@ export default class Member {
 
   @Column({ type: "tinyint", default: ShowLocation.YES })
   showLocation: number;
+
+  @Column({ type: "tinyint", default: CommonStatus.ACTIVE })
+  receiveNotification: number;
 
   @Index()
   @Column({

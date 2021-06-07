@@ -1,27 +1,34 @@
-import { APP, Get, Post, Put } from "$helpers/decorator";
+import { APP, Get, Post } from "$helpers/decorator";
 import { Request } from "express";
-import axios from "axios";
-import s3Upload from "$middlewares/s3Upload";
-import { awsGetThumb } from "$helpers/utils";
 import * as service from "$services/common";
+import upload from "$middlewares/upload";
+import imgur from "imgur";
+import fs from "fs";
+import path from "path";
+import { ErrorCode } from "$enums";
 
 @APP("")
-export default class AuthController {
-  @Post("/upload", [s3Upload.upload.array("files", 3)])
+export default class CommonController {
+  @Post("/upload", [upload.array("files", 3)])
   async upload(req: Request) {
-    let files = [];
-    if (req["files"] && req["files"].length > 0) {
-      req["files"].forEach((f: any) => {
-        files.push(f.key);
-        // TODO: Generate thumbnail if needed
-        // try {
-        //   if (/\.(gif|jpe?g|tiff|png|webp|bmp|svg|heic)$/gi.test(f.key)) {
-        //     axios.get(awsGetThumb(f.key, "50x50"));
-        //   }
-        // } catch (e) {}
+    const url = [];
+    if (req["files"] && req["files"].length) {
+      for (const f of req["files"]) {
+        const ext = path.extname(f.originalname);
+        if (!/\.(png|jpe?g)/i.test(ext)) {
+          req["files"].forEach((f) => {
+            fs.promises.unlink(f.path);
+          });
+          throw ErrorCode.File_Format_Invalid;
+        }
+        const uploadFile = await imgur.uploadFile(`${f.path}`);
+        url.push(uploadFile.link);
+      }
+      req["files"].forEach((f) => {
+        fs.promises.unlink(f.path);
       });
     }
-    return files;
+    return url;
   }
 
   @Get("/resources", [])

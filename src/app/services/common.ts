@@ -23,7 +23,7 @@ export async function getAllHobby(hobbyRepo: Repository<Hobby>) {
       status: CommonStatus.ACTIVE,
     },
     cache: {
-      id: KeyCacheRedis.RESOURCE,
+      id: KeyCacheRedis.HOBBY,
       milliseconds: config.cacheExpire,
     },
   });
@@ -36,7 +36,7 @@ export async function getAllJob(jobRepo: Repository<Job>) {
       status: CommonStatus.ACTIVE,
     },
     cache: {
-      id: KeyCacheRedis.RESOURCE,
+      id: KeyCacheRedis.JOB,
       milliseconds: config.cacheExpire,
     },
   });

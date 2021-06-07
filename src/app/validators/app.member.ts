@@ -1,4 +1,4 @@
-import { ShowLocation } from "$enums";
+import { CommonStatus, ShowLocation } from "$enums";
 
 export const editMyProfileSchema: AjvSchema = {
   type: "object",
@@ -7,10 +7,6 @@ export const editMyProfileSchema: AjvSchema = {
   properties: {
     avatar: {
       type: "string",
-    },
-    showLocation: {
-      type: "number",
-      enum: [ShowLocation.YES, ShowLocation.NO],
     },
     detail: {
       type: "object",
@@ -59,6 +55,30 @@ export const updateGPSSchema: AjvSchema = {
     },
     lng: {
       type: "number",
+    },
+  },
+};
+
+export const showLocationSchema: AjvSchema = {
+  type: "object",
+  required: ["showLocation"],
+  additionalProperties: false,
+  properties: {
+    showLocation: {
+      type: "number",
+      enum: [ShowLocation.NO, ShowLocation.YES],
+    },
+  },
+};
+
+export const receiveNotificationMemberSchema: AjvSchema = {
+  type: "object",
+  required: ["receiveNotification"],
+  additionalProperties: false,
+  properties: {
+    receiveNotification: {
+      type: "number",
+      enum: [CommonStatus.ACTIVE, CommonStatus.INACTIVE],
     },
   },
 };
