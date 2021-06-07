@@ -82,3 +82,16 @@ export const receiveNotificationMemberSchema: AjvSchema = {
     },
   },
 };
+
+export const updateImageToAvatarSchema: AjvSchema = {
+  type: "object",
+  required: ["avatar"],
+  additionalProperties: false,
+  properties: {
+    avatar: {
+      type: "string",
+      minLength: 1,
+      maxLength: 255,
+    },
+  },
+};

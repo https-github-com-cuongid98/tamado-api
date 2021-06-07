@@ -7,6 +7,7 @@ import {
   receiveNotificationMemberSchema,
   showLocationSchema,
   updateGPSSchema,
+  updateImageToAvatarSchema,
 } from "$validators/app.member";
 import { assignPaging } from "$helpers/utils";
 
@@ -84,6 +85,13 @@ export default class MemberController {
   async receiveNotificationMember(req: Request) {
     const { memberId, body } = req;
     validate(receiveNotificationMemberSchema, body);
+    return await service.editMyProfile(memberId, body);
+  }
+
+  @Put("/update-image-to-avatar")
+  async updateImageToAvatar(req: Request) {
+    const { memberId, body } = req;
+    validate(updateImageToAvatarSchema, body);
     return await service.editMyProfile(memberId, body);
   }
 
