@@ -29,6 +29,7 @@ export enum ErrorCode {
   Blocked = 22,
   Conversation_Not_Exist = 23,
   You_Not_Member_In_This_Conversation = 24,
+  File_Format_Invalid = 25,
 }
 
 export enum ErrorMessage {
@@ -95,6 +96,8 @@ export enum ConfigKeys {
 
 export const KeyCacheRedis = {
   RESOURCE: `${config.appName}:${config.environment}:resource`,
+  HOBBY: `${config.appName}:${config.environment}:hobby`,
+  JOB: `${config.appName}:${config.environment}:job`,
 };
 
 export enum ConversationMemberType {

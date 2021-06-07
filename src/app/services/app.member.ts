@@ -203,7 +203,9 @@ export async function followMember(memberId: number, targetId: number) {
     }
 
     // await notificationRepository.save(notificationObj);
-    // await pushNotificationToMember(notificationObj);
+    if (target.receiveNotification == CommonStatus.ACTIVE) {
+      // await pushNotificationToMember(notificationObj);
+    }
   });
 }
 
@@ -294,6 +296,7 @@ export async function blockMember(memberId: number, targetId: number) {
 interface UpdateMyProfile {
   avatar?: string;
   showLocation?: number;
+  receiveNotification?: number;
   detail?: memberDetail;
   images?: string[];
   hobbyIds?: number[];
@@ -442,6 +445,41 @@ export async function getFollowed(
     .innerJoin("Member", "member", "memberFollow.targetId = member.id")
     .innerJoin("member.memberDetail", "memberDetail")
     .where("memberFollow.memberId = :memberId", { memberId })
+    .andWhere(`member.status = ${MemberStatus.ACTIVE}`);
+
+  if (params.keyword) {
+    queryBuilder.andWhere("memberDetail.name LIKE :keyword", {
+      keyword: `%${params.keyword}%`,
+    });
+  }
+
+  const totalItems = await queryBuilder.getCount();
+  const listFollowed = await queryBuilder
+    .limit(params.take)
+    .offset(params.skip)
+    .getRawMany();
+
+  return returnPaging(listFollowed, totalItems, params);
+}
+
+export async function getListBlock(
+  memberId: number,
+  params: { take: number; skip: number; keyword?: string }
+) {
+  const memberBlockRepository = getRepository(MemberBlock);
+
+  const queryBuilder = memberBlockRepository
+    .createQueryBuilder("memberBlock")
+    .select([
+      "member.id id",
+      "member.avatar avatar",
+      "memberDetail.name name",
+      "memberDetail.introduce introduce",
+      "memberDetail.birthday birthday",
+    ])
+    .innerJoin("Member", "member", "memberBlock.targetId = member.id")
+    .innerJoin("member.memberDetail", "memberDetail")
+    .where("memberBlock.memberId = :memberId", { memberId })
     .andWhere(`member.status = ${MemberStatus.ACTIVE}`);
 
   if (params.keyword) {

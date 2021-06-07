@@ -15,6 +15,7 @@ import log from "$helpers/log";
 import { handleError } from "$middlewares/handleError";
 import createMongoConnection from "$helpers/mongodb";
 import initSocket from "$helpers/socket";
+import config from "$config";
 
 const logger = log("Index");
 const app = express();

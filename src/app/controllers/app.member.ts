@@ -2,7 +2,12 @@ import { validate } from "$helpers/ajv";
 import { APP, Get, Post, Put } from "$helpers/decorator";
 import * as service from "$services/app.member";
 import { Request } from "express";
-import { editMyProfileSchema, updateGPSSchema } from "$validators/app.member";
+import {
+  editMyProfileSchema,
+  receiveNotificationMemberSchema,
+  showLocationSchema,
+  updateGPSSchema,
+} from "$validators/app.member";
 import { assignPaging } from "$helpers/utils";
 
 @APP("/members")
@@ -40,6 +45,13 @@ export default class MemberController {
     return await service.getFollowed(memberId, query);
   }
 
+  @Get("/blocked")
+  async getListBlock(req: Request) {
+    const { memberId } = req;
+    const query = assignPaging(req.query);
+    return await service.getListBlock(memberId, query);
+  }
+
   @Get("/:memberId")
   async getMemberDetailById(req: Request) {
     const { memberId } = req;
@@ -59,6 +71,20 @@ export default class MemberController {
     const { memberId, body } = req;
     validate(updateGPSSchema, body);
     return await service.updateGPS(memberId, body);
+  }
+
+  @Put("/show-location")
+  async showLocationMember(req: Request) {
+    const { memberId, body } = req;
+    validate(showLocationSchema, body);
+    return await service.editMyProfile(memberId, body);
+  }
+
+  @Put("/receive-notification")
+  async receiveNotificationMember(req: Request) {
+    const { memberId, body } = req;
+    validate(receiveNotificationMemberSchema, body);
+    return await service.editMyProfile(memberId, body);
   }
 
   @Put("/:memberId/follow")
