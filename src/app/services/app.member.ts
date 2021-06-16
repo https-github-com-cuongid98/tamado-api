@@ -407,7 +407,7 @@ export async function getFollower(
       "memberDetail.introduce introduce",
       "memberDetail.birthday birthday",
     ])
-    .innerJoin("Member", "member", "memberFollow.targetId = member.id")
+    .innerJoin("Member", "member", "memberFollow.memberId = member.id")
     .innerJoin("member.memberDetail", "memberDetail")
     .where("memberFollow.targetId = :memberId", { memberId })
     .andWhere(`member.status = ${MemberStatus.ACTIVE}`);
