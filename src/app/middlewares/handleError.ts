@@ -1,7 +1,7 @@
 import { HttpError, HttpErrorController } from "$helpers/response";
 import { NextFunction, Request, Response } from "express";
 import log from "$helpers/log";
-import { ErrorCode } from "$enums";
+import { ErrorCode, ErrorMessage } from "$enums";
 
 export const handleError = async (
   error: HttpError | HttpErrorController,
@@ -15,7 +15,7 @@ export const handleError = async (
     success: false,
     errorCode,
     errorKey,
-    errorMessage,
+    errorMessage: ErrorMessage[errorMessage],
     data: null,
   };
 

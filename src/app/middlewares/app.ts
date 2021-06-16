@@ -55,7 +55,7 @@ export function checkRefreshTokenApp(
         const member = await getMemberById(decoded.id);
         if (!member) throw new HttpError(ErrorCode.Member_Not_Exist);
         if (member.status === MemberStatus.INACTIVE || !member.status)
-          throw new HttpError(ErrorCode.User_Blocked);
+          throw new HttpError(ErrorCode.Member_Blocked);
         req.memberId = decoded.id;
         next();
       } catch (error) {

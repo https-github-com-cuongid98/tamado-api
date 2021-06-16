@@ -41,7 +41,7 @@ export async function login(params: LoginParams) {
   if (member.status !== MemberStatus.ACTIVE) throw ErrorCode.Member_Blocked;
 
   const isTruePassword = await compare(password, member.password);
-  if (!isTruePassword) throw ErrorCode.Phone_Or_Password_Invalid;
+  if (!isTruePassword) throw ErrorCode.Password_Invalid;
 
   return generateToken(member.id);
 }
