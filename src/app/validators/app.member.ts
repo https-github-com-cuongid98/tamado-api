@@ -28,6 +28,9 @@ export const editMyProfileSchema: AjvSchema = {
         birthday: {
           type: "string",
         },
+        jobId: {
+          type: "number",
+        },
       },
     },
     images: {

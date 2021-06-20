@@ -297,6 +297,8 @@ interface UpdateMyProfile {
   avatar?: string;
   showLocation?: number;
   receiveNotification?: number;
+  lat?: number;
+  lng?: number;
   detail?: memberDetail;
   images?: string[];
   hobbyIds?: number[];
@@ -355,17 +357,6 @@ export async function editMyProfile(memberId: number, params: UpdateMyProfile) {
         })
       );
     }
-
-    await memberRepo.update({ id: memberId }, params);
-  });
-}
-
-export async function updateGPS(
-  memberId: number,
-  params: { lat: number; lng: number }
-) {
-  return getConnection().transaction(async (transaction) => {
-    const memberRepo = transaction.getRepository(Member);
 
     await memberRepo.update({ id: memberId }, params);
   });
