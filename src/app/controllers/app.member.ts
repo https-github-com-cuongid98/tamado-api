@@ -71,7 +71,7 @@ export default class MemberController {
   async updateGPS(req: Request) {
     const { memberId, body } = req;
     validate(updateGPSSchema, body);
-    return await service.updateGPS(memberId, body);
+    return await service.editMyProfile(memberId, body);
   }
 
   @Put("/show-location")
