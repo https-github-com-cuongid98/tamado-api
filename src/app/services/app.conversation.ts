@@ -20,7 +20,7 @@ import {
   pushSocketMessage,
 } from "$helpers/socket";
 import { assignThumbUrl, returnPaging } from "$helpers/utils";
-import { unionWith, uniq } from "lodash";
+import { concat, flattenDeep, unionWith, uniq } from "lodash";
 import {
   EntityManager,
   getConnection,
@@ -332,6 +332,20 @@ export async function saveMessage(params) {
 export async function getListConversationByMemberId(memberId: number, params) {
   const conversationRepo = getRepository(Conversation);
   const conversationMemberRepo = getRepository(ConversationMember);
+  const memberBlockRepo = getRepository(MemberBlock);
+
+  const block = await memberBlockRepo.find({
+    where: [{ memberId }, { targetId: memberId }],
+  });
+
+  const blockIds = uniq(
+    concat(
+      flattenDeep(
+        Object.values(block).map((block) => [block.memberId, block.targetId])
+      ),
+      memberId
+    )
+  );
 
   const conversationMembers = await conversationMemberRepo.find({
     where: { memberId },
@@ -359,7 +373,7 @@ export async function getListConversationByMemberId(memberId: number, params) {
     .leftJoin("Member", "member", "conversationMember.memberId = member.id")
     .leftJoin("member.memberDetail", "memberDetail")
     .where(`(conversationMember.conversationId IN (${conversationIds}))`)
-    .andWhere("(conversationMember.memberId != :memberId)", { memberId })
+    .andWhere("(conversationMember.memberId NOT IN (:blockIds))", { blockIds })
     .andWhere("(conversation.lastMessage IS NOT NULL)");
 
   const totalItems = await queryBuilder.getCount();
