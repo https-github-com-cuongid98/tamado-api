@@ -10,11 +10,6 @@ const notificationClient = new Client(
   config.oneSignal.appId,
   config.oneSignal.apiKey
 );
-const adminNotificationClient = new Client(
-  config.oneSignal.appId,
-  config.oneSignal.apiKey
-);
-
 interface notificationObj {
   memberId: number;
   content: string;
@@ -23,7 +18,6 @@ interface notificationObj {
   metaData?: any;
   notificationId?: number;
 }
-
 /**
  *
  * @param listMemberIds Array id of admin members
