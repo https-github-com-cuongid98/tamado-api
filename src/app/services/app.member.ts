@@ -157,6 +157,7 @@ export async function getMemberDetailById(memberId: number, targetId: number) {
 }
 
 export async function followMember(memberId: number, targetId: number) {
+  if (memberId == targetId) throw ErrorCode.You_Can_Not_Follow_Yourself;
   return getConnection().transaction(async (transaction) => {
     const memberRepository = transaction.getRepository(Member);
     const memberFollowRepository = transaction.getRepository(MemberFollow);
@@ -173,8 +174,6 @@ export async function followMember(memberId: number, targetId: number) {
     });
 
     if (member.status != CommonStatus.ACTIVE) throw ErrorCode.Member_Blocked;
-
-    if (memberId == targetId) throw ErrorCode.You_Can_Not_Follow_Yourself;
 
     const memberFollow = { memberId, targetId };
 
@@ -195,11 +194,11 @@ export async function followMember(memberId: number, targetId: number) {
 
     if (checkMemberFollow) {
       await memberFollowRepository.delete(memberFollow);
-      notificationObj.content = `${member.memberDetail.name} unfollowed you!`;
+      notificationObj.content = `${member.memberDetail.name} đã bỏ theo dõi bạn!`;
     } else {
       if (target.status != CommonStatus.ACTIVE) throw ErrorCode.Member_Blocked;
       await memberFollowRepository.save(memberFollow);
-      notificationObj.content = `${member.memberDetail.name} followed you!`;
+      notificationObj.content = `${member.memberDetail.name} đã theo dõi bạn!`;
     }
 
     await notificationRepository.save(notificationObj);
